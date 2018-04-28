@@ -10,13 +10,13 @@ import (
 	"github.com/astaxie/beego"
 )
 
-// UserController operations for User
-type UserController struct {
+// LikeController operations for Like
+type LikeController struct {
 	beego.Controller
 }
 
 // URLMapping ...
-func (c *UserController) URLMapping() {
+func (c *LikeController) URLMapping() {
 	c.Mapping("Post", c.Post)
 	c.Mapping("GetOne", c.GetOne)
 	c.Mapping("GetAll", c.GetAll)
@@ -26,15 +26,15 @@ func (c *UserController) URLMapping() {
 
 // Post ...
 // @Title Post
-// @Description create User
-// @Param	body		body 	models.User	true		"body for User content"
-// @Success 201 {int} models.User
+// @Description create Like
+// @Param	body		body 	models.Like	true		"body for Like content"
+// @Success 201 {int} models.Like
 // @Failure 403 body is empty
 // @router / [post]
-func (c *UserController) Post() {
-	var v models.User
+func (c *LikeController) Post() {
+	var v models.Like
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-		if _, err := models.AddUser(&v); err == nil {
+		if _, err := models.AddLike(&v); err == nil {
 			c.Ctx.Output.SetStatus(201)
 			c.Data["json"] = v
 		} else {
@@ -48,15 +48,15 @@ func (c *UserController) Post() {
 
 // GetOne ...
 // @Title Get One
-// @Description get User by id
+// @Description get Like by id
 // @Param	id		path 	string	true		"The key for staticblock"
-// @Success 200 {object} models.User
+// @Success 200 {object} models.Like
 // @Failure 403 :id is empty
 // @router /:id [get]
-func (c *UserController) GetOne() {
+func (c *LikeController) GetOne() {
 	idStr := c.Ctx.Input.Param(":id")
 	id, _ := strconv.Atoi(idStr)
-	v, err := models.GetUserById(id)
+	v, err := models.GetLikeById(id)
 	if err != nil {
 		c.Data["json"] = err.Error()
 	} else {
@@ -67,17 +67,17 @@ func (c *UserController) GetOne() {
 
 // GetAll ...
 // @Title Get All
-// @Description get User
+// @Description get Like
 // @Param	query	query	string	false	"Filter. e.g. col1:v1,col2:v2 ..."
 // @Param	fields	query	string	false	"Fields returned. e.g. col1,col2 ..."
 // @Param	sortby	query	string	false	"Sorted-by fields. e.g. col1,col2 ..."
 // @Param	order	query	string	false	"Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ..."
 // @Param	limit	query	string	false	"Limit the size of result set. Must be an integer"
 // @Param	offset	query	string	false	"Start position of result set. Must be an integer"
-// @Success 200 {object} models.User
+// @Success 200 {object} models.Like
 // @Failure 403
 // @router / [get]
-func (c *UserController) GetAll() {
+func (c *LikeController) GetAll() {
 	var fields []string
 	var sortby []string
 	var order []string
@@ -119,7 +119,7 @@ func (c *UserController) GetAll() {
 		}
 	}
 
-	l, err := models.GetAllUser(query, fields, sortby, order, offset, limit)
+	l, err := models.GetAllLike(query, fields, sortby, order, offset, limit)
 	if err != nil {
 		c.Data["json"] = err.Error()
 	} else {
@@ -130,18 +130,18 @@ func (c *UserController) GetAll() {
 
 // Put ...
 // @Title Put
-// @Description update the User
+// @Description update the Like
 // @Param	id		path 	string	true		"The id you want to update"
-// @Param	body		body 	models.User	true		"body for User content"
-// @Success 200 {object} models.User
+// @Param	body		body 	models.Like	true		"body for Like content"
+// @Success 200 {object} models.Like
 // @Failure 403 :id is not int
 // @router /:id [put]
-func (c *UserController) Put() {
+func (c *LikeController) Put() {
 	idStr := c.Ctx.Input.Param(":id")
 	id, _ := strconv.Atoi(idStr)
-	v := models.User{Id: id}
+	v := models.Like{Id: id}
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-		if err := models.UpdateUserById(&v); err == nil {
+		if err := models.UpdateLikeById(&v); err == nil {
 			c.Data["json"] = "OK"
 		} else {
 			c.Data["json"] = err.Error()
@@ -154,15 +154,15 @@ func (c *UserController) Put() {
 
 // Delete ...
 // @Title Delete
-// @Description delete the User
+// @Description delete the Like
 // @Param	id		path 	string	true		"The id you want to delete"
 // @Success 200 {string} delete success!
 // @Failure 403 id is empty
 // @router /:id [delete]
-func (c *UserController) Delete() {
+func (c *LikeController) Delete() {
 	idStr := c.Ctx.Input.Param(":id")
 	id, _ := strconv.Atoi(idStr)
-	if err := models.DeleteUser(id); err == nil {
+	if err := models.DeleteLike(id); err == nil {
 		c.Data["json"] = "OK"
 	} else {
 		c.Data["json"] = err.Error()

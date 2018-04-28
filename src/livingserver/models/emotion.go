@@ -5,52 +5,54 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
+	"time"
 
 	"github.com/astaxie/beego/orm"
 )
 
-type User struct {
-	Id          int    `orm:"column(id);auto"`
-	QqNumber    string `orm:"column(qq_number);size(64);null" description:"qq号"`
-	PhoneNumber string `orm:"column(phone_number);size(64);null" description:"手机号"`
-	Nickname    string `orm:"column(nickname);size(64);null" description:"昵称"`
-	Token       string `orm:"column(token);size(64);null" description:"登录token"`
-	Avatar      string `orm:"column(avatar);size(64);null" description:"头像"`
+type Emotion struct {
+	Id         int       `orm:"column(id);auto"`
+	Content    string    `orm:"column(content);size(256);null" description:"心情内容"`
+	LabelId    int8      `orm:"column(label_id);null" description:"心情标签ID，需存在标签表中"`
+	Strong     int8      `orm:"column(strong);null" description:"强度"`
+	CreateTime time.Time `orm:"column(create_time);type(datetime);null" description:"创建时间"`
+	Visiable   int8      `orm:"column(visiable);null" description:"1. 个人可见；2. 社区可见"`
+	Poster     int       `orm:"column(poster);null" description:"发布人id"`
 }
 
-func (t *User) TableName() string {
-	return "user"
+func (t *Emotion) TableName() string {
+	return "emotion"
 }
 
 func init() {
-	orm.RegisterModel(new(User))
+	orm.RegisterModel(new(Emotion))
 }
 
-// AddUser insert a new User into database and returns
+// AddEmotion insert a new Emotion into database and returns
 // last inserted Id on success.
-func AddUser(m *User) (id int64, err error) {
+func AddEmotion(m *Emotion) (id int64, err error) {
 	o := orm.NewOrm()
 	id, err = o.Insert(m)
 	return
 }
 
-// GetUserById retrieves User by Id. Returns error if
+// GetEmotionById retrieves Emotion by Id. Returns error if
 // Id doesn't exist
-func GetUserById(id int) (v *User, err error) {
+func GetEmotionById(id int) (v *Emotion, err error) {
 	o := orm.NewOrm()
-	v = &User{Id: id}
+	v = &Emotion{Id: id}
 	if err = o.Read(v); err == nil {
 		return v, nil
 	}
 	return nil, err
 }
 
-// GetAllUser retrieves all User matches certain condition. Returns empty list if
+// GetAllEmotion retrieves all Emotion matches certain condition. Returns empty list if
 // no records exist
-func GetAllUser(query map[string]string, fields []string, sortby []string, order []string,
+func GetAllEmotion(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(User))
+	qs := o.QueryTable(new(Emotion))
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute
@@ -100,7 +102,7 @@ func GetAllUser(query map[string]string, fields []string, sortby []string, order
 		}
 	}
 
-	var l []User
+	var l []Emotion
 	qs = qs.OrderBy(sortFields...)
 	if _, err = qs.Limit(limit, offset).All(&l, fields...); err == nil {
 		if len(fields) == 0 {
@@ -123,11 +125,11 @@ func GetAllUser(query map[string]string, fields []string, sortby []string, order
 	return nil, err
 }
 
-// UpdateUser updates User by Id and returns error if
+// UpdateEmotion updates Emotion by Id and returns error if
 // the record to be updated doesn't exist
-func UpdateUserById(m *User) (err error) {
+func UpdateEmotionById(m *Emotion) (err error) {
 	o := orm.NewOrm()
-	v := User{Id: m.Id}
+	v := Emotion{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
@@ -138,15 +140,15 @@ func UpdateUserById(m *User) (err error) {
 	return
 }
 
-// DeleteUser deletes User by Id and returns error if
+// DeleteEmotion deletes Emotion by Id and returns error if
 // the record to be deleted doesn't exist
-func DeleteUser(id int) (err error) {
+func DeleteEmotion(id int) (err error) {
 	o := orm.NewOrm()
-	v := User{Id: id}
+	v := Emotion{Id: id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Delete(&User{Id: id}); err == nil {
+		if num, err = o.Delete(&Emotion{Id: id}); err == nil {
 			fmt.Println("Number of records deleted in database:", num)
 		}
 	}
