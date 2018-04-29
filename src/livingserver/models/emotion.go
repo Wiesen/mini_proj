@@ -12,12 +12,14 @@ import (
 
 type Emotion struct {
 	Id         int       `orm:"column(id);auto"`
-	Content    string    `orm:"column(content);size(256);null" description:"心情内容"`
-	LabelId    int8      `orm:"column(label_id);null" description:"心情标签ID，需存在标签表中"`
-	Strong     int8      `orm:"column(strong);null" description:"强度"`
-	CreateTime time.Time `orm:"column(create_time);type(datetime);null" description:"创建时间"`
-	Visiable   int8      `orm:"column(visiable);null" description:"1. 个人可见；2. 社区可见"`
-	Poster     int       `orm:"column(poster);null" description:"发布人id"`
+	Content    string    `orm:"column(content);size(256)" description:"心情内容"`
+	LabelId    *Label    `orm:"column(label_id);rel(fk)" description:"心情标签ID，需存在标签表中"`
+	Strong     int8      `orm:"column(strong)" description:"强度"`
+	CreateTime time.Time `orm:"column(create_time);type(datetime)" description:"创建时间"`
+	Visiable   int8      `orm:"column(visiable)" description:"1. 个人可见；2. 社区可见"`
+	Poster     *User     `orm:"column(poster);rel(fk)" description:"发布人id"`
+	CommentCnt uint      `orm:"column(comment_cnt)"`
+	LikeCnt    uint      `orm:"column(like_cnt)"`
 }
 
 func (t *Emotion) TableName() string {

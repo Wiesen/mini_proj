@@ -12,10 +12,11 @@ import (
 type User struct {
 	Id          int    `orm:"column(id);auto"`
 	QqNumber    string `orm:"column(qq_number);size(64);null" description:"qq号"`
-	PhoneNumber string `orm:"column(phone_number);size(64);null" description:"手机号"`
-	Nickname    string `orm:"column(nickname);size(64);null" description:"昵称"`
+	PhoneNumber string `orm:"column(phone_number);size(64)" description:"手机号"`
+	Password    string `orm:"column(password);size(64)"`
+	Nickname    string `orm:"column(nickname);size(64)" description:"昵称"`
 	Token       string `orm:"column(token);size(64);null" description:"登录token"`
-	Avatar      string `orm:"column(avatar);size(64);null" description:"头像"`
+	Avatar      string `orm:"column(avatar);size(256);null" description:"头像"`
 }
 
 func (t *User) TableName() string {

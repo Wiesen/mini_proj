@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 30/04/2018 19:49:28
+ Date: 01/05/2018 19:28:53
 */
 
 SET NAMES utf8mb4;
@@ -23,12 +23,16 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `comment`;
 CREATE TABLE `comment`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `emotion_id` int(11) NULL DEFAULT NULL COMMENT '心情ID',
-  `content` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '评论内容',
-  `poster` int(11) NULL DEFAULT NULL COMMENT '发布人id',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '时间',
+  `emotion_id` int(11) UNSIGNED NOT NULL COMMENT '心情ID',
+  `content` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '评论内容',
+  `poster` int(11) UNSIGNED NOT NULL COMMENT '发布人id',
+  `create_time` datetime(0) NOT NULL COMMENT '时间',
   `rspto` int(11) NULL DEFAULT NULL COMMENT '被回复人id',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `comment_eid_ref`(`emotion_id`) USING BTREE,
+  INDEX `comment_poster_ref`(`poster`) USING BTREE,
+  CONSTRAINT `comment_eid_ref` FOREIGN KEY (`emotion_id`) REFERENCES `emotion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `comment_poster_ref` FOREIGN KEY (`poster`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -37,35 +41,45 @@ CREATE TABLE `comment`  (
 DROP TABLE IF EXISTS `emotion`;
 CREATE TABLE `emotion`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `content` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '心情内容',
-  `label_id` tinyint(4) NULL DEFAULT NULL COMMENT '心情标签ID，需存在标签表中',
-  `strong` tinyint(4) NULL DEFAULT NULL COMMENT '强度',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `visiable` tinyint(4) NULL DEFAULT NULL COMMENT '1. 个人可见；2. 社区可见',
-  `poster` int(11) NULL DEFAULT NULL COMMENT '发布人id',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+  `content` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '心情内容',
+  `label_id` tinyint(4) UNSIGNED NOT NULL COMMENT '心情标签ID，需存在标签表中',
+  `strong` tinyint(4) NOT NULL COMMENT '强度',
+  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
+  `visiable` tinyint(4) NOT NULL COMMENT '1. 个人可见；2. 社区可见',
+  `poster` int(11) UNSIGNED NOT NULL COMMENT '发布人id',
+  `comment_cnt` int(11) UNSIGNED NOT NULL,
+  `like_cnt` int(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `emotion_lid_ref`(`label_id`) USING BTREE,
+  INDEX `emotion_poster_ref`(`poster`) USING BTREE,
+  CONSTRAINT `emotion_lid_ref` FOREIGN KEY (`label_id`) REFERENCES `label` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `emotion_poster_ref` FOREIGN KEY (`poster`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for label
 -- ----------------------------
 DROP TABLE IF EXISTS `label`;
 CREATE TABLE `label`  (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id` tinyint(4) UNSIGNED NOT NULL AUTO_INCREMENT,
   `label_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '标签名',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for like
 -- ----------------------------
 DROP TABLE IF EXISTS `like`;
 CREATE TABLE `like`  (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `emotion_id` int(11) NULL DEFAULT NULL COMMENT '心情id',
-  `poster` int(11) NULL DEFAULT NULL COMMENT '发布人id',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '时间',
-  PRIMARY KEY (`id`) USING BTREE
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `emotion_id` int(11) UNSIGNED NOT NULL COMMENT '心情id',
+  `poster` int(11) UNSIGNED NOT NULL COMMENT '发布人id',
+  `create_time` datetime(0) NOT NULL COMMENT '时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `like_eid_ref`(`emotion_id`) USING BTREE,
+  INDEX `like_poster_ref`(`poster`) USING BTREE,
+  CONSTRAINT `like_eid_ref` FOREIGN KEY (`emotion_id`) REFERENCES `emotion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `like_poster_ref` FOREIGN KEY (`poster`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -75,11 +89,12 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `qq_number` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'qq号',
-  `phone_number` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '手机号',
-  `nickname` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '昵称',
+  `phone_number` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '手机号',
+  `password` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `nickname` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '昵称',
   `token` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登录token',
-  `avatar` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像',
+  `avatar` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -7,6 +7,7 @@
 | id           | INT         |           |
 | qq_number    | VARCHAR(64) | qq号      |
 | phone_number | VARCHAR(64) | 手机号    |
+| password     | VARCHAR(64) | 密码      |
 | nickname     | VARCHAR(64) | 昵称      |
 | token        | VARCHAR(64) | 登录token |
 | avatar       | VARCHAR(64) | 头像      |
@@ -22,10 +23,8 @@
 | create_time | DATE         | 创建时间                   |
 | visiable    | TINYINT(4)   | 1. 个人可见；2. 社区可见   |
 | poster      | INT          | 发布人id                   |
-
-
-
-
+| comment_cnt | int          | 评论数量                   |
+| like_cnt    | int          | 点赞数量                   |
 
 ## 评论表(comment) 
 

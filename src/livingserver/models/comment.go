@@ -12,10 +12,10 @@ import (
 
 type Comment struct {
 	Id         int       `orm:"column(id);auto"`
-	EmotionId  int       `orm:"column(emotion_id);null" description:"心情ID"`
-	Content    string    `orm:"column(content);size(256);null" description:"评论内容"`
-	Poster     int       `orm:"column(poster);null" description:"发布人id"`
-	CreateTime time.Time `orm:"column(create_time);type(datetime);null" description:"时间"`
+	EmotionId  *Emotion  `orm:"column(emotion_id);rel(fk)" description:"心情ID"`
+	Content    string    `orm:"column(content);size(256)" description:"评论内容"`
+	Poster     *User     `orm:"column(poster);rel(fk)" description:"发布人id"`
+	CreateTime time.Time `orm:"column(create_time);type(datetime)" description:"时间"`
 	Rspto      int       `orm:"column(rspto);null" description:"被回复人id"`
 }
 

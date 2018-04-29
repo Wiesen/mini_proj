@@ -12,9 +12,9 @@ import (
 
 type Like struct {
 	Id         int       `orm:"column(id);auto"`
-	EmotionId  int       `orm:"column(emotion_id);null" description:"心情id"`
-	Poster     int       `orm:"column(poster);null" description:"发布人id"`
-	CreateTime time.Time `orm:"column(create_time);type(datetime);null" description:"时间"`
+	EmotionId  *Emotion  `orm:"column(emotion_id);rel(fk)" description:"心情id"`
+	Poster     *User     `orm:"column(poster);rel(fk)" description:"发布人id"`
+	CreateTime time.Time `orm:"column(create_time);type(datetime)" description:"时间"`
 }
 
 func (t *Like) TableName() string {

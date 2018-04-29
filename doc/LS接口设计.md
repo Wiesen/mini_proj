@@ -2,27 +2,76 @@
 
 # 接口设计
 
+## 登录
+
+### 请求
+
+POST /api/login
+
+| 字段名       | 类型   | 备注   |
+| ------------ | ------ | ------ |
+| phone_number | string | 手机号 |
+| password     | string | 密码   |
 
 
-## 创建用户
+### 响应
 
-描述：第一次登录成功后创建，包括qq号，昵称以及头像。创建后信息不能修改
+| 字段名   | 类型   | 备注                                 |
+| -------- | ------ | ------------------------------------ |
+| ret_code | int    | 0. 成功； -1. 失败； -2 token验证失败 |
+| message  | string | 错误消息                             |
+| data     |        |                                      |
+
+data:
+
+| 字段名 | 类型   | 备注 |
+| ------ | ------ | ---- |
+| token  | string |      |
+
+
+
+## 注册
 
 ### 请求
 
 POST /api/user
 
-| 字段名    | 类型   | 备注                  |
-| --------- | ------ | --------------------- |
-| qq_number | int64  | qq号                  |
-| name      | string | 昵称，可以重复        |
-| pic       | string | 头像路径。考虑存在cos |
+| 字段名       | 类型   | 备注           |
+| ------------ | ------ | -------------- |
+| phone_number | string | 手机号         |
+| nickname     | string | 昵称，可以重复 |
+| password     | string | 密码           |
 
 ### 响应
 
-| 字段名   | 类型 | 备注              |
-| -------- | ---- | ----------------- |
-| ret_code | Int  | 0. 成功； 1. 失败 |
+| 字段名   | 类型   | 备注                                 |
+| -------- | ------ | ------------------------------------ |
+| ret_code | int    | 0. 成功； -1. 失败； -2 token验证失败 |
+| message  | string | 错误消息                             |
+| data     | []     |                                      |
+
+## 查看用户自身信息
+
+### 请求
+
+GET /api/user?token={token}
+
+### 响应
+
+| 字段名   | 类型   | 备注                                  |
+| -------- | ------ | ------------------------------------- |
+| ret_code | int    | 0. 成功； -1. 失败； -2 token验证失败 |
+| message  | string | 错误消息                              |
+| data     |        |                                       |
+
+data:
+
+| 字段名    | 类型   | 备注                                  |
+| --------- | ------ | ------------------------------------- |
+| id           | INT         |           |
+| phone_number | VARCHAR(64) | 手机号    |
+| nickname     | VARCHAR(64) | 昵称      |
+| avatar       | VARCHAR(64) | 头像      |
 
 
 
@@ -30,167 +79,150 @@ POST /api/user
 
 ### 请求
 
-POST  /api/emotion
+POST  /api/emotion? token={token}
 
-| 字段名      | 类型   | 备注                     |
-| ----------- | ------ | ------------------------ |
-| content     | string | 心情内容，为空时不能评论 |
-| label_id    | int    | 心情标签id               |
-| strong      | int    | 强度                     |
-| create_time | date   | 创建时间                 |
-| visable     | int    | 1. 个人可见；2. 社区可见 |
-| poster      | string | 发布人qq号               |
+| 字段名   | 类型   | 备注                     |
+| -------- | ------ | ------------------------ |
+| content  | string | 心情内容                 |
+| label_id | int    | 心情标签id               |
+| strong   | int    | 强度                     |
+| visiable | int    | 1. 个人可见；2. 社区可见 |
+| poster   | int    | 发布人id                 |
 
 ### 响应
 
-| 字段名   | 类型 | 备注              |
-| -------- | ---- | ----------------- |
-| ret_code | int  | 0. 成功； 1. 失败 |
+| 字段名   | 类型   | 备注                                 |
+| -------- | ------ | ------------------------------------ |
+| ret_code | int    | 0. 成功； -1. 失败； -2 token验证失败 |
+| message  | string | 错误消息                             |
+| data     | []     |                                      |
 
 
 
-## 查看用户心情
+## 查看用户自身心情（“我的”界面）
 
 ### 请求
 
-GET  /api/emotion?qq_number={qq_number}
+GET  /api/emotion?token={token} & pageno= {pageno}
 
 ### 响应
 
-| 字段名       | 类型      | 备注              |
-| ------------ | --------- | ----------------- |
-| ret_code     | int       | 0. 成功； 1. 失败 |
-| emotion_list | []emotion |                   |
+| 字段名   | 类型   | 备注                                 |
+| -------- | ------ | ------------------------------------ |
+| ret_code | int    | 0. 成功； -1. 失败； -2 token验证失败 |
+| message  | string | 错误消息                             |
+| data     |      |                                      |
 
-emotion:
+data:
 
-| 字段名      | 类型   | 备注                     |
-| ----------- | ------ | ------------------------ |
-| content     | string | 心情内容。为空时不能评论 |
-| label_id    | int    | 心情标签id               |
-| label_name  | string | 心情标签名               |
-| strong      | int    | 强度                     |
-| create_time | date   | 创建时间                 |
-| poster      | int64  | 发布人qq号               |
-| like_cnt    | int    | 点赞数                   |
-| comment_cnt | int    | 评论数                   |
+| 字段名      | 类型   | 备注       |
+| ----------- | ------ | ---------- |
+| content     | string | 心情内容   |
+| label_id    | int    | 心情标签id |
+| label_name  | string | 心情标签名 |
+| strong      | int    | 强度       |
+| create_time | date   | 创建时间   |
+| poster      | int64  | 发布人uid  |
 
-## 查看所有心情
+ ## 查询所有指定标签心情（“广场”界面）
 
 ### 请求
 
-GET  /api/emotion
+GET  /api/emotion?label_id={label_id}& token={token} & pageno= {pageno}
+
+> 无label_id时查询全部
 
 ### 响应
 
-| 字段名       | 类型      | 备注              |
-| ------------ | --------- | ----------------- |
-| ret_code     | int       | 0. 成功； 1. 失败 |
-| emotion_list | []emotion |                   |
+| 字段名   | 类型   | 备注                                 |
+| -------- | ------ | ------------------------------------ |
+| ret_code | int    | 0. 成功； -1. 失败； -2 token验证失败 |
+| message  | string |                                      |
+| data     | []     |                                      |
 
-emotion:
+data[i]
 
-| 字段名      | 类型   | 备注                     |
-| ----------- | ------ | ------------------------ |
-| content     | string | 心情内容。为空时不能评论 |
-| label_id    | int    | 心情标签id               |
-| label_name  | string | 心情标签名               |
-| strong      | int    | 强度                     |
-| create_time | date   | 创建时间                 |
-| poster      | int64  | 发布人qq号               |
-| like_cnt    | int    | 点赞数                   |
-| comment_cnt | int    | 评论数                   |
-
- ## 查询所有指定标签心情
-
-### 请求
-
-GET  /api/emotion?label_id={label_id}
-
-### 响应
-
-| 字段名       | 类型      | 备注              |
-| ------------ | --------- | ----------------- |
-| ret_code     | int       | 0. 成功； 1. 失败 |
-| emotion_list | []emotion |                   |
-
-emotion:
-
-| 字段名      | 类型   | 备注                     |
-| ----------- | ------ | ------------------------ |
-| content     | string | 心情内容。为空时不能评论 |
-| label_id    | int    | 心情标签id               |
-| label_name  | string | 心情标签名               |
-| strong      | int    | 强度                     |
-| create_time | date   | 创建时间                 |
-| poster      | int64  | 发布人qq号               |
-| like_cnt    | int    | 点赞数                   |
-| comment_cnt | int    | 评论数                   |
+| 字段名      | 类型   | 备注           |
+| ----------- | ------ | -------------- |
+| content     | string | 心情内容       |
+| label_id    | int    | 心情标签id     |
+| label_name  | string | 心情标签名     |
+| strong      | int    | 强度           |
+| create_time | date   | 创建时间       |
+| poster      | int64  | 发布人id       |
+| nickname    | string | 发布人昵称     |
+| avatar      | string | url            |
+| like_cnt    | int    | 点赞数         |
+| comment_cnt | int    | 评论数         |
+| is_like     | int    | 用户是否点过赞 |
 
 ## 发布评论
 
 ### 请求
 
-POST /api/comment
+POST /api/comment? token={token}
 
-| 字段名      | 类型   | 备注                              |
-| ----------- | ------ | --------------------------------- |
-| emotion_id  | int64  | 心情ID                            |
-| comment     | string | 评论内容                          |
-| poster      | int64  | 发布人qq号                        |
-| create_time | date   | 时间                              |
-| rspto       | int64  | 回复人qq号，为0时表示不回复指定人 |
+| 字段名     | 类型   | 备注                            |
+| ---------- | ------ | ------------------------------- |
+| emotion_id | int64  | 心情ID                          |
+| comment    | string | 评论内容                        |
+| poster     | int64  | 发布人id                        |
+| rspto      | int64  | 回复人id，为0时表示不回复指定人 |
 
 ### 响应
 
-| 字段名   | 类型 | 备注              |
-| -------- | ---- | ----------------- |
-| ret_code | int  | 0. 成功； 1. 失败 |
+| 字段名   | 类型   | 备注                                 |
+| -------- | ------ | ------------------------------------ |
+| ret_code | int    | 0. 成功； -1. 失败； -2 token验证失败 |
+| message  | string | 错误消息                             |
+| data     | []     |                                      |
 
 ## 查看心情下的评论
 
 ### 请求
 
-GET /api/comment?emotion_id={emotion_id}
+GET /api/comment?emotion_id={emotion_id} & token={token} & pageno= {pageno}
 
 ### 响应
 
-| 字段名       | 类型      | 备注              |
-| ------------ | --------- | ----------------- |
-| ret_code     | int       | 0. 成功； 1. 失败 |
-| comment_list | []comment |                   |
+| 字段名   | 类型   | 备注                                 |
+| -------- | ------ | ------------------------------------ |
+| ret_code | int    | 0. 成功； -1. 失败； -2 token验证失败 |
+| message  | string | 错误消息                             |
+| data     | []     |                                      |
 
-comment:
+data[i]:
 
-| 字段名      | 类型   | 备注                              |
-| ----------- | ------ | --------------------------------- |
-| emotion_id  | int64  | 心情ID                            |
-| comment     | string | 评论内容                          |
-| poster      | int64  | 发布人qq号                        |
-| create_time | date   | 时间                              |
-| rspto       | int64  | 回复人qq号，为0时表示不回复指定人 |
+| 字段名      | 类型   | 备注                            |
+| ----------- | ------ | ------------------------------- |
+| emotion_id  | int64  | 心情ID                          |
+| comment     | string | 评论内容                        |
+| poster      | int64  | 发布人id                        |
+| create_time | date   | 时间                            |
+| rspto       | int64  | 回复人id，为0时表示不回复指定人 |
 
 
 
 ## 发布点赞
 
-
-
 ### 请求
 
 POST /api/like
 
-| 字段名      | 类型  | 备注       |
-| ----------- | ----- | ---------- |
-| emotion_id  | int64 | 心情id     |
-| poster      | int64 | 发布人qq号 |
-| create_time | Date  | 时间       |
+| 字段名     | 类型  | 备注       |
+| ---------- | ----- | ---------- |
+| emotion_id | int64 | 心情id     |
+| poster     | int64 | 发布人qq号 |
 
 ### 响应
 
-| 字段名   | 类型 | 备注              |
-| -------- | ---- | ----------------- |
-| ret_code | Int  | 0. 成功； 1. 失败 |
+| 字段名   | 类型   | 备注                                 |
+| -------- | ------ | ------------------------------------ |
+| ret_code | int    | 0. 成功； -1. 失败； -2 token验证失败 |
+| message  | string | 错误消息                             |
+| data     | []     |                                      |
+
+
 
 ## 查看动态
 
@@ -198,17 +230,24 @@ POST /api/like
 
 ### 请求
 
-GET /api/message?qq_number={qq_number}
+GET /api/message? token={token} & pageno= {pageno}
 
 ### 响应
 
-| 字段名     | 类型   | 备注                                 |
-| ---------- | ------ | ------------------------------------ |
-| ret_code   | int    | 0. 成功； 1. 失败                    |
-| emotion_id | int64  | 心情id                               |
-| comment    | string | 评论                                 |
-| like       | int    | 0.非点赞，1.点赞。和评论不能同时为空 |
-| poster     | int64  | 发布人                               |
+| 字段名   | 类型   | 备注                                 |
+| -------- | ------ | ------------------------------------ |
+| ret_code | int    | 0. 成功； -1. 失败； -2 token验证失败 |
+| message  | string | 错误消息                             |
+| data     | []     |                                      |
+
+data[i]:
+
+| 字段名     | 类型   | 备注                                     |
+| ---------- | ------ | ---------------------------------------- |
+| emotion_id | int64  | 心情id                                   |
+| comment    | string | 评论或回复内容                           |
+| poster     | int64  | 评论、点赞或回复的发布人id               |
+| type       | int    | 1. 点赞； 2. 心情评论；3. 回复 |
 
 
 
