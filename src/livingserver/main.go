@@ -9,12 +9,12 @@ import (
 
 func initDB() {
 	orm.RegisterDriver("mysql", orm.DRMySQL)
-	orm.RegisterDataBase("default", "mysql", "root:root@/orm_test?charset=utf8")
+	orm.RegisterDataBase("default", "mysql", "root:123@tcp(127.0.0.1:3306)/database?charset=utf8")
 	orm.RegisterModel(
-		new(models.User))
+		new(models.User),
+		new(models.Section),
+		new(models.Post))
 	orm.RunSyncdb("default", false, true)
-	//o := orm.NewOrm()
-	//o.Using("default")
 }
 
 func main() {

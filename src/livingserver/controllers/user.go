@@ -1,10 +1,10 @@
 package controllers
 
 import (
-	"livingserver/models"
-	"encoding/json"
-
+	"mini_proj/src/livingserver/models"
 	"github.com/astaxie/beego"
+	"mini_proj/src/livingserver/filters"
+	"regexp"
 )
 
 // Operations about Users
@@ -12,108 +12,101 @@ type UserController struct {
 	beego.Controller
 }
 
-// @Title CreateUser
-// @Description create users
-// @Param	body		body 	models.User	true		"body for user content"
-// @Success 200 {int} models.User.Id
-// @Failure 403 body is empty
-// @router / [post]
-func (u *UserController) Post() {
-	var user models.User
-	json.Unmarshal(u.Ctx.Input.RequestBody, &user)
-	uid := models.AddUser(user)
-	u.Data["json"] = map[string]string{"uid": uid}
-	u.ServeJSON()
+func (c *UserController) Detail() {
+	id := c.Ctx.Input.Param(":id")
+	ok, user := models.FindUserById(id)
+	if ok {
+		c.Data["IsLogin"], c.Data["UserInfo"] = filters.IsLogin(c.Ctx)
+		c.Data["PageTitle"] = "Personal"
+		c.Data["CurrentUserInfo"] = user
+		c.Data["Topics"] = models.FindPostByUser(&user, 10)
+		//c.Data["Replies"] = models.FindReplyByUser(&user, 7)
+	}
+	c.Layout = "layout/layout.tpl"
+	c.TplName = "user/detail.tpl"
 }
 
-// @Title GetAll
-// @Description get all Users
-// @Success 200 {object} models.User
-// @router / [get]
-func (u *UserController) GetAll() {
-	users := models.GetAllUsers()
-	u.Data["json"] = users
-	u.ServeJSON()
+func (c *UserController) SettingPage() {
+	beego.ReadFromRequest(&c.Controller)
+	c.Data["IsLogin"], c.Data["UserInfo"] = filters.IsLogin(c.Ctx)
+	c.Data["PageTitle"] = "Setting"
+	c.Layout = "layout/layout.tpl"
+	c.TplName = "user/setting.tpl"
 }
 
-// @Title Get
-// @Description get user by uid
-// @Param	uid		path 	string	true		"The key for staticblock"
-// @Success 200 {object} models.User
-// @Failure 403 :uid is empty
-// @router /:uid [get]
-func (u *UserController) Get() {
-	uid := u.GetString(":uid")
-	if uid != "" {
-		user, err := models.GetUser(uid)
-		if err != nil {
-			u.Data["json"] = err.Error()
-		} else {
-			u.Data["json"] = user
+func (c *UserController) Setting() {
+	flash := beego.NewFlash()
+	id, username := c.Input().Get("id"), c.Input().Get("username")
+	if len(id) > 0 {
+		ok, _ := regexp.MatchString("^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\\d{8}$", id)
+		if !ok {
+			flash.Error("Please input correct phone number")
+			flash.Store(&c.Controller)
+			c.Redirect("/user/setting", 302)
+			return
 		}
 	}
-	u.ServeJSON()
-}
-
-// @Title Update
-// @Description update the user
-// @Param	uid		path 	string	true		"The uid you want to update"
-// @Param	body		body 	models.User	true		"body for user content"
-// @Success 200 {object} models.User
-// @Failure 403 :uid is not int
-// @router /:uid [put]
-func (u *UserController) Put() {
-	uid := u.GetString(":uid")
-	if uid != "" {
-		var user models.User
-		json.Unmarshal(u.Ctx.Input.RequestBody, &user)
-		uu, err := models.UpdateUser(uid, &user)
-		if err != nil {
-			u.Data["json"] = err.Error()
-		} else {
-			u.Data["json"] = uu
-		}
+	if len(username) > 10 {
+		flash.Error("Username is too long", username)
+		flash.Store(&c.Controller)
+		c.Redirect("/user/setting", 302)
+		return
 	}
-	u.ServeJSON()
+	// todo: username判重
+	// flash.Error("%d already existed", username)
+	_, user := filters.IsLogin(c.Ctx)
+	user.Id = id
+	user.Username = username
+	models.UpdateUser(&user)
+	flash.Success("Setting update succeeded")
+	flash.Store(&c.Controller)
+	c.Redirect("/user/setting", 302)
 }
 
-// @Title Delete
-// @Description delete the user
-// @Param	uid		path 	string	true		"The uid you want to delete"
-// @Success 200 {string} delete success!
-// @Failure 403 uid is empty
-// @router /:uid [delete]
-func (u *UserController) Delete() {
-	uid := u.GetString(":uid")
-	models.DeleteUser(uid)
-	u.Data["json"] = "delete success!"
-	u.ServeJSON()
-}
-
-// @Title Login
-// @Description Logs user into the system
-// @Param	username		query 	string	true		"The username for login"
-// @Param	password		query 	string	true		"The password for login"
-// @Success 200 {string} login success
-// @Failure 403 user not exist
-// @router /login [get]
-func (u *UserController) Login() {
-	username := u.GetString("username")
-	password := u.GetString("password")
-	if models.Login(username, password) {
-		u.Data["json"] = "login success"
-	} else {
-		u.Data["json"] = "user not exist"
+func (c *UserController) UpdatePwd() {
+	flash := beego.NewFlash()
+	oldpwd, newpwd := c.Input().Get("oldpwd"), c.Input().Get("newpwd")
+	_, user := filters.IsLogin(c.Ctx)
+	if user.Password != oldpwd {
+		flash.Error("Incorrect password")
+		flash.Store(&c.Controller)
+		c.Redirect("/user/setting", 302)
+		return
 	}
-	u.ServeJSON()
+	if len(newpwd) == 0 {
+		flash.Error("Password can not be NULL")
+		flash.Store(&c.Controller)
+		c.Redirect("/user/setting", 302)
+		return
+	}
+	user.Password = newpwd
+	models.UpdateUser(&user)
+	flash.Success("Password update succeeded")
+	flash.Store(&c.Controller)
+	c.Redirect("/user/setting", 302)
 }
 
-// @Title logout
-// @Description Logs out current logged in user session
-// @Success 200 {string} logout success
-// @router /logout [get]
-func (u *UserController) Logout() {
-	u.Data["json"] = "logout success"
-	u.ServeJSON()
-}
-
+//func (c *UserController) UpdateAvatar() {
+//	flash := beego.NewFlash()
+//	f, h, err := c.GetFile("avatar")
+//	if err == http.ErrMissingFile {
+//		flash.Error("Please choose your avatar")
+//		flash.Store(&c.Controller)
+//		c.Redirect("/user/setting", 302)
+//	}
+//	defer f.Close()
+//	if err != nil {
+//		flash.Error("Failed to upload")
+//		flash.Store(&c.Controller)
+//		c.Redirect("/user/setting", 302)
+//		return
+//	} else {
+//		c.SaveToFile("avatar", "static/upload/avatar/" + h.Filename)
+//		_, user := filters.IsLogin(c.Ctx)
+//		user.Avatar = "/static/upload/avatar/" + h.Filename
+//		models.UpdateUser(&user)
+//		flash.Success("Upload succeeded")
+//		flash.Store(&c.Controller)
+//		c.Redirect("/user/setting", 302)
+//	}
+//}

@@ -1,17 +1,18 @@
 package models
 
 import (
-	"image"
 	"github.com/astaxie/beego/orm"
 )
 
 
 type User struct {
-	uId      uint64		// phone_number, unique
-	QQNumber uint64		// qq_number, unique
-	Username string		// nickname, unique
+	Id      string	`orm:"pk;unique"`		// phone_number
+	QQ 		string	`orm:"unique"`
+	Username string	`orm:"unique"`
 	Password string
-	Avatar   image.Image
+	Token    string `orm:"unique"`
+	Avatar   uint	`orm:"default(0)"`
+	//Post    []*Post `orm:"reverse(many)"`
 }
 
 func AddUser(user *User) int64 {
@@ -20,17 +21,24 @@ func AddUser(user *User) int64 {
 	return id
 }
 
-func FindUserById(uId uint64) (bool, User) {
+func FindUserById(Id string) (bool, User) {
 	o := orm.NewOrm()
 	var user User
-	err := o.QueryTable(user).Filter("uId", uId).One(&user)
+	err := o.QueryTable(user).Filter("Id", Id).One(&user)
 	return err != orm.ErrNoRows, user
 }
 
-func FindUserByQQ(QQ uint64) (bool, User) {
+func FindUserByToken(token string) (bool, User) {
 	o := orm.NewOrm()
 	var user User
-	err := o.QueryTable(user).Filter("QQNumber", QQ).One(&user)
+	err := o.QueryTable(user).Filter("Token", token).One(&user)
+	return err != orm.ErrNoRows, user
+}
+
+func FindUserByQQ(QQ string) (bool, User) {
+	o := orm.NewOrm()
+	var user User
+	err := o.QueryTable(user).Filter("QQ", QQ).One(&user)
 	return err != orm.ErrNoRows, user
 }
 
@@ -46,24 +54,17 @@ func UpdateUser(user *User) (int64, error) {
 	return o.Update(user)
 }
 
-func LoginByName(username string, password string) (bool, User) {
+func LoginByID(Id string, password string) (bool, User) {
 	o := orm.NewOrm()
 	var user User
-	err := o.QueryTable(user).Filter("Username", username).Filter("Password", password).One(&user)
+	err := o.QueryTable(user).Filter("Id", Id).Filter("Password", password).One(&user)
 	return err != orm.ErrNoRows, user
 }
 
-func LoginByUID(uId uint64, password string) (bool, User) {
+func LoginByQQ(QQ string, password string) (bool, User) {
 	o := orm.NewOrm()
 	var user User
-	err := o.QueryTable(user).Filter("uId", uId).Filter("Password", password).One(&user)
-	return err != orm.ErrNoRows, user
-}
-
-func LoginByQQ(QQ uint64, password string) (bool, User) {
-	o := orm.NewOrm()
-	var user User
-	err := o.QueryTable(user).Filter("QQNumber", QQ).Filter("Password", password).One(&user)
+	err := o.QueryTable(user).Filter("QQ", QQ).Filter("Password", password).One(&user)
 	return err != orm.ErrNoRows, user
 }
 
