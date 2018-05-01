@@ -103,7 +103,7 @@ POST  /api/emotion? token={token}
 
 ### 请求
 
-GET  /api/emotion?token={token} & pageno= {pageno}
+GET  /api/emotion/self?token={token} & pageno= {pageno}
 
 ### 响应
 
@@ -122,7 +122,6 @@ data:
 | label_name  | string | 心情标签名 |
 | strong      | int    | 强度       |
 | create_time | date   | 创建时间   |
-| poster      | int64  | 发布人uid  |
 
  ## 查询所有指定标签心情（“广场”界面）
 
@@ -166,7 +165,6 @@ POST /api/comment? token={token}
 | ---------- | ------ | ------------------------------- |
 | emotion_id | int64  | 心情ID                          |
 | comment    | string | 评论内容                        |
-| poster     | int64  | 发布人id                        |
 | rspto      | int64  | 回复人id，为0时表示不回复指定人 |
 
 ### 响应
@@ -207,12 +205,11 @@ data[i]:
 
 ### 请求
 
-POST /api/like
+POST /api/like?token={token}
 
-| 字段名     | 类型  | 备注       |
-| ---------- | ----- | ---------- |
-| emotion_id | int64 | 心情id     |
-| poster     | int64 | 发布人qq号 |
+| 字段名     | 类型  | 备注   |
+| ---------- | ----- | ------ |
+| emotion_id | int64 | 心情id |
 
 ### 响应
 
