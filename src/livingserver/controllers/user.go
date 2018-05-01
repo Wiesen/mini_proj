@@ -6,7 +6,7 @@ import (
 	"livingserver/models"
 	"strconv"
 	"strings"
-
+	"livingserver/filters"
 	"github.com/astaxie/beego"
 )
 
@@ -169,3 +169,52 @@ func (c *UserController) Delete() {
 	}
 	c.ServeJSON()
 }
+
+/*------------------------------------------------------*/
+
+// Get: home
+func (c *UserController) Index() {
+	c.Ctx.Redirect(302, "/login")
+}
+
+// Get: login
+func (c *UserController) LoginPage() {
+	IsLogin, _ := filters.IsLogin(c.Ctx)
+	if IsLogin {
+		c.Redirect("/RecordPage", 302)
+	} else {
+		beego.ReadFromRequest(&c.Controller)
+		c.Data["json"] = "LoginPage"
+		c.Data["PageTitle"] = "Login"
+		c.Layout = "layout/layout.tpl"
+		c.TplName = "login.tpl"
+		c.ServeJSON()
+	}
+}
+
+// Post: login
+func (c *UserController) Login() {
+	flash := beego.NewFlash()
+	table := make(map[string]interface{})
+	err := json.Unmarshal(c.Ctx.Input.RequestBody, &table)
+	if err != nil {
+		flash.Error("Invalid login data: not json type")
+		flash.Store(&c.Controller)
+		c.Redirect("/login", 302)
+	} else {
+		phone_number, password := table["phone_number"], table["password"]
+		if flag, user := models.Login(phone_number.(string), password.(string)); flag {
+			c.SetSecureCookie(beego.AppConfig.String("cookie.secure"), beego.AppConfig.String("cookie.token"), user.Token, 30*24*60*60, "/", beego.AppConfig.String("cookie.domain"), false, true)
+
+			c.Redirect("/RecordPage", 302)
+		} else {
+			flash.Error("Invalid phone_number or password")
+			flash.Store(&c.Controller)
+			c.Redirect("/login", 302)
+		}
+	}
+}
+
+// Get: Register
+
+// Post: Register

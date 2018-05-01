@@ -2,7 +2,6 @@ package main
 
 import (
 	_ "livingserver/routers"
-
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"

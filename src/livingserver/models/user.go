@@ -153,3 +153,33 @@ func DeleteUser(id int) (err error) {
 	}
 	return
 }
+
+// the following is added by Wiesenyang
+func GetUserByToken(token string) (bool, User) {
+	o := orm.NewOrm()
+	var user User
+	err := o.QueryTable(user).Filter("Token", token).One(&user)
+	return err != orm.ErrNoRows, user
+}
+
+func GetUserByQQ(QQ string) (bool, User) {
+	o := orm.NewOrm()
+	var user User
+	err := o.QueryTable(user).Filter("QqNumber", QQ).One(&user)
+	return err != orm.ErrNoRows, user
+}
+
+func FindUserByUsername(username string) (bool, User) {
+	o := orm.NewOrm()
+	var user User
+	err := o.QueryTable(user).Filter("Username", username).One(&user)
+	return err != orm.ErrNoRows, user
+}
+
+func Login(phoneNumber string, password string) (bool, User) {
+	o := orm.NewOrm()
+	var user User
+	err := o.QueryTable(user).Filter("PhoneNumber", phoneNumber).Filter("Password", password).One(&user)
+	return err != orm.ErrNoRows, user
+	
+}
