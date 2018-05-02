@@ -136,7 +136,8 @@ func UpdateUserById(m *User) (err error) {
 			fmt.Println("Number of records updated in database:", num)
 		}
 	}
-	return
+	fmt.Println(err)
+	return err
 }
 
 // DeleteUser deletes User by Id and returns error if

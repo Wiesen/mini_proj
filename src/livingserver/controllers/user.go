@@ -37,10 +37,13 @@ func (c *UserController) Post() {
 	input_table, output_table := make(map[string]interface{}), make(map[string]interface{})
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &input_table); err == nil {
 		phone_number, password, nickname := input_table["phone_number"], input_table["password"], input_table["nickname"]
+		if phone_number == nil || password == nil || nickname == nil {
+			return
+		}
 		user := models.User{PhoneNumber:phone_number.(string), Password:password.(string), Nickname: nickname.(string)}
 		if _, err := models.AddUser(&user); err == nil {
-			token := uuid.Rand()
-			user.Token = string(token[:])
+			user.Token  = uuid.Rand().Hex()
+			models.UpdateUserById(&user)
 			output_table["ret_code"] = 0
 			output_table["data"] = map[string]string{"token": user.Token}
 			//c.Ctx.Output.SetStatus(201)
@@ -106,9 +109,12 @@ func (c *UserController) Login() {
 	flash := beego.NewFlash()
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &input_table); err == nil {
 		phone_number, password := input_table["phone_number"], input_table["password"]
+		if phone_number == nil || password == nil {
+			return
+		}
 		if flag, user := models.Login(phone_number.(string), password.(string)); flag {
-			token := uuid.Rand()
-			user.Token = string(token[:])
+			user.Token = uuid.Rand().Hex()
+			models.UpdateUserById(&user)
 			output_table["ret_code"] = 0
 			output_table["data"] = map[string]string{"token": user.Token}
 		} else {
@@ -131,9 +137,10 @@ func (c *UserController) Logout() {
 	beego.ReadFromRequest(&c.Controller)
 	if err, user := filters.IsLogin(c.Ctx); err == true {
 		user.Token = ""
+		models.UpdateUserById(&user)
 		table["ret_code"] = 0
 	} else {
-		table["ret_code"] = -1
+		table["ret_code"] = -2
 		table["message"] = "Invalid token"
 	}
 	c.Data["json"] = table

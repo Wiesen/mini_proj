@@ -32,7 +32,7 @@ data:
 
 ### 请求
 
-POST /api/logout?token={token}
+POST /api/logout?:token
 
 ### 响应
 
