@@ -2,12 +2,13 @@ package controllers
 
 import (
 	"encoding/json"
-	"errors"
+	_ "errors"
 	"livingserver/models"
-	"strconv"
-	"strings"
+	_ "strconv"
+	_ "strings"
 	"livingserver/filters"
 	"github.com/astaxie/beego"
+	"github.com/sluu99/uuid"
 )
 
 // UserController operations for User
@@ -18,10 +19,10 @@ type UserController struct {
 // URLMapping ...
 func (c *UserController) URLMapping() {
 	c.Mapping("Post", c.Post)
-	c.Mapping("GetOne", c.GetOne)
-	c.Mapping("GetAll", c.GetAll)
-	c.Mapping("Put", c.Put)
-	c.Mapping("Delete", c.Delete)
+	//c.Mapping("GetOne", c.GetOne)
+	//c.Mapping("GetAll", c.GetAll)
+	//c.Mapping("Put", c.Put)
+	//c.Mapping("Delete", c.Delete)
 }
 
 // Post ...
@@ -32,189 +33,109 @@ func (c *UserController) URLMapping() {
 // @Failure 403 body is empty
 // @router / [post]
 func (c *UserController) Post() {
-	var v models.User
-	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-		if _, err := models.AddUser(&v); err == nil {
-			c.Ctx.Output.SetStatus(201)
-			c.Data["json"] = v
+	//var v models.User
+	input_table, output_table := make(map[string]interface{}), make(map[string]interface{})
+	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &input_table); err == nil {
+		phone_number, password, nickname := input_table["phone_number"], input_table["password"], input_table["nickname"]
+		user := models.User{PhoneNumber:phone_number.(string), Password:password.(string), Nickname: nickname.(string)}
+		if _, err := models.AddUser(&user); err == nil {
+			token := uuid.Rand()
+			user.Token = string(token[:])
+			output_table["ret_code"] = 0
+			output_table["data"] = map[string]string{"token": user.Token}
+			//c.Ctx.Output.SetStatus(201)
 		} else {
-			c.Data["json"] = err.Error()
+			output_table["ret_code"] = -1
+			output_table["message"] = "database create user failed"
 		}
 	} else {
-		c.Data["json"] = err.Error()
+		output_table["ret_code"] = -1
+		output_table["message"] = "Invalid json format"
 	}
+	c.Data["json"] = output_table
 	c.ServeJSON()
 }
 
-// GetOne ...
-// @Title Get One
-// @Description get User by id
-// @Param	id		path 	string	true		"The key for staticblock"
-// @Success 200 {object} models.User
-// @Failure 403 :id is empty
-// @router /:id [get]
-func (c *UserController) GetOne() {
-	idStr := c.Ctx.Input.Param(":id")
-	id, _ := strconv.Atoi(idStr)
-	v, err := models.GetUserById(id)
-	if err != nil {
-		c.Data["json"] = err.Error()
-	} else {
-		c.Data["json"] = v
-	}
-	c.ServeJSON()
-}
+//// Put ...
+//// @Title Put
+//// @Description update the User
+//// @Param	id		path 	string	true		"The id you want to update"
+//// @Param	body		body 	models.User	true		"body for User content"
+//// @Success 200 {object} models.User
+//// @Failure 403 :id is not int
+//// @router /:id [put]
+//func (c *UserController) Put() {
+//	idStr := c.Ctx.Input.Param(":id")
+//	id, _ := strconv.Atoi(idStr)
+//	v := models.User{Id: id}
+//	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
+//		if err := models.UpdateUserById(&v); err == nil {
+//			c.Data["json"] = "OK"
+//		} else {
+//			c.Data["json"] = err.Error()
+//		}
+//	} else {
+//		c.Data["json"] = err.Error()
+//	}
+//	c.ServeJSON()
+//}
 
-// GetAll ...
-// @Title Get All
-// @Description get User
-// @Param	query	query	string	false	"Filter. e.g. col1:v1,col2:v2 ..."
-// @Param	fields	query	string	false	"Fields returned. e.g. col1,col2 ..."
-// @Param	sortby	query	string	false	"Sorted-by fields. e.g. col1,col2 ..."
-// @Param	order	query	string	false	"Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ..."
-// @Param	limit	query	string	false	"Limit the size of result set. Must be an integer"
-// @Param	offset	query	string	false	"Start position of result set. Must be an integer"
-// @Success 200 {object} models.User
-// @Failure 403
-// @router / [get]
-func (c *UserController) GetAll() {
-	var fields []string
-	var sortby []string
-	var order []string
-	var query = make(map[string]string)
-	var limit int64 = 10
-	var offset int64
+//// Delete ...
+//// @Title Delete
+//// @Description delete the User
+//// @Param	id		path 	string	true		"The id you want to delete"
+//// @Success 200 {string} delete success!
+//// @Failure 403 id is empty
+//// @router /:id [delete]
+//func (c *UserController) Delete() {
+//	idStr := c.Ctx.Input.Param(":id")
+//	id, _ := strconv.Atoi(idStr)
+//	if err := models.DeleteUser(id); err == nil {
+//		c.Data["json"] = "OK"
+//	} else {
+//		c.Data["json"] = err.Error()
+//	}
+//	c.ServeJSON()
+//}
 
-	// fields: col1,col2,entity.col3
-	if v := c.GetString("fields"); v != "" {
-		fields = strings.Split(v, ",")
-	}
-	// limit: 10 (default is 10)
-	if v, err := c.GetInt64("limit"); err == nil {
-		limit = v
-	}
-	// offset: 0 (default is 0)
-	if v, err := c.GetInt64("offset"); err == nil {
-		offset = v
-	}
-	// sortby: col1,col2
-	if v := c.GetString("sortby"); v != "" {
-		sortby = strings.Split(v, ",")
-	}
-	// order: desc,asc
-	if v := c.GetString("order"); v != "" {
-		order = strings.Split(v, ",")
-	}
-	// query: k:v,k:v
-	if v := c.GetString("query"); v != "" {
-		for _, cond := range strings.Split(v, ",") {
-			kv := strings.SplitN(cond, ":", 2)
-			if len(kv) != 2 {
-				c.Data["json"] = errors.New("Error: invalid query key/value pair")
-				c.ServeJSON()
-				return
-			}
-			k, v := kv[0], kv[1]
-			query[k] = v
-		}
-	}
-
-	l, err := models.GetAllUser(query, fields, sortby, order, offset, limit)
-	if err != nil {
-		c.Data["json"] = err.Error()
-	} else {
-		c.Data["json"] = l
-	}
-	c.ServeJSON()
-}
-
-// Put ...
-// @Title Put
-// @Description update the User
-// @Param	id		path 	string	true		"The id you want to update"
-// @Param	body		body 	models.User	true		"body for User content"
-// @Success 200 {object} models.User
-// @Failure 403 :id is not int
-// @router /:id [put]
-func (c *UserController) Put() {
-	idStr := c.Ctx.Input.Param(":id")
-	id, _ := strconv.Atoi(idStr)
-	v := models.User{Id: id}
-	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-		if err := models.UpdateUserById(&v); err == nil {
-			c.Data["json"] = "OK"
-		} else {
-			c.Data["json"] = err.Error()
-		}
-	} else {
-		c.Data["json"] = err.Error()
-	}
-	c.ServeJSON()
-}
-
-// Delete ...
-// @Title Delete
-// @Description delete the User
-// @Param	id		path 	string	true		"The id you want to delete"
-// @Success 200 {string} delete success!
-// @Failure 403 id is empty
-// @router /:id [delete]
-func (c *UserController) Delete() {
-	idStr := c.Ctx.Input.Param(":id")
-	id, _ := strconv.Atoi(idStr)
-	if err := models.DeleteUser(id); err == nil {
-		c.Data["json"] = "OK"
-	} else {
-		c.Data["json"] = err.Error()
-	}
-	c.ServeJSON()
-}
-
-/*------------------------------------------------------*/
-
-// Get: home
-func (c *UserController) Index() {
-	c.Ctx.Redirect(302, "/login")
-}
-
-// Get: login
-func (c *UserController) LoginPage() {
-	IsLogin, _ := filters.IsLogin(c.Ctx)
-	if IsLogin {
-		c.Redirect("/RecordPage", 302)
-	} else {
-		beego.ReadFromRequest(&c.Controller)
-		c.Data["json"] = "LoginPage"
-		c.Data["PageTitle"] = "Login"
-		c.Layout = "layout/layout.tpl"
-		c.TplName = "login.tpl"
-		c.ServeJSON()
-	}
-}
 
 // Post: login
 func (c *UserController) Login() {
+	input_table, output_table := make(map[string]interface{}), make(map[string]interface{})
+	beego.ReadFromRequest(&c.Controller)
 	flash := beego.NewFlash()
-	table := make(map[string]interface{})
-	err := json.Unmarshal(c.Ctx.Input.RequestBody, &table)
-	if err != nil {
-		flash.Error("Invalid login data: not json type")
-		flash.Store(&c.Controller)
-		c.Redirect("/login", 302)
-	} else {
-		phone_number, password := table["phone_number"], table["password"]
+	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &input_table); err == nil {
+		phone_number, password := input_table["phone_number"], input_table["password"]
 		if flag, user := models.Login(phone_number.(string), password.(string)); flag {
-			c.SetSecureCookie(beego.AppConfig.String("cookie.secure"), beego.AppConfig.String("cookie.token"), user.Token, 30*24*60*60, "/", beego.AppConfig.String("cookie.domain"), false, true)
-
-			c.Redirect("/RecordPage", 302)
+			token := uuid.Rand()
+			user.Token = string(token[:])
+			output_table["ret_code"] = 0
+			output_table["data"] = map[string]string{"token": user.Token}
 		} else {
 			flash.Error("Invalid phone_number or password")
 			flash.Store(&c.Controller)
-			c.Redirect("/login", 302)
+			output_table["ret_code"], output_table["message"] = -1, "Invalid phone_number or password"
 		}
+	} else {
+		flash.Error("Invalid json format")
+		flash.Store(&c.Controller)
+		output_table["ret_code"], output_table["message"] = -1, "Invalid json data"
 	}
+	c.Data["json"] = output_table
+	c.ServeJSON()
 }
 
-// Get: Register
-
-// Post: Register
+// Post: logout
+func (c *UserController) Logout() {
+	table := make(map[string]interface{})
+	beego.ReadFromRequest(&c.Controller)
+	if err, user := filters.IsLogin(c.Ctx); err == true {
+		user.Token = ""
+		table["ret_code"] = 0
+	} else {
+		table["ret_code"] = -1
+		table["message"] = "Invalid token"
+	}
+	c.Data["json"] = table
+	c.ServeJSON()
+}

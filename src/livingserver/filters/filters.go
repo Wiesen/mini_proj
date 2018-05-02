@@ -3,16 +3,13 @@ package filters
 import (
 	"github.com/astaxie/beego/context"
 	"livingserver/models"
-	"github.com/astaxie/beego"
+	_ "github.com/astaxie/beego"
 )
 
 func IsLogin(ctx *context.Context) (bool, models.User) {
-	token, flag := ctx.GetSecureCookie(beego.AppConfig.String("cookie.secure"), beego.AppConfig.String("cookie.token"))
-	var user models.User
-	if flag {
-		flag, user = models.GetUserByToken(token)
-	}
-	return flag, user
+	token := ctx.Input.Param(":token")
+	err, user := models.GetUserByToken(token)
+	return err, user
 }
 
 var FilterUser = func(ctx *context.Context) {

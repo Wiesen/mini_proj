@@ -2,13 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ccc00a38-7b1a-47dd-ba6f-e99d0ad4510a" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/livingserver/routers/wiesenyang_router.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/linux_amd64/github.com/astaxie/beego.a" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/linux_amd64/github.com/astaxie/beego.a" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/linux_amd64/github.com/astaxie/beego/orm.a" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/linux_amd64/github.com/astaxie/beego/orm.a" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/linux_amd64/github.com/go-sql-driver/mysql.a" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/linux_amd64/github.com/go-sql-driver/mysql.a" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/livingserver" beforeDir="false" afterPath="$PROJECT_DIR$/bin/livingserver" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/LS接口设计.md" beforeDir="false" afterPath="$PROJECT_DIR$/doc/LS接口设计.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/livingdb.sql" beforeDir="false" afterPath="$PROJECT_DIR$/script/livingdb.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/livingserver/controllers/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/livingserver/controllers/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/livingserver/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/livingserver/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/livingserver/filters/filters.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/livingserver/filters/filters.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/livingserver/lastupdate.tmp" beforeDir="false" afterPath="$PROJECT_DIR$/src/livingserver/lastupdate.tmp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/livingserver/livingserver" beforeDir="false" afterPath="$PROJECT_DIR$/src/livingserver/livingserver" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/livingserver/models/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/livingserver/models/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/livingserver/routers/commentsRouter_controllers.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/livingserver/routers/commentsRouter_controllers.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/livingserver/routers/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/livingserver/routers/router.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/livingserver/routers/wiesenyang_router.go" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,14 +23,14 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="wiesenyang_router.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/livingserver/routers/wiesenyang_router.go">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="router.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/livingserver/routers/router.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="15" column="25" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
+            <state relative-caret-position="840">
+              <caret line="50" column="26" selection-start-line="50" selection-start-column="26" selection-end-line="50" selection-end-column="26" />
               <folding>
-                <element signature="e#17#97#0" expanded="true" />
+                <element signature="e#301#368#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -34,27 +39,47 @@
       <file leaf-file-name="user.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/livingserver/models/user.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3336" />
+            <state relative-caret-position="216">
+              <caret line="16" column="61" selection-start-line="16" selection-start-column="61" selection-end-line="16" selection-end-column="61" />
+            </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="user.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/livingserver/controllers/user.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="671">
-              <caret line="207" selection-start-line="207" selection-end-line="207" />
+            <state relative-caret-position="528">
+              <caret line="40" column="33" selection-start-line="40" selection-start-column="33" selection-end-line="40" selection-end-column="33" />
               <folding>
-                <element signature="e#21#162#0" expanded="true" />
+                <element signature="e#21#185#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LS接口设计.md" pinned="false" current-in-tab="true">
+      <file leaf-file-name="LS接口设计.md" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/doc/LS接口设计.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="648">
-              <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
+            <state relative-caret-position="571">
+              <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LS数据表设计.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/doc/LS数据表设计.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="168">
+              <caret line="7" column="28" lean-forward="true" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="livingdb.sql" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/script/livingdb.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="475">
+              <caret line="81" column="71" lean-forward="true" selection-start-line="81" selection-start-column="71" selection-end-line="81" selection-end-column="71" />
             </state>
           </provider>
         </entry>
@@ -71,6 +96,11 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>log</find>
+      <find>commentRouter_</find>
+      <find>login</find>
+      <find>getall</find>
+      <find>getone</find>
+      <find>param</find>
     </findStrings>
   </component>
   <component name="GOROOT" path="/usr/local/go" />
@@ -80,9 +110,15 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/livingserver/routers/commentsRouter_controllers.go" />
         <option value="$PROJECT_DIR$/src/livingserver/routers/wiesenyang_router.go" />
+        <option value="$PROJECT_DIR$/src/livingserver/routers/usersRouter_controllers.go" />
+        <option value="$PROJECT_DIR$/src/livingserver/filters/filters.go" />
+        <option value="$PROJECT_DIR$/src/livingserver/routers/commentsRouter_controllers.go" />
+        <option value="$PROJECT_DIR$/src/livingserver/routers/router.go" />
         <option value="$PROJECT_DIR$/src/livingserver/controllers/user.go" />
+        <option value="$PROJECT_DIR$/src/livingserver/models/user.go" />
+        <option value="$PROJECT_DIR$/doc/LS接口设计.md" />
+        <option value="$PROJECT_DIR$/script/livingdb.sql" />
       </list>
     </option>
   </component>
@@ -95,7 +131,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="67" />
     <option name="y" value="27" />
     <option name="width" value="2493" />
@@ -122,6 +158,11 @@
             <path>
               <item name="mini_proj" type="b2602c69:ProjectViewProjectNode" />
               <item name="mini_proj" type="462c0819:PsiDirectoryNode" />
+              <item name="script" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mini_proj" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mini_proj" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -136,6 +177,13 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="livingserver" type="462c0819:PsiDirectoryNode" />
               <item name="controllers" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mini_proj" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mini_proj" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="livingserver" type="462c0819:PsiDirectoryNode" />
+              <item name="filters" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="mini_proj" type="b2602c69:ProjectViewProjectNode" />
@@ -161,6 +209,7 @@
     <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="go.gopath.indexing.explicitly.defined" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
+    <property name="go.vendoring.notification.had.been.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
@@ -182,19 +231,19 @@
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13838749" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="right" id="Database" />
-      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -206,37 +255,44 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="2" />
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/livingserver/routers/commentsRouter_controllers.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="888">
-          <caret line="207" column="25" selection-start-line="207" selection-start-column="25" selection-end-line="207" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/livingserver/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="19" column="1" lean-forward="true" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/livingserver/routers/router.go">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/livingserver/routers/wiesenyang_router.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="15" column="25" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
+        <state relative-caret-position="1104">
+          <caret line="50" column="26" selection-start-line="50" selection-start-column="26" selection-end-line="50" selection-end-column="26" />
           <folding>
-            <element signature="e#17#97#0" expanded="true" />
+            <element signature="e#301#368#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/livingserver/models/user.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3336" />
+        <state relative-caret-position="432">
+          <caret line="18" column="77" selection-start-line="18" selection-start-column="77" selection-end-line="18" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doc/LS接口设计.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/livingserver/controllers/user.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3048">
+          <caret line="127" column="16" lean-forward="true" selection-start-line="127" selection-start-column="16" selection-end-line="127" selection-end-column="16" />
+          <folding>
+            <element signature="e#21#185#0" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
     <entry file="file:///usr/local/go/src/encoding/json/decode.go">
@@ -246,20 +302,109 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/github.com/astaxie/beego/controller.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="370">
+          <caret line="79" column="4" selection-start-line="79" selection-start-column="4" selection-end-line="79" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/github.com/sluu99/uuid/uuid.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="20" column="5" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/livingserver/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="3" column="26" selection-start-line="3" selection-start-column="26" selection-end-line="3" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/github.com/astaxie/beego/orm/orm_queryset.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="370">
+          <caret line="198" column="19" selection-start-line="198" selection-start-column="19" selection-end-line="198" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/livingserver/routers/usersRouter_controllers.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="15" column="21" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
+          <folding>
+            <element signature="e#17#97#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/livingserver/routers/commentsRouter_controllers.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="15" column="25" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
+          <folding>
+            <element signature="e#17#97#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/livingserver/routers/router.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="840">
+          <caret line="50" column="26" selection-start-line="50" selection-start-column="26" selection-end-line="50" selection-end-column="26" />
+          <folding>
+            <element signature="e#301#368#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/livingserver/filters/filters.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="8" column="23" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
+          <folding>
+            <element signature="e#17#114#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/livingserver/controllers/user.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="671">
-          <caret line="207" selection-start-line="207" selection-end-line="207" />
+        <state relative-caret-position="528">
+          <caret line="40" column="33" selection-start-line="40" selection-start-column="33" selection-end-line="40" selection-end-column="33" />
           <folding>
-            <element signature="e#21#162#0" expanded="true" />
+            <element signature="e#21#185#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/livingserver/models/user.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="16" column="61" selection-start-line="16" selection-start-column="61" selection-end-line="16" selection-end-column="61" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/doc/LS接口设计.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="648">
-          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
+        <state relative-caret-position="571">
+          <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doc/LS数据表设计.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="7" column="28" lean-forward="true" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/livingdb.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="81" column="71" lean-forward="true" selection-start-line="81" selection-start-column="71" selection-end-line="81" selection-end-column="71" />
         </state>
       </provider>
     </entry>

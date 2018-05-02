@@ -28,6 +28,21 @@ data:
 | ------ | ------ | ---- |
 | token  | string |      |
 
+## zhuxiao
+
+### 请求
+
+POST /api/logout?token={token}
+
+### 响应
+
+| 字段名   | 类型   | 备注                                 |
+| -------- | ------ | ------------------------------------ |
+| ret_code | int    | 0. 成功； -1. 失败； -2 token验证失败 |
+| message  | string | 错误消息                             |
+| data     |        |                                      |
+
+data:
 
 
 ## 注册

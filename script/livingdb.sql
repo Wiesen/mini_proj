@@ -88,10 +88,10 @@ CREATE TABLE `like`  (
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `qq_number` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'qq号',
-  `phone_number` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '手机号',
+  `qq_number` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL UNIQUE COMMENT 'qq号',
+  `phone_number` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL UNIQUE COMMENT '手机号',
   `password` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `nickname` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '昵称',
+  `nickname` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL UNIQUE COMMENT '昵称',
   `token` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登录token',
   `avatar` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像',
   PRIMARY KEY (`id`) USING BTREE
