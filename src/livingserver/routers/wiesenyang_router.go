@@ -7,6 +7,6 @@ import (
 
 func init() {
 	// Added by Wiesenyang
-	beego.Router("/v1/user/login", &controllers.UserController{}, "POST:Login")
-	beego.Router("/v1/user/logout/?:token", &controllers.UserController{}, "POST:Logout")
+	beego.Router("/api/user/login", &controllers.UserController{}, "POST:Login")
+	beego.Router("/api/user/logout/?:token", &controllers.UserController{}, "POST:Logout")
 }

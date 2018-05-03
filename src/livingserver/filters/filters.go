@@ -8,7 +8,7 @@ import (
 )
 
 func IsLogin(ctx *context.Context) (bool, models.User) {
-	token := ctx.Input.Param("token")
+	token := ctx.Input.Param(":token")
 	fmt.Println("get token: ", token)
 	err, user := models.GetUserByToken(token)
 	return err, user
