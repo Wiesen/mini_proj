@@ -28,7 +28,7 @@ data:
 | ------ | ------ | ---- |
 | token  | string |      |
 
-## zhuxiao
+## 登出
 
 ### 请求
 
@@ -132,6 +132,7 @@ data:
 
 | 字段名      | 类型   | 备注       |
 | ----------- | ------ | ---------- |
+| emotion_id  | int    | 心情id     |
 | content     | string | 心情内容   |
 | label_id    | int    | 心情标签id |
 | label_name  | string | 心情标签名 |
@@ -156,19 +157,20 @@ GET  /api/emotion?label_id={label_id}& token={token} & pageno= {pageno}
 
 data[i]
 
-| 字段名      | 类型   | 备注           |
-| ----------- | ------ | -------------- |
-| content     | string | 心情内容       |
-| label_id    | int    | 心情标签id     |
-| label_name  | string | 心情标签名     |
-| strong      | int    | 强度           |
-| create_time | date   | 创建时间       |
-| poster      | int64  | 发布人id       |
-| nickname    | string | 发布人昵称     |
-| avatar      | string | url            |
-| like_cnt    | int    | 点赞数         |
-| comment_cnt | int    | 评论数         |
-| is_like     | int    | 用户是否点过赞 |
+| 字段名      | 类型   | 备注                         |
+| ----------- | ------ | ---------------------------- |
+| emotion_id  | int    | 心情id                       |
+| content     | string | 心情内容                     |
+| label_id    | int    | 心情标签id                   |
+| label_name  | string | 心情标签名                   |
+| strong      | int    | 强度                         |
+| create_time | date   | 创建时间                     |
+| poster      | int64  | 发布人id                     |
+| nickname    | string | 发布人昵称                   |
+| avatar      | string | url                          |
+| like_cnt    | int    | 点赞数                       |
+| comment_cnt | int    | 评论数                       |
+| is_like     | int    | 用户是否点过赞, 1点过, 0没有 |
 
 ## 发布评论
 
@@ -259,6 +261,8 @@ data[i]:
 | emotion_id | int64  | 心情id                                   |
 | comment    | string | 评论或回复内容                           |
 | poster     | int64  | 评论、点赞或回复的发布人id               |
+| nickname | string | 昵称 |
+| avatar | string | 头像 |
 | type       | int    | 1. 点赞； 2. 心情评论；3. 回复 |
 
 

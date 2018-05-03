@@ -151,3 +151,15 @@ func DeleteLike(id int) (err error) {
 	}
 	return
 }
+
+func GetLikeByUser(uid int) (bool, []*Like) {
+	o := orm.NewOrm()
+	qs := o.QueryTable("like")
+	var likes []*Like
+	num, err := qs.Filter("poster", uid).All(&likes)
+	if err != nil {
+		fmt.Println("query table failed, err info: %+v", err)
+	}
+	fmt.Println("Number of records retrieved in database:", num)
+	return (err != nil && err != orm.ErrNoRows), likes
+}
