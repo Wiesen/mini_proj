@@ -8,7 +8,9 @@ import (
 	"strconv"
 	// "strings"
 	"fmt"
+	"time"
 	"github.com/astaxie/beego"
+
 )
 
 // EmotionController operations for Emotion
@@ -312,28 +314,57 @@ func (c *EmotionController) GetAllEmotion() {
 }
 
 
-// func (c *EmotionController) PostEmotion() {
-// 	// var v models.Emotion
-// 	rsp := CommonRsp{RetCode : 0}
-// 	inputMap := make(map[string]interface{})
-// 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &inputMap); err == nil {
-// 		e := models.Emotion {
-// 			Content : inputMap["content"],
-// 			LabelId.Id : inputMap["label_id"],
-// 			Strong : inputMap["strong"],
-// 			CreateTime : 
-// 			Content : inputMap["content"],
-			
-// 		}
-// 	// 	if _, err := models.AddEmotion(&v); err == nil {
-// 	// 		c.Ctx.Output.SetStatus(201)
-// 	// 		c.Data["json"] = v
-// 	// 	} else {
-// 	// 		c.Data["json"] = err.Error()
-// 	// 	}
-// 	// } else {
-// 	// 	c.Data["json"] = err.Error()
-// 	}
-// 	c.Data["json"] = rsp
-// 	c.ServeJSON()
-// }
+func (c *EmotionController) PostEmotion() {
+	// var v models.Emotion
+	rsp := CommonRsp{RetCode : 0}
+
+	for {
+
+		// 获取url参数
+		token := c.GetString("token")
+		hasRows, user := models.GetUserByToken(token)
+		if !hasRows {
+			rsp.RetCode = -2
+			rsp.Message = fmt.Sprintf("Invalid token")
+			break
+		}
+
+		inputMap := make(map[string]interface{})
+		beego.ReadFromRequest(&c.Controller)
+		// flash := beego.NewFlash()
+		err := json.Unmarshal(c.Ctx.Input.RequestBody, &inputMap)
+		if err != nil {
+			rsp.RetCode = -1
+			rsp.Message = fmt.Sprint("parse request parameter failed, request body: ", string(c.Ctx.Input.RequestBody))
+			break
+		}
+		// u := models.User { Id : inputMap["poster"].(int) }
+		v := models.Emotion {
+			Content : inputMap["content"].(string),
+			LabelId : &models.Label{
+				Id :  int(inputMap["label_id"].(float64)),
+			},
+			Strong : int8(inputMap["strong"].(float64)),
+			CreateTime : time.Now(),
+			Visiable : int8(inputMap["visiable"].(float64)),
+			Poster : &models.User{
+				Id : user.Id,
+			},
+			CommentCnt : 0,
+			LikeCnt : 0,
+		}
+		
+		_, err = models.AddEmotion(&v)
+		if err != nil {
+			rsp.RetCode = -1
+			rsp.Message = err.Error() //fmt.Sprint("add emotion failed")
+			break
+		}
+		//SUCCESS
+		break;
+
+	}
+
+	c.Data["json"] = rsp
+	c.ServeJSON()
+}
