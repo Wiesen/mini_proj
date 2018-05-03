@@ -21,15 +21,6 @@ func init() {
 			),
 		),
 
-	// 	beego.NSNamespace("/emotion",
-	// 		beego.NSInclude(
-	// 			&controllers.EmotionController{},
-	// 		),
-	// 		beego.NSRouter("/self",
-	// 			&controllers.EmotionController{}, "get:GetEmotionByUser",
-	// 		),
-	// 	),
-
 		beego.NSNamespace("/label",
 			beego.NSInclude(
 				&controllers.LabelController{},
@@ -49,11 +40,4 @@ func init() {
 		),
 	)
 	beego.AddNamespace(ns)
-
-	// add by yyff
-	beego.Router("/api/emotion", &controllers.EmotionController{}, "get:GetAllEmotion")
-	beego.Router("/api/emotion", &controllers.EmotionController{}, "post:PostEmotion")
-	beego.Router("/api/emotion/self", &controllers.EmotionController{}, "get:GetEmotionByUser")
-	
-
 }

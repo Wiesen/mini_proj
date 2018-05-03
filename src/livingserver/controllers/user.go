@@ -6,9 +6,9 @@ import (
 	"livingserver/models"
 	_ "strconv"
 	_ "strings"
-	"livingserver/filters"
 	"github.com/astaxie/beego"
 	"github.com/sluu99/uuid"
+	"fmt"
 )
 
 // UserController operations for User
@@ -37,6 +37,7 @@ func (c *UserController) Post() {
 	input_table, output_table := make(map[string]interface{}), make(map[string]interface{})
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &input_table); err == nil {
 		phone_number, password, nickname := input_table["phone_number"], input_table["password"], input_table["nickname"]
+		fmt.Println("Create user:", phone_number, password, nickname)
 		if phone_number == nil || password == nil || nickname == nil {
 			return
 		}
@@ -59,29 +60,6 @@ func (c *UserController) Post() {
 	c.ServeJSON()
 }
 
-//// Put ...
-//// @Title Put
-//// @Description update the User
-//// @Param	id		path 	string	true		"The id you want to update"
-//// @Param	body		body 	models.User	true		"body for User content"
-//// @Success 200 {object} models.User
-//// @Failure 403 :id is not int
-//// @router /:id [put]
-//func (c *UserController) Put() {
-//	idStr := c.Ctx.Input.Param(":id")
-//	id, _ := strconv.Atoi(idStr)
-//	v := models.User{Id: id}
-//	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-//		if err := models.UpdateUserById(&v); err == nil {
-//			c.Data["json"] = "OK"
-//		} else {
-//			c.Data["json"] = err.Error()
-//		}
-//	} else {
-//		c.Data["json"] = err.Error()
-//	}
-//	c.ServeJSON()
-//}
 
 //// Delete ...
 //// @Title Delete
@@ -106,9 +84,10 @@ func (c *UserController) Post() {
 func (c *UserController) Login() {
 	input_table, output_table := make(map[string]interface{}), make(map[string]interface{})
 	beego.ReadFromRequest(&c.Controller)
-	flash := beego.NewFlash()
+	//flash := beego.NewFlash()
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &input_table); err == nil {
 		phone_number, password := input_table["phone_number"], input_table["password"]
+		fmt.Println("login:", phone_number, password)
 		if phone_number == nil || password == nil {
 			return
 		}
@@ -118,13 +97,13 @@ func (c *UserController) Login() {
 			output_table["ret_code"] = 0
 			output_table["data"] = map[string]string{"token": user.Token}
 		} else {
-			flash.Error("Invalid phone_number or password")
-			flash.Store(&c.Controller)
+			//flash.Error("Invalid phone_number or password")
+			//flash.Store(&c.Controller)
 			output_table["ret_code"], output_table["message"] = -1, "Invalid phone_number or password"
 		}
 	} else {
-		flash.Error("Invalid json format")
-		flash.Store(&c.Controller)
+		//flash.Error("Invalid json format")
+		//flash.Store(&c.Controller)
 		output_table["ret_code"], output_table["message"] = -1, "Invalid json data"
 	}
 	c.Data["json"] = output_table
@@ -135,7 +114,10 @@ func (c *UserController) Login() {
 func (c *UserController) Logout() {
 	table := make(map[string]interface{})
 	beego.ReadFromRequest(&c.Controller)
-	if err, user := filters.IsLogin(c.Ctx); err == true {
+	token := c.GetString("token")
+	fmt.Println("logout:", token)
+	if hasRows, user := models.GetUserByToken(token); hasRows {
+	//if err, user := filters.IsLogin(c.Ctx); err == true {
 		user.Token = ""
 		models.UpdateUserById(&user)
 		table["ret_code"] = 0
@@ -145,4 +127,39 @@ func (c *UserController) Logout() {
 	}
 	c.Data["json"] = table
 	c.ServeJSON()
+}
+
+// Get: Get user information
+func (c *UserController) GetUserInfo() {
+	token := c.Input().Get("token")
+	ret_data := make(map[string]interface{})
+	type UserInfoOutput struct {
+		Ret_code int `json:"ret_code"`
+		Message string `json:"message"`
+		Data map[string]interface{} `json:"data"`
+	}
+
+	// check token
+	exist,user := models.GetUserByToken(token)
+	if !exist {
+		ret := UserInfoOutput {
+			Ret_code: -2,
+			Message: "Invalid token",
+			Data: ret_data,
+		}
+		c.Data["json"] = &ret
+		c.ServeJSON()
+	} else {
+		ret_data["id"] = user.Id
+		ret_data["phone_number"] = user.PhoneNumber
+		ret_data["nickname"] = user.Nickname
+		ret_data["avatar"] = user.Avatar
+		ret := UserInfoOutput {
+			Ret_code: 0,
+			Message: "",
+			Data: ret_data,
+		}
+		c.Data["json"] = &ret
+		c.ServeJSON()
+	}
 }

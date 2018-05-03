@@ -136,7 +136,6 @@ func UpdateUserById(m *User) (err error) {
 			fmt.Println("Number of records updated in database:", num)
 		}
 	}
-	fmt.Println(err)
 	return err
 }
 

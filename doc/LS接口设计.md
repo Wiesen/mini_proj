@@ -2,7 +2,7 @@
 
 # 接口设计
 
-## 登录
+## 登录(done)
 
 ### 请求
 
@@ -28,11 +28,11 @@ data:
 | ------ | ------ | ---- |
 | token  | string |      |
 
-## 登出
+## 登出(done)
 
 ### 请求
 
-POST /api/logout?:token
+GET /api/logout?token={token}
 
 ### 响应
 
@@ -45,7 +45,7 @@ POST /api/logout?:token
 data:
 
 
-## 注册
+## 注册(done)
 
 ### 请求
 
@@ -65,36 +65,11 @@ POST /api/user
 | message  | string | 错误消息                             |
 | data     | []     |                                      |
 
-## 查看用户自身信息
-
-### 请求
-
-GET /api/user?token={token}
-
-### 响应
-
-| 字段名   | 类型   | 备注                                  |
-| -------- | ------ | ------------------------------------- |
-| ret_code | int    | 0. 成功； -1. 失败； -2 token验证失败 |
-| message  | string | 错误消息                              |
-| data     |        |                                       |
-
-data:
-
-| 字段名    | 类型   | 备注                                  |
-| --------- | ------ | ------------------------------------- |
-| id           | INT         |           |
-| phone_number | VARCHAR(64) | 手机号    |
-| nickname     | VARCHAR(64) | 昵称      |
-| avatar       | VARCHAR(64) | 头像      |
-
-
-
 ## 发布心情
 
 ### 请求
 
-POST  /api/emotion? token={token}
+POST  /api/emotion?token={token}
 
 | 字段名   | 类型   | 备注                     |
 | -------- | ------ | ------------------------ |
@@ -114,7 +89,7 @@ POST  /api/emotion? token={token}
 
 
 
-## 查看用户自身心情（“我的”界面）
+## 查看用户自身心情（“我的”界面）(done)
 
 ### 请求
 
@@ -139,7 +114,7 @@ data:
 | strong      | int    | 强度       |
 | create_time | date   | 创建时间   |
 
- ## 查询所有指定标签心情（“广场”界面）
+ ## 查询所有指定标签心情（“广场”界面）(done)
 
 ### 请求
 
@@ -172,6 +147,7 @@ data[i]
 | comment_cnt | int    | 评论数                       |
 | is_like     | int    | 用户是否点过赞, 1点过, 0没有 |
 
+
 ## 发布评论
 
 ### 请求
@@ -191,6 +167,7 @@ POST /api/comment? token={token}
 | ret_code | int    | 0. 成功； -1. 失败； -2 token验证失败 |
 | message  | string | 错误消息                             |
 | data     | []     |                                      |
+
 
 ## 查看心情下的评论
 
@@ -237,7 +214,6 @@ POST /api/like?token={token}
 | data     | []     |                                      |
 
 
-
 ## 查看动态
 
 >  动态：别人对自己心情的评论和点赞，以及心情下的回复
@@ -266,7 +242,26 @@ data[i]:
 | type       | int    | 1. 点赞； 2. 心情评论；3. 回复 |
 
 
+## 查看用户自身信息
 
-## 表情识别
+### 请求
 
-通过优图接口实现
+GET /api/user?token={token}
+
+### 响应
+
+| 字段名   | 类型   | 备注                                  |
+| -------- | ------ | ------------------------------------- |
+| ret_code | int    | 0. 成功； -1. 失败； -2 token验证失败 |
+| message  | string | 错误消息                              |
+| data     |        |                                       |
+
+data:
+
+| 字段名    | 类型   | 备注                                  |
+| --------- | ------ | ------------------------------------- |
+| id           | INT         |           |
+| phone_number | VARCHAR(64) | 手机号    |
+| nickname     | VARCHAR(64) | 昵称      |
+| avatar       | VARCHAR(64) | 头像      |
+
