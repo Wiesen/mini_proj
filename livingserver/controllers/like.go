@@ -5,7 +5,8 @@ import (
 	"errors"
 	"strconv"
 	"strings"
-
+	"fmt"
+	"time"
 	"github.com/Wiesen/mini_proj/livingserver/models"
 
 	"github.com/astaxie/beego"
@@ -18,11 +19,11 @@ type LikeController struct {
 
 // URLMapping ...
 func (c *LikeController) URLMapping() {
-	c.Mapping("Post", c.Post)
-	c.Mapping("GetOne", c.GetOne)
-	c.Mapping("GetAll", c.GetAll)
-	c.Mapping("Put", c.Put)
-	c.Mapping("Delete", c.Delete)
+	// c.Mapping("Post", c.Post)
+	// c.Mapping("GetOne", c.GetOne)
+	// c.Mapping("GetAll", c.GetAll)
+	// c.Mapping("Put", c.Put)
+	// c.Mapping("Delete", c.Delete)
 }
 
 // Post ...
@@ -169,4 +170,52 @@ func (c *LikeController) Delete() {
 		c.Data["json"] = err.Error()
 	}
 	c.ServeJSON()
+}
+
+
+
+// following is added by yyff
+func (c *LikeController) PostLike() {
+	rsp := CommonRsp{RetCode: 0}
+
+	defer func() {
+		c.Data["json"] = rsp
+		c.ServeJSON()
+	}()
+
+	token := c.GetString("token")
+	hasRows, user := models.GetUserByToken(token)
+	if !hasRows {
+		rsp.RetCode = -2
+		rsp.Message = fmt.Sprintf("Invalid token")
+		return
+	}
+
+	// inputMap := make(map[string]interface{})
+	var req PostLikeReq
+	beego.ReadFromRequest(&c.Controller)
+	err := json.Unmarshal(c.Ctx.Input.RequestBody, &req)
+	if err != nil {
+		rsp.RetCode = -1
+		rsp.Message = fmt.Sprint("parse request parameter failed, request body: ", string(c.Ctx.Input.RequestBody))
+		return
+	}
+
+	v := models.Like {
+		EmotionId : &models.Emotion{
+			Id : req.EmotionID,
+		},
+		Poster: &models.User{
+			Id: user.Id,
+		},
+		CreateTime : time.Now(),
+	}
+	
+	_, err = models.AddLike(&v)
+	if err != nil {
+		rsp.RetCode = -1
+		rsp.Message = err.Error() 
+		return
+	}
+	
 }

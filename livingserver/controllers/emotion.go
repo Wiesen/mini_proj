@@ -326,7 +326,7 @@ func (c *EmotionController) PostEmotion() {
 
 		inputMap := make(map[string]interface{})
 		beego.ReadFromRequest(&c.Controller)
-		// flash := beego.NewFlash()
+
 		err := json.Unmarshal(c.Ctx.Input.RequestBody, &inputMap)
 		if err != nil {
 			rsp.RetCode = -1
@@ -352,7 +352,7 @@ func (c *EmotionController) PostEmotion() {
 		_, err = models.AddEmotion(&v)
 		if err != nil {
 			rsp.RetCode = -1
-			rsp.Message = err.Error() //fmt.Sprint("add emotion failed")
+			rsp.Message = err.Error()
 			break
 		}
 		//SUCCESS

@@ -22,11 +22,11 @@ func init() {
 			),
 		),
 
-		beego.NSNamespace("/like",
-			beego.NSInclude(
-				&controllers.LikeController{},
-			),
-		),
+		// beego.NSNamespace("/like",
+		// 	beego.NSInclude(
+		// 		&controllers.LikeController{},
+		// 	),
+		// ),
 	)
 	beego.AddNamespace(ns)
 }

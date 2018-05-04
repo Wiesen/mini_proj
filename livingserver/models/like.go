@@ -152,6 +152,8 @@ func DeleteLike(id int) (err error) {
 	return
 }
 
+
+// following is added by yyff
 func GetLikeByUser(uid int) (bool, []*Like) {
 	o := orm.NewOrm()
 	qs := o.QueryTable("like")
@@ -163,3 +165,4 @@ func GetLikeByUser(uid int) (bool, []*Like) {
 	fmt.Println("Number of records retrieved in database:", num)
 	return (err != nil && err != orm.ErrNoRows), likes
 }
+
