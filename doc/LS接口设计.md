@@ -6,7 +6,7 @@
 
 ### 请求
 
-POST /api/login
+POST /api/user/login
 
 | 字段名       | 类型   | 备注   |
 | ------------ | ------ | ------ |
@@ -32,7 +32,7 @@ data:
 
 ### 请求
 
-GET /api/logout?token={token}
+GET /api/user/logout?token={token}
 
 ### 响应
 
