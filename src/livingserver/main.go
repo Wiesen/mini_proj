@@ -1,14 +1,22 @@
 package main
 
 import (
+	"os"
+
 	_ "livingserver/routers"
+
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func init() {
-	orm.RegisterDataBase("default", "mysql", "root:123456@tcp(127.0.0.1:3306)/livingdb")
+	sqlConfig := os.Getenv("LV_SQL")
+	if 0 == len(sqlConfig) {
+		// for local debug
+		sqlConfig = "root:123456@tcp(127.0.0.1:3306)/livingdb"
+	}
+	orm.RegisterDataBase("default", "mysql", sqlConfig)
 }
 
 func main() {
@@ -19,4 +27,3 @@ func main() {
 	}
 	beego.Run()
 }
-
