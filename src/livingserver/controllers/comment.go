@@ -42,7 +42,7 @@ func (c *CommentController) PostComment() {
 	}
 	v := models.Comment{
 		Content:    req.Comment,
-		EmotionId:  &models.Emotion{Id: req.EmotionID},
+		Emotion:  	&models.Emotion{Id: req.EmotionID},
 		Poster:     &models.User{Id: user.Id},
 		CreateTime: time.Now(),
 		Rspto:      req.RspTo,
@@ -99,7 +99,7 @@ func (c *CommentController) GetAllComment() {
 	// 构造响应
 	for i := 0; i < len(comments); i++ {
 		m := make(map[string]interface{})
-		m["emotion_id"] = comments[i].EmotionId.Id
+		m["emotion_id"] = comments[i].Emotion.Id
 		m["comment"] = comments[i].Content
 		m["poster"] = comments[i].Poster.Id
 		m["poster_nickname"] = comments[i].Poster.Nickname

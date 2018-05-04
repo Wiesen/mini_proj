@@ -28,14 +28,20 @@ func (c *UserController) Register() {
 		if phone_number == nil || password == nil || nickname == nil || qq_number == nil {
 			return
 		}
-		user := models.User{PhoneNumber: phone_number.(string), Password: password.(string), Nickname: nickname.(string), QqNumber: qq_number.(string)}
-		fmt.Println("Create user:", user.PhoneNumber, user.Password, user.Nickname, user.QqNumber)
+
+		avatar := "0"
+		if _, ok := input_table["avatar"]; ok {
+			avatar = input_table["avatar"].(string)
+		}
+
+		user := models.User{PhoneNumber: phone_number.(string), Password: password.(string), Nickname: nickname.(string), QqNumber: qq_number.(string), Avatar: avatar}
+		fmt.Println("Create user:", user.PhoneNumber, user.Password, user.Nickname, user.QqNumber, user.Avatar)
+
 		if id, err := models.AddUser(&user); err == nil {
 			user.Token = uuid.Rand().Hex()
 			models.UpdateUserById(&user)
 			output_table["ret_code"] = 0
 			output_table["data"] = map[string]string{"token": user.Token}
-			//c.Ctx.Output.SetStatus(201)
 		} else {
 			fmt.Println("Add user failed:", id, err)
 			output_table["ret_code"] = -1

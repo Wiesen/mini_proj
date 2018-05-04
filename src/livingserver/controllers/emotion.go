@@ -238,6 +238,7 @@ func (c *EmotionController) GetAllEmotion() {
 		rsp.Message = fmt.Sprintf("Invalid pageno")
 		return
 	}
+	fmt.Println("get url param")
 
 	// 获取心情列表
 	var isErr bool
@@ -252,6 +253,7 @@ func (c *EmotionController) GetAllEmotion() {
 		rsp.Message = fmt.Sprintf("query 'emotion' failed")
 		return
 	}
+	fmt.Println("retrive emotion list, length:", len(emotions))
 
 	// 获取用户点赞列表
 	isErr, likes := models.GetLikeByUser(user.Id)
@@ -260,6 +262,7 @@ func (c *EmotionController) GetAllEmotion() {
 		rsp.Message = fmt.Sprintf("query 'like' failed")
 		return
 	}
+	fmt.Println("retrive like list, length:", len(likes))
 
 	// 建立点赞查询map
 	likeMap := make(map[int]int)
@@ -268,6 +271,7 @@ func (c *EmotionController) GetAllEmotion() {
 		likeMap[eid] = 1
 	}
 
+	fmt.Println("start to encapsulate response package")
 	// 构造响应
 	for i := 0; i < len(emotions); i++ {
 		m := make(map[string]interface{})
@@ -280,7 +284,6 @@ func (c *EmotionController) GetAllEmotion() {
 		m["poster"] = emotions[i].Poster.Id
 		m["nickname"] = emotions[i].Poster.Nickname
 		m["avatar"] = emotions[i].Poster.Avatar
-		m["create_time"] = emotions[i].CreateTime
 		m["like_cnt"] = emotions[i].LikeCnt
 		m["comment_cnt"] = emotions[i].CommentCnt
 
@@ -290,11 +293,10 @@ func (c *EmotionController) GetAllEmotion() {
 		} else {
 			m["is_like"] = 0
 		}
-
+		fmt.Println("response pack:", i, m["emotion_id"], m["content"], m["label_id"], m["label_name"], m["strong"],
+			m["create_time"], m["poster"], m["nickname"], m["avatar"])
 		rsp.Data = append(rsp.Data, m)
 	}
-
-
 }
 
 func (c *EmotionController) PostEmotion() {

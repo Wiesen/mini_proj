@@ -9,7 +9,7 @@ import (
 
 type Comment struct {
 	Id         int       `orm:"column(id);auto"`
-	EmotionId  *Emotion  `orm:"column(emotion_id);rel(fk)" description:"心情ID"`
+	Emotion  *Emotion  `orm:"column(emotion_id);rel(fk)" description:"心情ID"`
 	Content    string    `orm:"column(content);size(256)" description:"评论内容"`
 	Poster     *User     `orm:"column(poster);rel(fk)" description:"发布人id"`
 	CreateTime time.Time `orm:"column(create_time);type(datetime)" description:"时间"`
@@ -31,6 +31,34 @@ func init() {
 // 	id, err = o.Insert(m)
 // 	return
 // }
+func AddComment(m *Comment) (id int64, err error) {
+	o := orm.NewOrm()
+	defer func() {
+		if err != nil {
+			o.Rollback()
+		} else {
+			o.Commit()
+		}
+	}()
+
+	// 事务
+	err = o.Begin()
+	id, err = o.Insert(m)
+	if err != nil {
+		return
+	}
+
+	v := &Emotion{ Id : m.Emotion.Id}
+	err = o.Read(v)
+	if err != nil {
+		return
+	}
+
+	v.CommentCnt++
+	_, err = o.Update(v)
+
+	return
+}
 
 // GetCommentById retrieves Comment by Id. Returns error if
 // Id doesn't exist
@@ -94,31 +122,3 @@ func GetCommentByEmotion(emotionId, pageNo int) (bool, []*Comment) {
 	return (err != nil && err != orm.ErrNoRows), comments
 }
 
-
-func AddComment(m *Comment) (id int64, err error) {
-	o := orm.NewOrm()
-	defer func() {
-		if err != nil {
-			o.Rollback()
-		} else {
-			o.Commit()
-		}
-	}()
-
-	// 事务
-	err = o.Begin()
-	id, err = o.Insert(m)
-	if err != nil {
-		return
-	}
-
-	v := &Emotion{ Id : m.EmotionId.Id}
-	err = o.Read(v)
-	if err != nil {
-		return
-	}
-
-	v.CommentCnt++
-	_, err = o.Update(v)
-	return
-}

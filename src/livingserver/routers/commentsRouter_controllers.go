@@ -127,6 +127,14 @@ func init() {
 			MethodParams: param.Make(),
 			Params: nil})
 
+	beego.GlobalControllerRouter["livingserver/controllers:MessageController"] = append(beego.GlobalControllerRouter["livingserver/controllers:MessageController"],
+		beego.ControllerComments{
+			Method: "GetAllMessage",
+			Router: `/`,
+			AllowHTTPMethods: []string{"get"},
+			MethodParams: param.Make(),
+			Params: nil})
+
 	beego.GlobalControllerRouter["livingserver/controllers:UserController"] = append(beego.GlobalControllerRouter["livingserver/controllers:UserController"],
 		beego.ControllerComments{
 			Method: "Register",

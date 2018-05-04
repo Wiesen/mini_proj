@@ -58,6 +58,7 @@ POST /api/user
 | nickname     | string | 昵称            |
 | password     | string | 密码           |
 
+| avatar       | string  | 头像(optional) |
 ### 响应
 
 | 字段名   | 类型   | 备注                                 |
@@ -232,16 +233,32 @@ GET /api/message? token={token} & pageno= {pageno}
 | message  | string | 错误消息                             |
 | data     | []     |                                      |
 
-data[i]:
 
 | 字段名     | 类型   | 备注                                     |
 | ---------- | ------ | ---------------------------------------- |
-| emotion_id | int64  | 心情id                                   |
-| comment    | string | 评论或回复内容                           |
-| poster     | int64  | 评论、点赞或回复的发布人id               |
-| nickname | string | 昵称 |
-| avatar | string | 头像 |
-| type       | int    | 1. 点赞； 2. 心情评论；3. 回复 |
+| type       | int    | 1. 点赞； 2. 心情评论or回复 |
+| pack       | []     |
+
+for type == 1, the pack format is following:
+
+| 字段名      | 类型   | 备注                            |
+| ----------- | ------ | ------------------------------- |
+| comment_id  | int64  | 评论ID                          |
+| comment     | string | 评论内容                        |
+| poster      | int64  | 发布人id                        |
+|poster_nickname| string | 发布人nickname                  |
+| create_time | date   | 时间                            |
+| rspto       | int64  | 回复人id，为0时表示不回复指定人 |
+|rspto_nickname| string | 回复人nickname, 为NULL时表示不回复指定人|
+
+for type == 2, the pack format is following:
+
+| 字段名      | 类型   | 备注                            |
+| ----------- | ------ | ------------------------------- |
+| comment_id  | int64  | 点赞ID                          |
+| poster      | int64  | 发布人id                        |
+|poster_nickname| string | 发布人nickname                  |
+| create_time | date   | 时间                            |
 
 
 ## 查看用户自身信息(done)

@@ -25,14 +25,6 @@ func init() {
 	orm.RegisterModel(new(Like))
 }
 
-// AddLike insert a new Like into database and returns
-// last inserted Id on success.
-// func AddLike(m *Like) (id int64, err error) {
-// 	o := orm.NewOrm()
-// 	id, err = o.Insert(m)
-// 	return
-// }
-
 // GetLikeById retrieves Like by Id. Returns error if
 // Id doesn't exist
 func GetLikeById(id int) (v *Like, err error) {
@@ -166,9 +158,16 @@ func GetLikeByUser(uid int) (bool, []*Like) {
 	return (err != nil && err != orm.ErrNoRows), likes
 }
 
-
+// AddLike insert a new Like into database and returns
+// last inserted Id on success.
+// func AddLike(m *Like) (id int64, err error) {
+// 	o := orm.NewOrm()
+// 	id, err = o.Insert(m)
+// 	return
+// }
 func AddLike(m *Like) (id int64, err error) {
 	o := orm.NewOrm()
+
 	defer func() {
 		if err != nil {
 			o.Rollback()
