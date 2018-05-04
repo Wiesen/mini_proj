@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/astaxie/beego"
+	"fmt"
 )
 
 // LabelController operations for Label
@@ -32,17 +33,29 @@ func (c *LabelController) URLMapping() {
 // @Failure 403 body is empty
 // @router / [post]
 func (c *LabelController) Post() {
-	var v models.Label
-	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-		if _, err := models.AddLabel(&v); err == nil {
-			c.Ctx.Output.SetStatus(201)
-			c.Data["json"] = v
-		} else {
-			c.Data["json"] = err.Error()
+	rsp := CommonRsp{RetCode : 0}
+	inputMap := make(map[string]interface{})
+	beego.ReadFromRequest(&c.Controller)
+	for {
+		if err := json.Unmarshal(c.Ctx.Input.RequestBody, &inputMap); err != nil {
+			rsp.RetCode = -1
+			rsp.Message = fmt.Sprint("parse request parameter failed, request body: ", string(c.Ctx.Input.RequestBody))
+			break
 		}
-	} else {
-		c.Data["json"] = err.Error()
+		v := models.Label {
+			LabelName: inputMap["label_name"].(string),
+		}
+
+		if _, err := models.AddLabel(&v); err != nil {
+			rsp.RetCode = -1
+			rsp.Message = err.Error()
+			break
+		}
+		//SUCCESS
+		break
 	}
+
+	c.Data["json"] = rsp
 	c.ServeJSON()
 }
 

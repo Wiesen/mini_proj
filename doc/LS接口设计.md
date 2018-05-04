@@ -267,3 +267,25 @@ data:
 | nickname     | VARCHAR(64) | 昵称      |
 | avatar       | VARCHAR(64) | 头像      |
 
+
+## create label (done)
+
+### 请求
+
+POST /api/label
+
+**todo: only for root user (validate by token)**
+
+| 字段名     | 类型  | 备注   |
+| ---------- | ----- | ------ |
+| label_name | string | label name|
+
+
+### 响应
+
+
+| 字段名   | 类型   | 备注                                 |
+| -------- | ------ | ------------------------------------ |
+| ret_code | int    | 0. 成功； -1. 失败； -2 token验证失败 |
+| message  | string | 错误消息                             |
+| data     | []     |                                      |
