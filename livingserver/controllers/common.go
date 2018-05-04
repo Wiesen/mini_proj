@@ -11,6 +11,12 @@ type PostEmotionReq struct {
 	Visiable	int8		`json:"visiable"`
 }
 
+type PostCommentReq struct {
+	Comment		string		`json:"comment"`
+	EmotionID	int			`json:"emotion_id"`
+	RspTo		int			`json:"rspto"`
+}
+
 type CommonRsp struct{
 	RetCode		int				`json:"ret_code"`
 	Message		string			`json:"message"`

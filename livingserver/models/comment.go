@@ -26,11 +26,11 @@ func init() {
 
 // AddComment insert a new Comment into database and returns
 // last inserted Id on success.
-func AddComment(m *Comment) (id int64, err error) {
-	o := orm.NewOrm()
-	id, err = o.Insert(m)
-	return
-}
+// func AddComment(m *Comment) (id int64, err error) {
+// 	o := orm.NewOrm()
+// 	id, err = o.Insert(m)
+// 	return
+// }
 
 // GetCommentById retrieves Comment by Id. Returns error if
 // Id doesn't exist
@@ -92,4 +92,33 @@ func GetCommentByEmotion(emotionId, pageNo int) (bool, []*Comment) {
 		Limit(PAGE_SIZE, pageNo*PAGE_SIZE).All(&comments)
 	fmt.Println("Number of records retrieved in database:", num)
 	return (err != nil && err != orm.ErrNoRows), comments
+}
+
+
+func AddComment(m *Comment) (id int64, err error) {
+	o := orm.NewOrm()
+	defer func() {
+		if err != nil {
+			o.Rollback()
+		} else {
+			o.Commit()
+		}
+	}()
+
+	// 事务
+	err = o.Begin()
+	id, err = o.Insert(m)
+	if err != nil {
+		return
+	}
+
+	v := &Emotion{ Id : m.EmotionId.Id}
+	err = o.Read(v)
+	if err != nil {
+		return
+	}
+
+	v.CommentCnt++
+	_, err = o.Update(v)
+	return
 }
