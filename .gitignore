@@ -30,8 +30,7 @@ _testmain.go
 release
 main
 
-livingserver.exe
-livingserver
+livingserver*
 !livingserver/
 
 lastupdate.tmp
