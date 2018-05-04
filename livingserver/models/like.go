@@ -27,11 +27,11 @@ func init() {
 
 // AddLike insert a new Like into database and returns
 // last inserted Id on success.
-func AddLike(m *Like) (id int64, err error) {
-	o := orm.NewOrm()
-	id, err = o.Insert(m)
-	return
-}
+// func AddLike(m *Like) (id int64, err error) {
+// 	o := orm.NewOrm()
+// 	id, err = o.Insert(m)
+// 	return
+// }
 
 // GetLikeById retrieves Like by Id. Returns error if
 // Id doesn't exist
@@ -166,3 +166,32 @@ func GetLikeByUser(uid int) (bool, []*Like) {
 	return (err != nil && err != orm.ErrNoRows), likes
 }
 
+
+func AddLike(m *Like) (id int64, err error) {
+	o := orm.NewOrm()
+	defer func() {
+		if err != nil {
+			o.Rollback()
+		} else {
+			o.Commit()
+		}
+	}()
+
+	// 事务
+	err = o.Begin()
+	id, err = o.Insert(m)
+	if err != nil {
+		return
+	}
+
+	v := &Emotion{ Id : m.EmotionId.Id}
+	err = o.Read(v)
+	if err != nil {
+		return
+	}
+
+	v.LikeCnt++
+	_, err = o.Update(v)
+	return
+
+}

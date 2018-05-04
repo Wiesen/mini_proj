@@ -179,6 +179,7 @@ func (c *LikeController) PostLike() {
 	rsp := CommonRsp{RetCode: 0}
 
 	defer func() {
+
 		c.Data["json"] = rsp
 		c.ServeJSON()
 	}()
@@ -191,7 +192,6 @@ func (c *LikeController) PostLike() {
 		return
 	}
 
-	// inputMap := make(map[string]interface{})
 	var req PostLikeReq
 	beego.ReadFromRequest(&c.Controller)
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &req)
@@ -210,12 +210,12 @@ func (c *LikeController) PostLike() {
 		},
 		CreateTime : time.Now(),
 	}
-	
+
+
 	_, err = models.AddLike(&v)
 	if err != nil {
 		rsp.RetCode = -1
 		rsp.Message = err.Error() 
 		return
-	}
-	
+	}	
 }
