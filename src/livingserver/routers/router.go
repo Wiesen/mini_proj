@@ -15,12 +15,6 @@ import (
 func init() {
 	ns := beego.NewNamespace("/api",
 
-		beego.NSNamespace("/comment",
-			beego.NSInclude(
-				&controllers.CommentController{},
-			),
-		),
-
 		beego.NSNamespace("/label",
 			beego.NSInclude(
 				&controllers.LabelController{},
@@ -30,12 +24,6 @@ func init() {
 		beego.NSNamespace("/like",
 			beego.NSInclude(
 				&controllers.LikeController{},
-			),
-		),
-
-		beego.NSNamespace("/user",
-			beego.NSInclude(
-				&controllers.UserController{},
 			),
 		),
 	)

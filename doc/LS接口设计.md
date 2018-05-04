@@ -54,7 +54,8 @@ POST /api/user
 | 字段名       | 类型   | 备注           |
 | ------------ | ------ | -------------- |
 | phone_number | string | 手机号         |
-| nickname     | string | 昵称，可以重复 |
+| qq_number     | string | qq           |
+| nickname     | string | 昵称            |
 | password     | string | 密码           |
 
 ### 响应
@@ -77,7 +78,6 @@ POST  /api/emotion?token={token}
 | label_id | int    | 心情标签id               |
 | strong   | int    | 强度                     |
 | visiable | int    | 1. 个人可见；2. 社区可见 |
-| poster   | int    | 发布人id                 |
 
 ### 响应
 
@@ -148,7 +148,7 @@ data[i]
 | is_like     | int    | 用户是否点过赞, 1点过, 0没有 |
 
 
-## 发布评论
+## 发布评论(done)
 
 ### 请求
 
@@ -169,7 +169,7 @@ POST /api/comment? token={token}
 | data     | []     |                                      |
 
 
-## 查看心情下的评论
+## 查看心情下的评论(done)
 
 ### 请求
 
@@ -187,11 +187,13 @@ data[i]:
 
 | 字段名      | 类型   | 备注                            |
 | ----------- | ------ | ------------------------------- |
-| emotion_id  | int64  | 心情ID                          |
+| comment_id  | int64  | 评论ID                          |
 | comment     | string | 评论内容                        |
 | poster      | int64  | 发布人id                        |
+|poster_nickname| string | 发布人nickname                  |
 | create_time | date   | 时间                            |
 | rspto       | int64  | 回复人id，为0时表示不回复指定人 |
+|rspto_nickname| string | 回复人nickname, 为NULL时表示不回复指定人|
 
 
 
@@ -242,7 +244,7 @@ data[i]:
 | type       | int    | 1. 点赞； 2. 心情评论；3. 回复 |
 
 
-## 查看用户自身信息
+## 查看用户自身信息(done)
 
 ### 请求
 

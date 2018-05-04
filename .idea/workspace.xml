@@ -2,17 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ccc00a38-7b1a-47dd-ba6f-e99d0ad4510a" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/livingserver/routers/getuserinfo.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/livingserver/routers/yyff.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/livingserver" beforeDir="false" afterPath="$PROJECT_DIR$/bin/livingserver" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/doc/LS接口设计.md" beforeDir="false" afterPath="$PROJECT_DIR$/doc/LS接口设计.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/livingserver/controllers/comment.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/livingserver/controllers/comment.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/livingserver/controllers/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/livingserver/controllers/user.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/livingserver/lastupdate.tmp" beforeDir="false" afterPath="$PROJECT_DIR$/src/livingserver/lastupdate.tmp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/livingserver/livingserver" beforeDir="false" afterPath="$PROJECT_DIR$/src/livingserver/livingserver" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/livingserver/models/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/livingserver/models/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/livingserver/models/comment.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/livingserver/models/comment.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/livingserver/routers/commentsRouter_controllers.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/livingserver/routers/commentsRouter_controllers.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/livingserver/routers/router.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/livingserver/routers/router.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/livingserver/routers/wiesenyang_router.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/livingserver/routers/wiesenyang_router.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/livingserver/routers/yyff.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/livingserver/routers/yyff.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -22,32 +23,41 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.40622142">
+    <splitter split-orientation="horizontal" split-proportion="0.4611162">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="emotion.go" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/livingserver/controllers/emotion.go">
+          <file leaf-file-name="LS数据表设计.md" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/doc/LS数据表设计.md">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-1238">
-                  <caret line="223" column="24" selection-start-line="223" selection-start-column="24" selection-end-line="223" selection-end-column="24" />
+                <state relative-caret-position="240">
+                  <caret line="10" column="24" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="user.go" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/livingserver/controllers/user.go">
+          <file leaf-file-name="LS接口设计.md" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/doc/LS接口设计.md">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="298">
-                  <caret line="126" column="5" selection-start-line="126" selection-start-column="5" selection-end-line="126" selection-end-column="5" />
+                <state relative-caret-position="418">
+                  <caret line="79" column="39" selection-start-line="79" selection-start-column="39" selection-end-line="79" selection-end-column="39" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="livingdb.sql" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/script/livingdb.sql">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="438">
+                  <caret line="48" column="38" selection-start-line="48" selection-end-line="49" />
                 </state>
               </provider>
             </entry>
           </file>
           <file leaf-file-name="user.go" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/livingserver/models/user.go">
+            <entry file="file://$PROJECT_DIR$/src/livingserver/controllers/user.go">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="360">
-                  <caret line="157" column="5" selection-start-line="157" selection-start-column="5" selection-end-line="157" selection-end-column="5" />
+                <state relative-caret-position="-960">
+                  <caret line="26" column="28" selection-start-line="26" selection-start-column="28" selection-end-line="26" selection-end-column="28" />
                 </state>
               </provider>
             </entry>
@@ -55,41 +65,41 @@
         </leaf>
       </split-first>
       <split-second>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="LS数据表设计.md" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/doc/LS数据表设计.md">
+        <leaf>
+          <file leaf-file-name="emotion.go" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/livingserver/controllers/emotion.go">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="414">
-                  <caret line="18" column="46" selection-start-line="18" selection-start-column="46" selection-end-line="18" selection-end-column="46" />
+                <state relative-caret-position="-12">
+                  <caret line="316" column="39" selection-start-line="316" selection-start-column="28" selection-end-line="316" selection-end-column="39" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="LS接口设计.md" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/doc/LS接口设计.md">
+          <file leaf-file-name="comment.go" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/livingserver/models/comment.go">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1704">
-                  <caret line="71" column="19" selection-start-line="71" selection-start-column="19" selection-end-line="71" selection-end-column="19" />
+                <state relative-caret-position="480">
+                  <caret line="72" column="10" selection-start-line="72" selection-start-column="10" selection-end-line="72" selection-end-column="10" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="wiesenyang_router.go" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/livingserver/routers/wiesenyang_router.go">
+          <file leaf-file-name="comment.go" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/livingserver/controllers/comment.go">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="96">
-                  <caret line="4" column="15" selection-start-line="4" selection-start-column="15" selection-end-line="4" selection-end-column="15" />
+                <state relative-caret-position="466">
+                  <caret line="26" selection-start-line="26" selection-end-line="26" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="router.go" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/livingserver/routers/router.go">
+          <file leaf-file-name="yyff.go" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/livingserver/routers/yyff.go">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="912">
-                  <caret line="42" selection-start-line="42" selection-end-line="42" />
+                <state relative-caret-position="240">
+                  <caret line="10" column="84" selection-start-line="10" selection-start-column="84" selection-end-line="10" selection-end-column="84" />
                   <folding>
-                    <element signature="e#301#367#0" expanded="true" />
+                    <element signature="e#17#83#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -119,6 +129,8 @@
       <find>fmt</find>
       <find>filter</find>
       <find>IsLogin</find>
+      <find>common</find>
+      <find>user</find>
     </findStrings>
   </component>
   <component name="GOROOT" path="/usr/local/go" />
@@ -131,14 +143,17 @@
         <option value="$PROJECT_DIR$/src/livingserver/routers/usersRouter_controllers.go" />
         <option value="$PROJECT_DIR$/src/livingserver/routers/commentsRouter_controllers.go" />
         <option value="$PROJECT_DIR$/script/livingdb.sql" />
-        <option value="$PROJECT_DIR$/src/livingserver/routers/yyff.go" />
         <option value="$PROJECT_DIR$/src/livingserver/filters/filters.go" />
-        <option value="$PROJECT_DIR$/doc/LS接口设计.md" />
         <option value="$PROJECT_DIR$/src/livingserver/models/user.go" />
         <option value="$PROJECT_DIR$/src/livingserver/routers/getuserinfo.go" />
-        <option value="$PROJECT_DIR$/src/livingserver/controllers/user.go" />
+        <option value="$PROJECT_DIR$/src/livingserver/models/comment.go" />
         <option value="$PROJECT_DIR$/src/livingserver/routers/wiesenyang_router.go" />
         <option value="$PROJECT_DIR$/src/livingserver/routers/router.go" />
+        <option value="$PROJECT_DIR$/src/livingserver/controllers/user.go" />
+        <option value="$PROJECT_DIR$/src/livingserver/controllers/comment.go" />
+        <option value="$PROJECT_DIR$/src/livingserver/controllers/emotion.go" />
+        <option value="$PROJECT_DIR$/src/livingserver/routers/yyff.go" />
+        <option value="$PROJECT_DIR$/doc/LS接口设计.md" />
       </list>
     </option>
   </component>
@@ -196,21 +211,7 @@
               <item name="mini_proj" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="livingserver" type="462c0819:PsiDirectoryNode" />
-              <item name="conf" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mini_proj" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mini_proj" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="livingserver" type="462c0819:PsiDirectoryNode" />
               <item name="controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mini_proj" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mini_proj" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="livingserver" type="462c0819:PsiDirectoryNode" />
-              <item name="filters" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="mini_proj" type="b2602c69:ProjectViewProjectNode" />
@@ -287,7 +288,21 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="2" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/src/livingserver/controllers/comment.go</url>
+          <line>2</line>
+          <properties />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/src/livingserver/models/comment.go</url>
+          <line>52</line>
+          <properties />
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="4" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -323,6 +338,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
           <caret line="12" selection-start-line="12" selection-end-line="12" />
+          <folding>
+            <element signature="e#17#83#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -385,6 +403,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
           <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+          <folding>
+            <element signature="e#17#83#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -467,27 +488,6 @@
         <state relative-caret-position="-3470" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/livingserver/controllers/common.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/livingserver/controllers/emotion.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1238">
-          <caret line="223" column="24" selection-start-line="223" selection-start-column="24" selection-end-line="223" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/script/livingdb.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="792">
-          <caret line="93" column="79" selection-start-line="91" selection-start-column="75" selection-end-line="93" selection-end-column="79" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/livingserver/main.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -495,20 +495,6 @@
           <folding>
             <element signature="e#14#146#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/doc/LS接口设计.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1704">
-          <caret line="71" column="19" selection-start-line="71" selection-start-column="19" selection-end-line="71" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/doc/LS数据表设计.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="18" column="46" selection-start-line="18" selection-start-column="46" selection-end-line="18" selection-end-column="46" />
         </state>
       </provider>
     </entry>
@@ -536,20 +522,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/livingserver/models/user.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="157" column="5" selection-start-line="157" selection-start-column="5" selection-end-line="157" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/livingserver/controllers/user.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="126" column="5" selection-start-line="126" selection-start-column="5" selection-end-line="126" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/livingserver/routers/commentsRouter_controllers.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-3182">
@@ -557,30 +529,106 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/livingserver/routers/yyff.go">
+    <entry file="file://$PROJECT_DIR$/src/livingserver/controllers/common.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="8" column="18" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
+        <state relative-caret-position="72">
+          <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/livingserver/models/emotion.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="148" column="24" selection-start-line="148" selection-start-column="24" selection-end-line="148" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Makefile">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/livingserver/models/user.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="33" column="25" selection-start-line="33" selection-start-column="25" selection-end-line="33" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/livingserver/routers/router.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="648">
+          <caret line="27" column="9" selection-start-line="27" selection-start-column="9" selection-end-line="27" selection-end-column="9" />
           <folding>
-            <element signature="e#17#83#0" expanded="true" />
+            <element signature="e#301#367#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/livingserver/routers/wiesenyang_router.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="4" column="15" selection-start-line="4" selection-start-column="15" selection-end-line="4" selection-end-column="15" />
+        <state relative-caret-position="336">
+          <caret line="14" column="36" lean-forward="true" selection-start-line="14" selection-start-column="36" selection-end-line="14" selection-end-column="36" />
+          <folding>
+            <element signature="e#17#83#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/livingserver/routers/router.go">
+    <entry file="file://$PROJECT_DIR$/doc/LS数据表设计.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="912">
-          <caret line="42" selection-start-line="42" selection-end-line="42" />
+        <state relative-caret-position="240">
+          <caret line="10" column="24" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/livingserver/controllers/user.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-960">
+          <caret line="26" column="28" selection-start-line="26" selection-start-column="28" selection-end-line="26" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/livingdb.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="438">
+          <caret line="48" column="38" selection-start-line="48" selection-end-line="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/livingserver/models/comment.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="72" column="10" selection-start-line="72" selection-start-column="10" selection-end-line="72" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/livingserver/controllers/emotion.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-12">
+          <caret line="316" column="39" selection-start-line="316" selection-start-column="28" selection-end-line="316" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/livingserver/routers/yyff.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="10" column="84" selection-start-line="10" selection-start-column="84" selection-end-line="10" selection-end-column="84" />
           <folding>
-            <element signature="e#301#367#0" expanded="true" />
+            <element signature="e#17#83#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/livingserver/controllers/comment.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="466">
+          <caret line="26" selection-start-line="26" selection-end-line="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/doc/LS接口设计.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="79" column="39" selection-start-line="79" selection-start-column="39" selection-end-line="79" selection-end-column="39" />
         </state>
       </provider>
     </entry>

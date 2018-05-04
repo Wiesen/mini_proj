@@ -16,39 +16,31 @@ type UserController struct {
 	beego.Controller
 }
 
-// URLMapping ...
-func (c *UserController) URLMapping() {
-	c.Mapping("Post", c.Post)
-	//c.Mapping("GetOne", c.GetOne)
-	//c.Mapping("GetAll", c.GetAll)
-	//c.Mapping("Put", c.Put)
-	//c.Mapping("Delete", c.Delete)
-}
 
-// Post ...
-// @Title Post
+// @Title Register
 // @Description create User
 // @Param	body		body 	models.User	true		"body for User content"
 // @Success 201 {int} models.User
 // @Failure 403 body is empty
 // @router / [post]
-func (c *UserController) Post() {
-	//var v models.User
+func (c *UserController) Register() {
 	input_table, output_table := make(map[string]interface{}), make(map[string]interface{})
+	beego.ReadFromRequest(&c.Controller)
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &input_table); err == nil {
-		phone_number, password, nickname := input_table["phone_number"], input_table["password"], input_table["nickname"]
-		fmt.Println("Create user:", phone_number, password, nickname)
-		if phone_number == nil || password == nil || nickname == nil {
+		phone_number, password, nickname, qq_number := input_table["phone_number"], input_table["password"], input_table["nickname"], input_table["qq_number"]
+		if phone_number == nil || password == nil || nickname == nil || qq_number == nil {
 			return
 		}
-		user := models.User{PhoneNumber:phone_number.(string), Password:password.(string), Nickname: nickname.(string)}
-		if _, err := models.AddUser(&user); err == nil {
+		user := models.User{PhoneNumber:phone_number.(string), Password:password.(string), Nickname: nickname.(string), QqNumber: qq_number.(string)}
+		fmt.Println("Create user:", user.PhoneNumber, user.Password, user.Nickname, user.QqNumber)
+		if id, err := models.AddUser(&user); err == nil {
 			user.Token  = uuid.Rand().Hex()
 			models.UpdateUserById(&user)
 			output_table["ret_code"] = 0
 			output_table["data"] = map[string]string{"token": user.Token}
 			//c.Ctx.Output.SetStatus(201)
 		} else {
+			fmt.Println("Add user failed:", id, err)
 			output_table["ret_code"] = -1
 			output_table["message"] = "database create user failed"
 		}
