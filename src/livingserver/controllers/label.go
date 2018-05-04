@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Wiesen/mini_proj/livingserver/models"
+	"livingserver/models"
 
 	"fmt"
 

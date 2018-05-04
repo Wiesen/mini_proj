@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	_ "github.com/Wiesen/mini_proj/livingserver/routers"
+	_ "livingserver/routers"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"

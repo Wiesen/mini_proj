@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"github.com/Wiesen/mini_proj/livingserver/controllers"
+	"livingserver/controllers"
 	"github.com/astaxie/beego"
 )
 

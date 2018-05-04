@@ -3,7 +3,7 @@ package filters
 import (
 	"fmt"
 
-	"github.com/Wiesen/mini_proj/livingserver/models"
+	"livingserver/models"
 
 	_ "github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"

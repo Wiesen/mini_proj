@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Wiesen/mini_proj/livingserver/models"
+	"livingserver/models"
 	"github.com/astaxie/beego"
 )
 
