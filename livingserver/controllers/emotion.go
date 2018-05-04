@@ -168,198 +168,183 @@ func (c *EmotionController) Delete() {
 	c.ServeJSON()
 }
 
-// ----------------------------------------------------------
 // the following is added by yyff
-
-// @router /self [get]
 func (c *EmotionController) GetEmotionByUser() {
 	rsp := CommonRsp{RetCode: 0}
-	for {
-		// 获取url参数
-		token := c.GetString("token")
-		hasRows, user := models.GetUserByToken(token)
-		if !hasRows {
-			rsp.RetCode = -2
-			rsp.Message = fmt.Sprintf("Invalid token")
-			break
-		}
-		pageNo, err := c.GetInt("pageno")
-		if err != nil {
-			rsp.RetCode = -1
-			rsp.Message = fmt.Sprintf("Invalid pageno")
-			break
-		}
 
-		// ---mock---
-		// pageNo := 0
-		// user := models.User{Id : 1}
+	defer func() {
+		c.Data["json"] = rsp
+		c.ServeJSON()
+	}()
 
-		// 获取心情列表
-		isErr, emotions := models.GetEmotionByUser(user.Id, pageNo)
-		if isErr {
-			rsp.RetCode = -1
-			rsp.Message = fmt.Sprintf("query 'emotion' failed, user id: [%v]", user.Id)
-			break
-		}
-
-		// 构造响应
-		for i := 0; i < len(emotions); i++ {
-			m := make(map[string]interface{})
-			m["emotion_id"] = emotions[i].Id
-			m["content"] = emotions[i].Content
-			m["label_id"] = emotions[i].LabelId.Id
-			m["label_name"] = emotions[i].LabelId.LabelName
-			m["strong"] = emotions[i].Strong
-			m["create_time"] = emotions[i].CreateTime
-			rsp.Data = append(rsp.Data, m)
-		}
-
-		// SUCCESS
-		break
+	// 获取url参数
+	token := c.GetString("token")
+	hasRows, user := models.GetUserByToken(token)
+	if !hasRows {
+		rsp.RetCode = -2
+		rsp.Message = fmt.Sprintf("Invalid token")
+		return
+	}
+	pageNo, err := c.GetInt("pageno")
+	if err != nil || pageNo < 0 {
+		rsp.RetCode = -1
+		rsp.Message = fmt.Sprintf("Invalid pageno")
+		return
 	}
 
-	c.Data["json"] = rsp
-	c.ServeJSON()
+	// 获取心情列表
+	isErr, emotions := models.GetEmotionByUser(user.Id, pageNo)
+	if isErr {
+		rsp.RetCode = -1
+		rsp.Message = fmt.Sprintf("query 'emotion' failed, user id: [%v]", user.Id)
+		return
+	}
+
+	// 构造响应
+	for i := 0; i < len(emotions); i++ {
+		m := make(map[string]interface{})
+		m["emotion_id"] = emotions[i].Id
+		m["content"] = emotions[i].Content
+		m["label_id"] = emotions[i].LabelId.Id
+		m["label_name"] = emotions[i].LabelId.LabelName
+		m["strong"] = emotions[i].Strong
+		m["create_time"] = emotions[i].CreateTime
+		rsp.Data = append(rsp.Data, m)
+	}
+
+
 }
 
-// @router / [get]
 func (c *EmotionController) GetAllEmotion() {
 
 	rsp := CommonRsp{RetCode: 0}
-	for {
 
-		// 获取url参数
-		token := c.GetString("token")
-		hasRows, user := models.GetUserByToken(token)
-		if !hasRows {
-			rsp.RetCode = -2
-			rsp.Message = fmt.Sprintf("Invalid token")
-			break
-		}
-		pageNo, err := c.GetInt("pageno")
-		if err != nil || pageNo < 0 {
-			rsp.RetCode = -1
-			rsp.Message = fmt.Sprintf("Invalid pageno")
-			break
-		}
+	defer func() {
+		c.Data["json"] = rsp
+		c.ServeJSON()
+	}()
 
-		// ---mock---
-		// pageNo := 0
-		// user := models.User{Id : 1}
-
-		// 获取心情列表
-		var isErr bool
-		var emotions []*models.Emotion
-		if v, err := c.GetInt("label_id"); err == nil {
-			isErr, emotions = models.GetEmotionByLabel(v, pageNo)
-		} else {
-			isErr, emotions = models.GetAllEmotion(pageNo)
-		}
-		if isErr {
-			rsp.RetCode = -1
-			rsp.Message = fmt.Sprintf("query 'emotion' failed")
-			break
-		}
-
-		// 获取用户点赞列表
-		isErr, likes := models.GetLikeByUser(user.Id)
-		if isErr {
-			rsp.RetCode = -1
-			rsp.Message = fmt.Sprintf("query 'like' failed")
-			break
-		}
-
-		// 建立点赞查询map
-		likeMap := make(map[int]int)
-		for i := 0; i < len(likes); i++ {
-			eid := likes[i].EmotionId.Id
-			likeMap[eid] = 1
-		}
-
-		// 构造响应
-		for i := 0; i < len(emotions); i++ {
-			m := make(map[string]interface{})
-			m["emotion_id"] = emotions[i].Id
-			m["content"] = emotions[i].Content
-			m["label_id"] = emotions[i].LabelId.Id
-			m["label_name"] = emotions[i].LabelId.LabelName
-			m["strong"] = emotions[i].Strong
-			m["create_time"] = emotions[i].CreateTime
-			m["poster"] = emotions[i].Poster.Id
-			m["nickname"] = emotions[i].Poster.Nickname
-			m["avatar"] = emotions[i].Poster.Avatar
-			m["create_time"] = emotions[i].CreateTime
-			m["like_cnt"] = emotions[i].LikeCnt
-			m["comment_cnt"] = emotions[i].CommentCnt
-
-			// 判断用户是否点过赞
-			if _, ok := likeMap[emotions[i].Id]; ok {
-				m["is_like"] = 1
-			} else {
-				m["is_like"] = 0
-			}
-
-			rsp.Data = append(rsp.Data, m)
-		}
-		// SUCCESS
-		break
+	// 获取url参数
+	token := c.GetString("token")
+	hasRows, user := models.GetUserByToken(token)
+	if !hasRows {
+		rsp.RetCode = -2
+		rsp.Message = fmt.Sprintf("Invalid token")
+		return
+	}
+	pageNo, err := c.GetInt("pageno")
+	if err != nil || pageNo < 0 {
+		rsp.RetCode = -1
+		rsp.Message = fmt.Sprintf("Invalid pageno")
+		return
 	}
 
-	c.Data["json"] = rsp
-	c.ServeJSON()
+	// 获取心情列表
+	var isErr bool
+	var emotions []*models.Emotion
+	if v, err := c.GetInt("label_id"); err == nil {
+		isErr, emotions = models.GetEmotionByLabel(v, pageNo)
+	} else {
+		isErr, emotions = models.GetAllEmotion(pageNo)
+	}
+	if isErr {
+		rsp.RetCode = -1
+		rsp.Message = fmt.Sprintf("query 'emotion' failed")
+		return
+	}
+
+	// 获取用户点赞列表
+	isErr, likes := models.GetLikeByUser(user.Id)
+	if isErr {
+		rsp.RetCode = -1
+		rsp.Message = fmt.Sprintf("query 'like' failed")
+		return
+	}
+
+	// 建立点赞查询map
+	likeMap := make(map[int]int)
+	for i := 0; i < len(likes); i++ {
+		eid := likes[i].EmotionId.Id
+		likeMap[eid] = 1
+	}
+
+	// 构造响应
+	for i := 0; i < len(emotions); i++ {
+		m := make(map[string]interface{})
+		m["emotion_id"] = emotions[i].Id
+		m["content"] = emotions[i].Content
+		m["label_id"] = emotions[i].LabelId.Id
+		m["label_name"] = emotions[i].LabelId.LabelName
+		m["strong"] = emotions[i].Strong
+		m["create_time"] = emotions[i].CreateTime
+		m["poster"] = emotions[i].Poster.Id
+		m["nickname"] = emotions[i].Poster.Nickname
+		m["avatar"] = emotions[i].Poster.Avatar
+		m["create_time"] = emotions[i].CreateTime
+		m["like_cnt"] = emotions[i].LikeCnt
+		m["comment_cnt"] = emotions[i].CommentCnt
+
+		// 判断用户是否点过赞
+		if _, ok := likeMap[emotions[i].Id]; ok {
+			m["is_like"] = 1
+		} else {
+			m["is_like"] = 0
+		}
+
+		rsp.Data = append(rsp.Data, m)
+	}
+
+
 }
 
 func (c *EmotionController) PostEmotion() {
 	// var v models.Emotion
 	rsp := CommonRsp{RetCode: 0}
 
-	for {
+	defer func() {
+		c.Data["json"] = rsp
+		c.ServeJSON()
+	}()
 
-		// 获取url参数
-		token := c.GetString("token")
-		hasRows, user := models.GetUserByToken(token)
-		if !hasRows {
-			rsp.RetCode = -2
-			rsp.Message = fmt.Sprintf("Invalid token")
-			break
-		}
-
-		inputMap := make(map[string]interface{})
-		beego.ReadFromRequest(&c.Controller)
-
-		err := json.Unmarshal(c.Ctx.Input.RequestBody, &inputMap)
-		if err != nil {
-			rsp.RetCode = -1
-			rsp.Message = fmt.Sprint("parse request parameter failed, request body: ", string(c.Ctx.Input.RequestBody))
-			break
-		}
-		// u := models.User { Id : inputMap["poster"].(int) }
-		v := models.Emotion{
-			Content: inputMap["content"].(string),
-			LabelId: &models.Label{
-				Id: int(inputMap["label_id"].(float64)),
-			},
-			Strong:     int8(inputMap["strong"].(float64)),
-			CreateTime: time.Now(),
-			Visiable:   int8(inputMap["visiable"].(float64)),
-			Poster: &models.User{
-				Id: user.Id,
-			},
-			CommentCnt: 0,
-			LikeCnt:    0,
-		}
-
-		_, err = models.AddEmotion(&v)
-		if err != nil {
-			rsp.RetCode = -1
-			rsp.Message = err.Error()
-			break
-		}
-		//SUCCESS
-		break
-
+	// 获取url参数
+	token := c.GetString("token")
+	hasRows, user := models.GetUserByToken(token)
+	if !hasRows {
+		rsp.RetCode = -2
+		rsp.Message = fmt.Sprintf("Invalid token")
+		return
 	}
 
-	c.Data["json"] = rsp
-	c.ServeJSON()
+	// 获取请求
+	var req PostEmotionReq
+	beego.ReadFromRequest(&c.Controller)
+	err := json.Unmarshal(c.Ctx.Input.RequestBody, &req)
+	if err != nil {
+		rsp.RetCode = -1
+		rsp.Message = fmt.Sprint("parse request parameter failed, request body: ", string(c.Ctx.Input.RequestBody))
+		return
+	}
+	
+	// 构造心情
+	v := models.Emotion{
+		Content: req.Content,
+		LabelId: &models.Label{
+			Id: req.LabelID,
+		},
+		Strong:     req.Strong,
+		CreateTime: time.Now(),
+		Visiable:   req.Visiable,
+		Poster: &models.User{
+			Id: user.Id,
+		},
+		CommentCnt: 0,
+		LikeCnt:    0,
+	}
+
+	_, err = models.AddEmotion(&v)
+	if err != nil {
+		rsp.RetCode = -1
+		rsp.Message = err.Error()
+		return
+	}
 }

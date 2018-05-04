@@ -174,7 +174,7 @@ func (c *LikeController) Delete() {
 
 
 
-// following is added by yyff
+// the following is added by yyff
 func (c *LikeController) PostLike() {
 	rsp := CommonRsp{RetCode: 0}
 

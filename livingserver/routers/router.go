@@ -21,12 +21,6 @@ func init() {
 				&controllers.LabelController{},
 			),
 		),
-
-		// beego.NSNamespace("/like",
-		// 	beego.NSInclude(
-		// 		&controllers.LikeController{},
-		// 	),
-		// ),
 	)
 	beego.AddNamespace(ns)
 }

@@ -25,14 +25,6 @@ func init() {
 
 	beego.GlobalControllerRouter["github.com/Wiesen/mini_proj/livingserver/controllers:EmotionController"] = append(beego.GlobalControllerRouter["github.com/Wiesen/mini_proj/livingserver/controllers:EmotionController"],
 		beego.ControllerComments{
-			Method: "GetAllEmotion",
-			Router: `/`,
-			AllowHTTPMethods: []string{"get"},
-			MethodParams: param.Make(),
-			Params: nil})
-
-	beego.GlobalControllerRouter["github.com/Wiesen/mini_proj/livingserver/controllers:EmotionController"] = append(beego.GlobalControllerRouter["github.com/Wiesen/mini_proj/livingserver/controllers:EmotionController"],
-		beego.ControllerComments{
 			Method: "GetOne",
 			Router: `/:id`,
 			AllowHTTPMethods: []string{"get"},
@@ -52,14 +44,6 @@ func init() {
 			Method: "Delete",
 			Router: `/:id`,
 			AllowHTTPMethods: []string{"delete"},
-			MethodParams: param.Make(),
-			Params: nil})
-
-	beego.GlobalControllerRouter["github.com/Wiesen/mini_proj/livingserver/controllers:EmotionController"] = append(beego.GlobalControllerRouter["github.com/Wiesen/mini_proj/livingserver/controllers:EmotionController"],
-		beego.ControllerComments{
-			Method: "GetEmotionByUser",
-			Router: `/self`,
-			AllowHTTPMethods: []string{"get"},
 			MethodParams: param.Make(),
 			Params: nil})
 
