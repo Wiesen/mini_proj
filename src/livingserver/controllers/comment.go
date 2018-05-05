@@ -59,13 +59,16 @@ func (c *CommentController) PostComment() {
 		CreateTime: v.CreateTime,
 		Emotion: v.Emotion,
 		Content: v.Content,
-		Poster: &models.User{Id: user.Id},
+		Poster: v.Poster,
 	}
+	emt, _ := models.GetEmotionById(v.Emotion.Id)
+	m.Owner = emt.Poster
 	if v.Rspto == 0 {
 		m.TypeId = 2
 	} else {
 		m.TypeId = 3
 	}
+	fmt.Println("comment message:", m.CreateTime, m.Emotion, m.Content, m.Poster, m.Owner, m.TypeId)
 	if _, err := models.AddMessage(&m); err != nil {
 		rsp.RetCode = -1
 		rsp.Message = err.Error()
@@ -116,10 +119,12 @@ func (c *CommentController) GetAllComment() {
 	// 构造响应
 	for i := 0; i < len(comments); i++ {
 		m := make(map[string]interface{})
-		m["emotion_id"] = comments[i].Emotion.Id
+		m["comment_id"] = comments[i].Id
 		m["comment"] = comments[i].Content
 		m["poster"] = comments[i].Poster.Id
-		m["poster_nickname"] = comments[i].Poster.Nickname
+		u, _ := models.GetUserById(comments[i].Poster.Id)
+		m["post_nickname"] = u.Nickname
+		m["post_avatar"] = u.Avatar
 		m["create_time"] = comments[i].CreateTime
 		m["rspto"] = comments[i].Rspto
 		if comments[i].Rspto != 0 {

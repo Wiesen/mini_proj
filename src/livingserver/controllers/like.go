@@ -224,8 +224,10 @@ func (c *LikeController) PostLike() {
 		CreateTime: v.CreateTime,
 		TypeId: 1,
 		Emotion: v.Emotion,
-		Poster: &models.User{Id: user.Id},
+		Poster: v.Poster,
 	}
+	emt, _ := models.GetEmotionById(v.Emotion.Id)
+	m.Owner = emt.Poster
 	if _, err := models.AddMessage(&m); err != nil {
 		rsp.RetCode = -1
 		rsp.Message = err.Error()
