@@ -124,7 +124,7 @@ func (c *CommentController) GetAllComment() {
 		m["comment"] = comments[i].Content
 		m["poster"] = comments[i].Poster.Id
 		u, _ := models.GetUserById(comments[i].Poster.Id)
-		m["post_nickname"] = u.Nickname
+		m["poster_nickname"] = u.Nickname
 		m["post_avatar"] = u.Avatar
 		m["create_time"] = comments[i].CreateTime
 		m["rspto"] = comments[i].Rspto
