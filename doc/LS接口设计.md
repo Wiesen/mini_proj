@@ -116,6 +116,7 @@ data:
 | label_id    | int    | 心情标签id |
 | label_name  | string | 心情标签名 |
 | strong      | int    | 强度       |
+| visiable | int    | 1. 个人可见；2. 社区可见 |
 | create_time | date   | 创建时间   |
 
 

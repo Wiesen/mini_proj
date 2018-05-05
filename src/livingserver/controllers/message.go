@@ -54,9 +54,13 @@ func (c *MessageController) GetAllMessage() {
 		m["emotion_id"] = messages[i].Emotion.Id
 		m["comment"] = messages[i].Content
 		m["poster"] = messages[i].Poster.Id
-		u, _ := models.GetUserById(messages[i].Poster.Id)
-		m["nickname"] = u.Nickname
-		m["avatar"] = u.Avatar
+		if u, err := models.GetUserById(messages[i].Poster.Id); err == nil {
+			m["nickname"] = u.Nickname
+			m["avatar"] = u.Avatar
+		} else {
+			m["nickname"] = ""
+			m["avatar"] = ""
+		}
 		rsp.Data = append(rsp.Data, m)
 	}
 }

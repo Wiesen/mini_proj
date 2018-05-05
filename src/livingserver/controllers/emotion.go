@@ -208,6 +208,7 @@ func (c *EmotionController) GetEmotionByUser() {
 		m["label_id"] = emotions[i].LabelId.Id
 		m["label_name"] = emotions[i].LabelId.LabelName
 		m["strong"] = emotions[i].Strong
+		m["visiable"] = emotions[i].Visiable
 		m["create_time"] = emotions[i].CreateTime
 		rsp.Data = append(rsp.Data, m)
 	}
@@ -278,13 +279,21 @@ func (c *EmotionController) GetAllEmotion() {
 		m["emotion_id"] = emotions[i].Id
 		m["content"] = emotions[i].Content
 		m["label_id"] = emotions[i].LabelId.Id
-		m["label_name"] = emotions[i].LabelId.LabelName
+		if label, err := models.GetLabelById(emotions[i].LabelId.Id); err == nil {
+			m["label_name"] = label.LabelName
+		} else {
+			m["label_name"] = ""
+		}
 		m["strong"] = emotions[i].Strong
 		m["create_time"] = emotions[i].CreateTime
 		m["poster"] = emotions[i].Poster.Id
-		u, _ := models.GetUserById(emotions[i].Poster.Id) // fix bug: get user info
-		m["nickname"] = u.Nickname
-		m["avatar"] = u.Avatar
+		if u, err := models.GetUserById(emotions[i].Poster.Id); err == nil { // fix bug: get user info
+			m["nickname"] = u.Nickname
+			m["avatar"] = u.Avatar
+		} else {
+			m["nickname"] = ""
+			m["avatar"] = ""
+		}
 		m["like_cnt"] = emotions[i].LikeCnt
 		m["comment_cnt"] = emotions[i].CommentCnt
 
