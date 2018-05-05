@@ -64,69 +64,6 @@ func (c *EmotionController) GetOne() {
 	c.ServeJSON()
 }
 
-// GetAll ...
-// @Title Get All
-// @Description get Emotion
-// @Param	query	query	string	false	"Filter. e.g. col1:v1,col2:v2 ..."
-// @Param	fields	query	string	false	"Fields returned. e.g. col1,col2 ..."
-// @Param	sortby	query	string	false	"Sorted-by fields. e.g. col1,col2 ..."
-// @Param	order	query	string	false	"Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ..."
-// @Param	limit	query	string	false	"Limit the size of result set. Must be an integer"
-// @Param	offset	query	string	false	"Start position of result set. Must be an integer"
-// @Success 200 {object} models.Emotion
-// @Failure 403
-// @router / [get]
-// func (c *EmotionController) GetAll() {
-// 	var fields []string
-// 	var sortby []string
-// 	var order []string
-// 	var query = make(map[string]string)
-// 	var limit int64 = 10
-// 	var offset int64
-
-// 	// fields: col1,col2,entity.col3
-// 	if v := c.GetString("fields"); v != "" {
-// 		fields = strings.Split(v, ",")
-// 	}
-// 	// limit: 10 (default is 10)
-// 	if v, err := c.GetInt64("limit"); err == nil {
-// 		limit = v
-// 	}
-// 	// offset: 0 (default is 0)
-// 	if v, err := c.GetInt64("offset"); err == nil {
-// 		offset = v
-// 	}
-// 	// sortby: col1,col2
-// 	if v := c.GetString("sortby"); v != "" {
-// 		sortby = strings.Split(v, ",")
-// 	}
-// 	// order: desc,asc
-// 	if v := c.GetString("order"); v != "" {
-// 		order = strings.Split(v, ",")
-// 	}
-// 	// query: k:v,k:v
-// 	if v := c.GetString("query"); v != "" {
-// 		for _, cond := range strings.Split(v, ",") {
-// 			kv := strings.SplitN(cond, ":", 2)
-// 			if len(kv) != 2 {
-// 				c.Data["json"] = errors.New("Error: invalid query key/value pair")
-// 				c.ServeJSON()
-// 				return
-// 			}
-// 			k, v := kv[0], kv[1]
-// 			query[k] = v
-// 		}
-// 	}
-
-// 	l, err := models.GetAllEmotion(query, fields, sortby, order, offset, limit)
-// 	if err != nil {
-// 		c.Data["json"] = err.Error()
-// 	} else {
-// 		c.Data["json"] = l
-// 	}
-// 	c.ServeJSON()
-// }
-
 // Put ...
 // @Title Put
 // @Description update the Emotion
@@ -206,13 +143,55 @@ func (c *EmotionController) GetEmotionByUser() {
 		m := make(map[string]interface{})
 		m["emotion_id"] = emotions[i].Id
 		m["content"] = emotions[i].Content
-		m["label_id"] = emotions[i].LabelId.Id
-		m["label_name"] = emotions[i].LabelId.LabelName
+		m["label_id"] = emotions[i].Label.Id
+		m["label_name"] = emotions[i].Label.LabelName
 		m["strong"] = emotions[i].Strong
+		m["visiable"] = emotions[i].Visiable
 		m["create_time"] = emotions[i].CreateTime
 		rsp.Data = append(rsp.Data, m)
 	}
+}
 
+func (c *EmotionController) GetEmotionById() {
+	rsp := CommonRsp{RetCode: 0}
+
+	defer func() {
+		c.Data["json"] = rsp
+		c.ServeJSON()
+	}()
+
+	// 获取url参数
+	token := c.GetString("token")
+	hasRows, user := models.GetUserByToken(token)
+	if !hasRows {
+		rsp.RetCode = -2
+		rsp.Message = fmt.Sprintf("Invalid token")
+		return
+	}
+	emotion_id, _ := c.GetInt("emotion_id")
+	emotion, err := models.GetEmotionById(emotion_id)
+	if err != nil {
+		rsp.RetCode = -2
+		rsp.Message = fmt.Sprintf("Invalid emotion_id")
+		return
+	}
+
+	if emotion.Poster.Id != user.Id && emotion.Visiable == 1 {
+		rsp.RetCode = -2
+		rsp.Message = fmt.Sprintf("Invalid: you have no Authority to access this emotion")
+		return
+	}
+
+	// 构造响应
+	m := make(map[string]interface{})
+	m["emotion_id"] = emotion.Id
+	m["content"] = emotion.Content
+	m["label_id"] = emotion.Label.Id
+	m["label_name"] = emotion.Label.LabelName
+	m["strong"] = emotion.Strong
+	m["visiable"] = emotion.Visiable
+	m["create_time"] = emotion.CreateTime
+	rsp.Data = append(rsp.Data, m)
 }
 
 func (c *EmotionController) GetAllEmotion() {
@@ -277,14 +256,22 @@ func (c *EmotionController) GetAllEmotion() {
 		m := make(map[string]interface{})
 		m["emotion_id"] = emotions[i].Id
 		m["content"] = emotions[i].Content
-		m["label_id"] = emotions[i].LabelId.Id
-		m["label_name"] = emotions[i].LabelId.LabelName
+		m["label_id"] = emotions[i].Label.Id
+		if label, err := models.GetLabelById(emotions[i].Label.Id); err == nil {
+			m["label_name"] = label.LabelName
+		} else {
+			m["label_name"] = ""
+		}
 		m["strong"] = emotions[i].Strong
 		m["create_time"] = emotions[i].CreateTime
 		m["poster"] = emotions[i].Poster.Id
-		u, _ := models.GetUserById(emotions[i].Poster.Id) // fix bug: get user info
-		m["nickname"] = u.Nickname
-		m["avatar"] = u.Avatar
+		if u, err := models.GetUserById(emotions[i].Poster.Id); err == nil { // fix bug: get user info
+			m["nickname"] = u.Nickname
+			m["avatar"] = u.Avatar
+		} else {
+			m["nickname"] = ""
+			m["avatar"] = ""
+		}
 		// m["like_cnt"] = emotions[i].LikeCnt
 		// m["comment_cnt"] = emotions[i].CommentCnt
 
@@ -342,7 +329,7 @@ func (c *EmotionController) PostEmotion() {
 	// 构造心情
 	v := models.Emotion{
 		Content: req.Content,
-		LabelId: &models.Label{
+		Label: &models.Label{
 			Id: req.LabelID,
 		},
 		Strong:     req.Strong,

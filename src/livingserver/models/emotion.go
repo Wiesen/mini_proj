@@ -12,7 +12,7 @@ import (
 type Emotion struct {
 	Id         int       `orm:"column(id);auto"`
 	Content    string    `orm:"column(content);size(256)" description:"心情内容"`
-	LabelId    *Label    `orm:"column(label_id);rel(fk)" description:"心情标签ID，需存在标签表中"`
+	Label    *Label    `orm:"column(label_id);rel(fk)" description:"心情标签ID，需存在标签表中"`
 	Strong     int8      `orm:"column(strong)" description:"强度"`
 	CreateTime time.Time `orm:"column(create_time);type(datetime)" description:"创建时间"`
 	Visiable   int8      `orm:"column(visiable)" description:"1. 个人可见；2. 社区可见"`
@@ -182,7 +182,8 @@ func GetEmotionByLabel(labelId, pageNo int) (bool, []*Emotion) {
 	o := orm.NewOrm()
 	qs := o.QueryTable("emotion")
 	var emotions []*Emotion
-	num, err := qs.Filter("visiable", 1).Filter("label_id", labelId).OrderBy("-create_time").
+	// fix bug: filter 2
+	num, err := qs.Filter("visiable", 2).Filter("label_id", labelId).OrderBy("-create_time").
 		Limit(PAGE_SIZE, pageNo*PAGE_SIZE).All(&emotions)
 	fmt.Println("Number of records retrieved in database:", num)
 	return (err != nil && err != orm.ErrNoRows), emotions

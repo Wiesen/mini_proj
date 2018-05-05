@@ -92,6 +92,32 @@ POST  /api/emotion?token={token}
 | data     | []     |                                      |
 
 
+## get心情(done)
+
+### 请求
+
+GET  /api/emotion?token={token}&emotion_id={emotion_id}
+
+### 响应
+
+| 字段名   | 类型   | 备注                                 |
+| -------- | ------ | ------------------------------------ |
+| ret_code | int    | 0. 成功； -1. 失败； -2 token验证失败 |
+| message  | string | 错误消息                             |
+| data     | []     |                                      |
+
+data: only one entry in this list
+
+| 字段名      | 类型   | 备注       |
+| ----------- | ------ | ---------- |
+| emotion_id  | int    | 心情id     |
+| content     | string | 心情内容   |
+| label_id    | int    | 心情标签id |
+| label_name  | string | 心情标签名 |
+| strong      | int    | 强度       |
+| visiable | int    | 1. 个人可见；2. 社区可见 |
+| create_time | date   | 创建时间   |
+
 
 ## 查看用户自身心情（“我的”界面）(done)
 
@@ -116,6 +142,7 @@ data:
 | label_id    | int    | 心情标签id |
 | label_name  | string | 心情标签名 |
 | strong      | int    | 强度       |
+| visiable | int    | 1. 个人可见；2. 社区可见 |
 | create_time | date   | 创建时间   |
 
 
