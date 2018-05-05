@@ -54,6 +54,23 @@ func (c *CommentController) PostComment() {
 		return
 	}
 
+	// added by wiesenyang
+	m := models.Message{
+		CreateTime: v.CreateTime,
+		Emotion: v.Emotion,
+		Content: v.Content,
+		Poster: &models.User{Id: user.Id},
+	}
+	if v.Rspto == 0 {
+		m.TypeId = 2
+	} else {
+		m.TypeId = 3
+	}
+	if _, err := models.AddMessage(&m); err != nil {
+		rsp.RetCode = -1
+		rsp.Message = err.Error()
+		return
+	}
 }
 
 // @router / [get]

@@ -2,6 +2,30 @@
 
 # 接口设计
 
+
+## 注册(done)
+
+### 请求
+
+POST /api/user
+
+| 字段名       | 类型   | 备注           |
+| ------------ | ------ | -------------- |
+| phone_number | string | 手机号         |
+| qq_number     | string | qq           |
+| nickname     | string | 昵称            |
+| password     | string | 密码           |
+
+| avatar       | string  | 头像(optional) |
+### 响应
+
+| 字段名   | 类型   | 备注                                 |
+| -------- | ------ | ------------------------------------ |
+| ret_code | int    | 0. 成功； -1. 失败； -2 token验证失败 |
+| message  | string | 错误消息                             |
+| data     | []     |                                      |
+
+
 ## 登录(done)
 
 ### 请求
@@ -28,6 +52,7 @@ data:
 | ------ | ------ | ---- |
 | token  | string |      |
 
+
 ## 登出(done)
 
 ### 请求
@@ -45,29 +70,7 @@ GET /api/user/logout?token={token}
 data:
 
 
-## 注册(done)
-
-### 请求
-
-POST /api/user
-
-| 字段名       | 类型   | 备注           |
-| ------------ | ------ | -------------- |
-| phone_number | string | 手机号         |
-| qq_number     | string | qq           |
-| nickname     | string | 昵称            |
-| password     | string | 密码           |
-
-| avatar       | string  | 头像(optional) |
-### 响应
-
-| 字段名   | 类型   | 备注                                 |
-| -------- | ------ | ------------------------------------ |
-| ret_code | int    | 0. 成功； -1. 失败； -2 token验证失败 |
-| message  | string | 错误消息                             |
-| data     | []     |                                      |
-
-## 发布心情
+## 发布心情(done)
 
 ### 请求
 
@@ -115,11 +118,12 @@ data:
 | strong      | int    | 强度       |
 | create_time | date   | 创建时间   |
 
- ## 查询所有指定标签心情（“广场”界面）(done)
+
+## 查询所有指定标签心情（“广场”界面）(done)
 
 ### 请求
 
-GET  /api/emotion?label_id={label_id}& token={token} & pageno= {pageno}
+GET  /api/emotion?label_id={label_id}&token={token}&pageno={pageno}
 
 > 无label_id时查询全部
 
@@ -153,7 +157,7 @@ data[i]
 
 ### 请求
 
-POST /api/comment? token={token}
+POST /api/comment?token={token}
 
 | 字段名     | 类型   | 备注                            |
 | ---------- | ------ | ------------------------------- |
@@ -174,7 +178,7 @@ POST /api/comment? token={token}
 
 ### 请求
 
-GET /api/comment?emotion_id={emotion_id} & token={token} & pageno= {pageno}
+GET /api/comment?emotion_id={emotion_id}&token={token}&pageno={pageno}
 
 ### 响应
 
@@ -198,7 +202,7 @@ data[i]:
 
 
 
-## 发布点赞
+## 发布点赞(done)
 
 ### 请求
 
@@ -223,7 +227,7 @@ POST /api/like?token={token}
 
 ### 请求
 
-GET /api/message? token={token} & pageno= {pageno}
+GET /api/message?token={token}&pageno={pageno}
 
 ### 响应
 
@@ -233,32 +237,17 @@ GET /api/message? token={token} & pageno= {pageno}
 | message  | string | 错误消息                             |
 | data     | []     |                                      |
 
+data
 
 | 字段名     | 类型   | 备注                                     |
 | ---------- | ------ | ---------------------------------------- |
-| type       | int    | 1. 点赞； 2. 心情评论or回复 |
-| pack       | []     |
-
-for type == 1, the pack format is following:
-
-| 字段名      | 类型   | 备注                            |
-| ----------- | ------ | ------------------------------- |
-| comment_id  | int64  | 评论ID                          |
-| comment     | string | 评论内容                        |
-| poster      | int64  | 发布人id                        |
-|poster_nickname| string | 发布人nickname                  |
 | create_time | date   | 时间                            |
-| rspto       | int64  | 回复人id，为0时表示不回复指定人 |
-|rspto_nickname| string | 回复人nickname, 为NULL时表示不回复指定人|
-
-for type == 2, the pack format is following:
-
-| 字段名      | 类型   | 备注                            |
-| ----------- | ------ | ------------------------------- |
-| comment_id  | int64  | 点赞ID                          |
-| poster      | int64  | 发布人id                        |
-|poster_nickname| string | 发布人nickname                  |
-| create_time | date   | 时间                            |
+| type       | int    | 1. 点赞； 2. 心情评论；3. 回复 |
+| emotion_id | int64  | 心情id                                   |
+| comment    | string | 评论或回复内容                           |
+| poster     | int64  | 评论、点赞或回复的发布人id               |
+| nickname | string | 昵称 |
+| avatar | string | 头像 |
 
 
 ## 查看用户自身信息(done)

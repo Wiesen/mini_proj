@@ -202,7 +202,7 @@ func (c *LikeController) PostLike() {
 	}
 
 	v := models.Like {
-		EmotionId : &models.Emotion{
+		Emotion : &models.Emotion{
 			Id : req.EmotionID,
 		},
 		Poster: &models.User{
@@ -217,5 +217,18 @@ func (c *LikeController) PostLike() {
 		rsp.RetCode = -1
 		rsp.Message = err.Error() 
 		return
-	}	
+	}
+
+	// added by wiesenyang
+	m := models.Message{
+		CreateTime: v.CreateTime,
+		TypeId: 1,
+		Emotion: v.Emotion,
+		Poster: &models.User{Id: user.Id},
+	}
+	if _, err := models.AddMessage(&m); err != nil {
+		rsp.RetCode = -1
+		rsp.Message = err.Error()
+		return
+	}
 }

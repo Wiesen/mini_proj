@@ -267,7 +267,7 @@ func (c *EmotionController) GetAllEmotion() {
 	// 建立点赞查询map
 	likeMap := make(map[int]int)
 	for i := 0; i < len(likes); i++ {
-		eid := likes[i].EmotionId.Id
+		eid := likes[i].Emotion.Id
 		likeMap[eid] = 1
 	}
 

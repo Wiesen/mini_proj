@@ -12,7 +12,7 @@ import (
 
 type Like struct {
 	Id         int       `orm:"column(id);auto"`
-	EmotionId  *Emotion  `orm:"column(emotion_id);rel(fk)" description:"心情id"`
+	Emotion  *Emotion  `orm:"column(emotion_id);rel(fk)" description:"心情id"`
 	Poster     *User     `orm:"column(poster);rel(fk)" description:"发布人id"`
 	CreateTime time.Time `orm:"column(create_time);type(datetime)" description:"时间"`
 }
@@ -183,7 +183,7 @@ func AddLike(m *Like) (id int64, err error) {
 		return
 	}
 
-	v := &Emotion{ Id : m.EmotionId.Id}
+	v := &Emotion{ Id : m.Emotion.Id}
 	err = o.Read(v)
 	if err != nil {
 		return

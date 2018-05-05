@@ -100,4 +100,23 @@ CREATE TABLE `user`  (
   UNIQUE INDEX `qq_number_uq_index`(`qq_number`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
+-- ----------------------------
+-- Table structure for user
+-- ----------------------------
+DROP TABLE IF EXISTS `message`;
+CREATE TABLE `message`  (
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `emotion_id` int(11) UNSIGNED NOT NULL COMMENT '心情id',
+  `poster` int(11) UNSIGNED NOT NULL COMMENT '发布人id',
+  `owner` int(11) UNSIGNED NOT NULL COMMENT 'owner id',
+  `create_time` datetime(0) NOT NULL COMMENT '时间',
+  `content` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '评论内容',
+  `type_id` int(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  CONSTRAINT `message_eid_ref` FOREIGN KEY (`emotion_id`) REFERENCES `emotion` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `message_poster_ref` FOREIGN KEY (`poster`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `message_owner_ref` FOREIGN KEY (`owner`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+
 SET FOREIGN_KEY_CHECKS = 1;
