@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"livingserver/redis_client"
 	"time"
 
 	"github.com/astaxie/beego/orm"
@@ -9,7 +10,7 @@ import (
 
 type Comment struct {
 	Id         int       `orm:"column(id);auto"`
-	Emotion  *Emotion  `orm:"column(emotion_id);rel(fk)" description:"心情ID"`
+	Emotion    *Emotion  `orm:"column(emotion_id);rel(fk)" description:"心情ID"`
 	Content    string    `orm:"column(content);size(256)" description:"评论内容"`
 	Poster     *User     `orm:"column(poster);rel(fk)" description:"发布人id"`
 	CreateTime time.Time `orm:"column(create_time);type(datetime)" description:"时间"`
@@ -48,14 +49,18 @@ func AddComment(m *Comment) (id int64, err error) {
 		return
 	}
 
-	v := &Emotion{ Id : m.Emotion.Id}
-	err = o.Read(v)
-	if err != nil {
+	if !redis_client.IncrLikeCnt(m.Emotion.Id) {
+		err = redis_client.ErrRedisOp
 		return
 	}
+	// v := &Emotion{ Id : m.Emotion.Id}
+	// err = o.Read(v)
+	// if err != nil {
+	// 	return
+	// }
 
-	v.CommentCnt++
-	_, err = o.Update(v)
+	// v.CommentCnt++
+	// _, err = o.Update(v)
 
 	return
 }
@@ -121,4 +126,3 @@ func GetCommentByEmotion(emotionId, pageNo int) (bool, []*Comment) {
 	fmt.Println("Number of records retrieved in database:", num)
 	return (err != nil && err != orm.ErrNoRows), comments
 }
-

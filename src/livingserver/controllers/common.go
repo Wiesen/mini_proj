@@ -1,25 +1,24 @@
 package controllers
 
 type PostLikeReq struct {
-	EmotionID		int		`json:"emotion_id"`
+	EmotionID int `json:"emotion_id"`
 }
 
 type PostEmotionReq struct {
-	Content		string		`json:"content"`
-	LabelID		int			`json:"label_id"`
-	Strong		int8		`json:"strong"`
-	Visiable	int8		`json:"visiable"`
+	Content  string `json:"content"`
+	LabelID  int    `json:"label_id"`
+	Strong   int8   `json:"strong"`
+	Visiable int8   `json:"visiable"`
 }
 
 type PostCommentReq struct {
-	Comment		string		`json:"comment"`
-	EmotionID	int			`json:"emotion_id"`
-	RspTo		int			`json:"rspto"`
+	Comment   string `json:"comment"`
+	EmotionID int    `json:"emotion_id"`
+	RspTo     int    `json:"rspto"`
 }
 
-type CommonRsp struct{
-	RetCode		int				`json:"ret_code"`
-	Message		string			`json:"message"`
-	Data		[]interface{}	`json:"data"`
+type CommonRsp struct {
+	RetCode int           `json:"ret_code"`
+	Message string        `json:"message"`
+	Data    []interface{} `json:"data"`
 }
-

@@ -2,6 +2,8 @@ package models
 
 import (
 	"fmt"
+	"livingserver/redis_client"
+	"log"
 	"time"
 
 	"github.com/astaxie/beego/orm"
@@ -29,11 +31,11 @@ func init() {
 
 // AddEmotion insert a new Emotion into database and returns
 // last inserted Id on success.
-func AddEmotion(m *Emotion) (id int64, err error) {
-	o := orm.NewOrm()
-	id, err = o.Insert(m)
-	return
-}
+// func AddEmotion(m *Emotion) (id int64, err error) {
+// 	o := orm.NewOrm()
+// 	id, err = o.Insert(m)
+// 	return
+// }
 
 // GetEmotionById retrieves Emotion by Id. Returns error if
 // Id doesn't exist
@@ -184,4 +186,33 @@ func GetEmotionByLabel(labelId, pageNo int) (bool, []*Emotion) {
 		Limit(PAGE_SIZE, pageNo*PAGE_SIZE).All(&emotions)
 	fmt.Println("Number of records retrieved in database:", num)
 	return (err != nil && err != orm.ErrNoRows), emotions
+}
+
+func AddEmotion(m *Emotion) (id int64, err error) {
+	o := orm.NewOrm()
+
+	defer func() {
+		if err != nil {
+			o.Rollback()
+		} else {
+			o.Commit()
+		}
+	}()
+
+	// 事务
+	err = o.Begin()
+	id, err = o.Insert(m)
+	if err != nil {
+		return
+	}
+
+	// 创建心情点赞和评论和Redis计数器
+	if !redis_client.CreateLikeCnt(int(id)) ||
+		!redis_client.CreateCommentCnt(int(id)) {
+		log.Println("Create redis counter failed, emotion id: [%v]", id)
+		err = redis_client.ErrRedisOp
+		return
+	}
+
+	return
 }

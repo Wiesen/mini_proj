@@ -1,0 +1,141 @@
+2018/05/05 22:50:23.699 [I] [asm_amd64.s:2361] http server Running on http://:8080
+2018/05/05 22:50:26.636 [C] [asm_amd64.s:573] the request url is  /api/emotion
+2018/05/05 22:50:26.636 [C] [asm_amd64.s:573] Handler crashed with error runtime error: invalid memory address or nil pointer dereference
+2018/05/05 22:50:26.636 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/asm_amd64.s:573
+2018/05/05 22:50:26.636 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/panic.go:505
+2018/05/05 22:50:26.636 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/panic.go:63
+2018/05/05 22:50:26.636 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/signal_unix.go:388
+2018/05/05 22:50:26.636 [C] [asm_amd64.s:573] /Users/yangfan/work/dev/mini_proj/src/livingserver/redis_client/redis_client.go:43
+2018/05/05 22:50:26.636 [C] [asm_amd64.s:573] /Users/yangfan/work/dev/mini_proj/src/livingserver/models/emotion.go:53
+2018/05/05 22:50:26.636 [C] [asm_amd64.s:573] /Users/yangfan/work/dev/mini_proj/src/livingserver/controllers/emotion.go:346
+2018/05/05 22:50:26.636 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/asm_amd64.s:573
+2018/05/05 22:50:26.636 [C] [asm_amd64.s:573] /usr/local/go/src/reflect/value.go:447
+2018/05/05 22:50:26.636 [C] [asm_amd64.s:573] /usr/local/go/src/reflect/value.go:308
+2018/05/05 22:50:26.636 [C] [asm_amd64.s:573] /Users/yangfan/work/dev/mini_proj/src/github.com/astaxie/beego/router.go:847
+2018/05/05 22:50:26.636 [C] [asm_amd64.s:573] /usr/local/go/src/net/http/server.go:2694
+2018/05/05 22:50:26.636 [C] [asm_amd64.s:573] /usr/local/go/src/net/http/server.go:1830
+2018/05/05 22:50:26.636 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/asm_amd64.s:2361
+2018/05/05 22:50:26.636 [server.go:2921] [HTTP] http: multiple response.WriteHeader calls
+2018/05/05 22:50:46.156 [I] [asm_amd64.s:2361] http server Running on http://:8080
+2018/05/05 22:50:49.141 [C] [asm_amd64.s:573] the request url is  /api/emotion
+2018/05/05 22:50:49.141 [C] [asm_amd64.s:573] Handler crashed with error runtime error: invalid memory address or nil pointer dereference
+2018/05/05 22:50:49.141 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/asm_amd64.s:573
+2018/05/05 22:50:49.141 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/panic.go:505
+2018/05/05 22:50:49.141 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/panic.go:63
+2018/05/05 22:50:49.141 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/signal_unix.go:388
+2018/05/05 22:50:49.141 [C] [asm_amd64.s:573] /Users/yangfan/work/dev/mini_proj/src/livingserver/redis_client/redis_client.go:43
+2018/05/05 22:50:49.141 [C] [asm_amd64.s:573] /Users/yangfan/work/dev/mini_proj/src/livingserver/models/emotion.go:53
+2018/05/05 22:50:49.141 [C] [asm_amd64.s:573] /Users/yangfan/work/dev/mini_proj/src/livingserver/controllers/emotion.go:346
+2018/05/05 22:50:49.141 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/asm_amd64.s:573
+2018/05/05 22:50:49.141 [C] [asm_amd64.s:573] /usr/local/go/src/reflect/value.go:447
+2018/05/05 22:50:49.141 [C] [asm_amd64.s:573] /usr/local/go/src/reflect/value.go:308
+2018/05/05 22:50:49.141 [C] [asm_amd64.s:573] /Users/yangfan/work/dev/mini_proj/src/github.com/astaxie/beego/router.go:847
+2018/05/05 22:50:49.141 [C] [asm_amd64.s:573] /usr/local/go/src/net/http/server.go:2694
+2018/05/05 22:50:49.141 [C] [asm_amd64.s:573] /usr/local/go/src/net/http/server.go:1830
+2018/05/05 22:50:49.141 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/asm_amd64.s:2361
+2018/05/05 22:50:49.141 [server.go:2921] [HTTP] http: multiple response.WriteHeader calls
+2018/05/05 22:52:15.602 [I] [asm_amd64.s:2361] http server Running on http://:8080
+2018/05/05 22:52:18.936 [C] [asm_amd64.s:573] the request url is  /api/emotion
+2018/05/05 22:52:18.936 [C] [asm_amd64.s:573] Handler crashed with error runtime error: invalid memory address or nil pointer dereference
+2018/05/05 22:52:18.936 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/asm_amd64.s:573
+2018/05/05 22:52:18.936 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/panic.go:505
+2018/05/05 22:52:18.936 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/panic.go:63
+2018/05/05 22:52:18.936 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/signal_unix.go:388
+2018/05/05 22:52:18.936 [C] [asm_amd64.s:573] /Users/yangfan/work/dev/mini_proj/src/livingserver/redis_client/redis_client.go:46
+2018/05/05 22:52:18.936 [C] [asm_amd64.s:573] /Users/yangfan/work/dev/mini_proj/src/livingserver/models/emotion.go:53
+2018/05/05 22:52:18.936 [C] [asm_amd64.s:573] /Users/yangfan/work/dev/mini_proj/src/livingserver/controllers/emotion.go:346
+2018/05/05 22:52:18.936 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/asm_amd64.s:573
+2018/05/05 22:52:18.936 [C] [asm_amd64.s:573] /usr/local/go/src/reflect/value.go:447
+2018/05/05 22:52:18.936 [C] [asm_amd64.s:573] /usr/local/go/src/reflect/value.go:308
+2018/05/05 22:52:18.936 [C] [asm_amd64.s:573] /Users/yangfan/work/dev/mini_proj/src/github.com/astaxie/beego/router.go:847
+2018/05/05 22:52:18.936 [C] [asm_amd64.s:573] /usr/local/go/src/net/http/server.go:2694
+2018/05/05 22:52:18.936 [C] [asm_amd64.s:573] /usr/local/go/src/net/http/server.go:1830
+2018/05/05 22:52:18.936 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/asm_amd64.s:2361
+2018/05/05 22:52:18.936 [server.go:2921] [HTTP] http: multiple response.WriteHeader calls
+2018/05/05 22:54:48.576 [I] [asm_amd64.s:2361] http server Running on http://:8080
+2018/05/05 22:54:55.034 [C] [emotion.go:53] Redis client is nil
+2018/05/05 22:54:55.036 [C] [asm_amd64.s:573] the request url is  /api/emotion
+2018/05/05 22:54:55.036 [C] [asm_amd64.s:573] Handler crashed with error runtime error: invalid memory address or nil pointer dereference
+2018/05/05 22:54:55.036 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/asm_amd64.s:573
+2018/05/05 22:54:55.036 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/panic.go:505
+2018/05/05 22:54:55.036 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/panic.go:63
+2018/05/05 22:54:55.036 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/signal_unix.go:388
+2018/05/05 22:54:55.036 [C] [asm_amd64.s:573] /Users/yangfan/work/dev/mini_proj/src/livingserver/redis_client/redis_client.go:49
+2018/05/05 22:54:55.036 [C] [asm_amd64.s:573] /Users/yangfan/work/dev/mini_proj/src/livingserver/models/emotion.go:53
+2018/05/05 22:54:55.036 [C] [asm_amd64.s:573] /Users/yangfan/work/dev/mini_proj/src/livingserver/controllers/emotion.go:346
+2018/05/05 22:54:55.036 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/asm_amd64.s:573
+2018/05/05 22:54:55.036 [C] [asm_amd64.s:573] /usr/local/go/src/reflect/value.go:447
+2018/05/05 22:54:55.036 [C] [asm_amd64.s:573] /usr/local/go/src/reflect/value.go:308
+2018/05/05 22:54:55.036 [C] [asm_amd64.s:573] /Users/yangfan/work/dev/mini_proj/src/github.com/astaxie/beego/router.go:847
+2018/05/05 22:54:55.036 [C] [asm_amd64.s:573] /usr/local/go/src/net/http/server.go:2694
+2018/05/05 22:54:55.036 [C] [asm_amd64.s:573] /usr/local/go/src/net/http/server.go:1830
+2018/05/05 22:54:55.036 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/asm_amd64.s:2361
+2018/05/05 22:54:55.036 [server.go:2921] [HTTP] http: multiple response.WriteHeader calls
+2018/05/05 22:58:16.243 [I] [main.go:31] Init redis client successful
+2018/05/05 22:58:16.247 [I] [asm_amd64.s:2361] http server Running on http://:8080
+2018/05/05 22:58:20.013 [C] [asm_amd64.s:573] the request url is  /api/emotion
+2018/05/05 22:58:20.013 [C] [asm_amd64.s:573] Handler crashed with error runtime error: invalid memory address or nil pointer dereference
+2018/05/05 22:58:20.013 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/asm_amd64.s:573
+2018/05/05 22:58:20.013 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/panic.go:505
+2018/05/05 22:58:20.013 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/panic.go:63
+2018/05/05 22:58:20.013 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/signal_unix.go:388
+2018/05/05 22:58:20.013 [C] [asm_amd64.s:573] /Users/yangfan/work/dev/mini_proj/src/livingserver/redis_client/redis_client.go:47
+2018/05/05 22:58:20.014 [C] [asm_amd64.s:573] /Users/yangfan/work/dev/mini_proj/src/livingserver/models/emotion.go:53
+2018/05/05 22:58:20.014 [C] [asm_amd64.s:573] /Users/yangfan/work/dev/mini_proj/src/livingserver/controllers/emotion.go:346
+2018/05/05 22:58:20.014 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/asm_amd64.s:573
+2018/05/05 22:58:20.014 [C] [asm_amd64.s:573] /usr/local/go/src/reflect/value.go:447
+2018/05/05 22:58:20.014 [C] [asm_amd64.s:573] /usr/local/go/src/reflect/value.go:308
+2018/05/05 22:58:20.014 [C] [asm_amd64.s:573] /Users/yangfan/work/dev/mini_proj/src/github.com/astaxie/beego/router.go:847
+2018/05/05 22:58:20.014 [C] [asm_amd64.s:573] /usr/local/go/src/net/http/server.go:2694
+2018/05/05 22:58:20.014 [C] [asm_amd64.s:573] /usr/local/go/src/net/http/server.go:1830
+2018/05/05 22:58:20.014 [C] [asm_amd64.s:573] /usr/local/go/src/runtime/asm_amd64.s:2361
+2018/05/05 22:58:20.014 [server.go:2921] [HTTP] http: multiple response.WriteHeader calls
+2018/05/05 23:01:19.504 [I] [main.go:31] Init redis client successful
+2018/05/05 23:01:19.509 [I] [asm_amd64.s:2361] http server Running on http://:8080
+2018/05/05 23:01:23.416 [D] [server.go:2694] 127.0.0.1 - - [05/May/2018 11:01:23] "POST /api/emotion?token=1 HTTP/1.1 200 0" 0.002773  Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36
+
+2018/05/05 23:07:43.479 [I] [main.go:31] Init redis client successful
+2018/05/05 23:07:43.485 [I] [asm_amd64.s:2361] http server Running on http://:8080
+2018/05/05 23:07:49.204 [D] [emotion.go:233] like cnt key:  like_cnt__16
+2018/05/05 23:07:49.206 [D] [server.go:2694] 127.0.0.1 - - [05/May/2018 11:07:49] "POST /api/emotion?token=1 HTTP/1.1 200 0" 0.002937  Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36
+
+2018/05/05 23:09:02.011 [I] [asm_amd64.s:2361] http server Running on http://:8080
+2018/05/05 23:09:16.542 [D] [emotion.go:233] like cnt key:  like_cnt_17
+2018/05/05 23:09:16.543 [D] [server.go:2694] 127.0.0.1 - - [05/May/2018 11:09:16] "POST /api/emotion?token=1 HTTP/1.1 200 0" 0.001813  Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36
+
+2018/05/05 23:20:00.343 [I] [asm_amd64.s:2361] http server Running on http://:8080
+2018/05/05 23:20:09.447 [D] [emotion.go:210] like cnt key:  like_cnt_18
+2018/05/05 23:20:09.448 [D] [server.go:2694] 127.0.0.1 - - [05/May/2018 11:20:09] "POST /api/emotion?token=1 HTTP/1.1 200 0" 0.002855  Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36
+
+2018/05/05 23:20:59.971 [D] [server.go:2694] 127.0.0.1 - - [05/May/2018 11:20:59] "POST /api/like?token=1 HTTP/1.1 200 0" 0.000577  Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36
+
+2018/05/05 23:21:48.006 [D] [server.go:2694] 127.0.0.1 - - [05/May/2018 11:21:48] "POST /api/like?token=1 HTTP/1.1 200 0" 0.001389  Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36
+
+2018/05/05 23:22:03.624 [D] [server.go:2694] 127.0.0.1 - - [05/May/2018 11:22:03] "POST /api/like?token=1 HTTP/1.1 200 0" 0.002618  Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36
+
+2018/05/05 23:22:16.941 [D] [server.go:2694] 127.0.0.1 - - [05/May/2018 11:22:16] "POST /api/like?token=1 HTTP/1.1 200 0" 0.002678  Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36
+
+2018/05/05 23:41:44.604 [I] [asm_amd64.s:2361] http server Running on http://:8080
+2018/05/05 23:41:55.228 [D] [server.go:2694] 127.0.0.1 - - [05/May/2018 11:41:55] "POST /api/like?token=1 HTTP/1.1 200 0" 0.002558  Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36
+
+2018/05/05 23:42:19.513 [D] [emotion.go:210] like cnt key:  like_cnt_19
+2018/05/05 23:42:19.514 [D] [server.go:2694] 127.0.0.1 - - [05/May/2018 11:42:19] "POST /api/emotion?token=1 HTTP/1.1 200 0" 0.003385  Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36
+
+2018/05/05 23:42:38.429 [D] [server.go:2694] 127.0.0.1 - - [05/May/2018 11:42:38] "GET /api/emotion?token=1 HTTP/1.1 200 0" 0.001582  Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36
+
+2018/05/05 23:42:46.717 [D] [server.go:2694] 127.0.0.1 - - [05/May/2018 11:42:46] "GET /api/emotion?token=1&pageno=2 HTTP/1.1 200 0" 0.001087  Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36
+
+2018/05/05 23:42:53.760 [D] [server.go:2694] 127.0.0.1 - - [05/May/2018 11:42:53] "GET /api/emotion?token=1&pageno=0 HTTP/1.1 200 0" 0.002028  Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36
+
+2018/05/05 23:45:01.967 [D] [server.go:2694] 127.0.0.1 - - [05/May/2018 11:45:01] "GET /api/emotion?token=2&pageno=0 HTTP/1.1 200 0" 0.000484  Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36
+
+2018/05/05 23:45:05.470 [D] [server.go:2694] 127.0.0.1 - - [05/May/2018 11:45:05] "GET /api/emotion?token=1&pageno=0 HTTP/1.1 200 0" 0.001041  Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36
+
+2018/05/05 23:46:29.609 [D] [server.go:2694] 127.0.0.1 - - [05/May/2018 11:46:29] "GET /api/emotion?token=1&pageno=0 HTTP/1.1 200 0" 0.002732  Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36
+
+2018/05/05 23:50:33.335 [D] [server.go:2694] 127.0.0.1 - - [05/May/2018 11:50:33] "POST /api/emotion?token=1 HTTP/1.1 200 0" 0.001399  Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36
+
+2018/05/05 23:51:28.002 [D] [server.go:2694] 127.0.0.1 - - [05/May/2018 11:51:27] "POST /api/emotion?token=1 HTTP/1.1 200 0" 0.003350  Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36
+
+2018/05/05 23:52:42.717 [D] [server.go:2694] 127.0.0.1 - - [05/May/2018 11:52:42] "POST /api/emotion?token=1 HTTP/1.1 200 0" 0.002967  Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36
+

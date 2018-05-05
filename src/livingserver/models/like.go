@@ -3,6 +3,7 @@ package models
 import (
 	"errors"
 	"fmt"
+	"livingserver/redis_client"
 	"reflect"
 	"strings"
 	"time"
@@ -12,7 +13,7 @@ import (
 
 type Like struct {
 	Id         int       `orm:"column(id);auto"`
-	Emotion  *Emotion  `orm:"column(emotion_id);rel(fk)" description:"心情id"`
+	Emotion    *Emotion  `orm:"column(emotion_id);rel(fk)" description:"心情id"`
 	Poster     *User     `orm:"column(poster);rel(fk)" description:"发布人id"`
 	CreateTime time.Time `orm:"column(create_time);type(datetime)" description:"时间"`
 }
@@ -144,7 +145,6 @@ func DeleteLike(id int) (err error) {
 	return
 }
 
-
 // following is added by yyff
 func GetLikeByUser(uid int) (bool, []*Like) {
 	o := orm.NewOrm()
@@ -152,7 +152,7 @@ func GetLikeByUser(uid int) (bool, []*Like) {
 	var likes []*Like
 	num, err := qs.Filter("poster", uid).All(&likes)
 	if err != nil {
-		fmt.Println("query table failed, err info: %+v", err)
+		fmt.Printf("query table failed, err info: %+v", err)
 	}
 	fmt.Println("Number of records retrieved in database:", num)
 	return (err != nil && err != orm.ErrNoRows), likes
@@ -183,14 +183,19 @@ func AddLike(m *Like) (id int64, err error) {
 		return
 	}
 
-	v := &Emotion{ Id : m.Emotion.Id}
-	err = o.Read(v)
-	if err != nil {
+	if !redis_client.IncrLikeCnt(m.Emotion.Id) {
+		err = redis_client.ErrRedisOp
 		return
 	}
 
-	v.LikeCnt++
-	_, err = o.Update(v)
+	// v := &Emotion{ Id : m.Emotion.Id}
+	// err = o.Read(v)
+	// if err != nil {
+	// 	return
+	// }
+
+	// v.LikeCnt++
+	// _, err = o.Update(v)
 	return
 
 }

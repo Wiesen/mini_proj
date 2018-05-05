@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"livingserver/redis_client"
 	// "errors"
 	"livingserver/models"
 	// "livingserver/filters"
@@ -212,7 +213,6 @@ func (c *EmotionController) GetEmotionByUser() {
 		rsp.Data = append(rsp.Data, m)
 	}
 
-
 }
 
 func (c *EmotionController) GetAllEmotion() {
@@ -285,8 +285,19 @@ func (c *EmotionController) GetAllEmotion() {
 		u, _ := models.GetUserById(emotions[i].Poster.Id) // fix bug: get user info
 		m["nickname"] = u.Nickname
 		m["avatar"] = u.Avatar
-		m["like_cnt"] = emotions[i].LikeCnt
-		m["comment_cnt"] = emotions[i].CommentCnt
+		// m["like_cnt"] = emotions[i].LikeCnt
+		// m["comment_cnt"] = emotions[i].CommentCnt
+
+		// 获取点赞数和评论数
+		lc, cc := redis_client.GetLikeCnt(emotions[i].Id), redis_client.GetCommentCnt(emotions[i].Id)
+		if lc < 0 || cc < 0 {
+			rsp.RetCode = -1
+			rsp.Message = fmt.Sprintf("get counter from redis failed, emotion id: ", emotions[i].Id)
+			rsp.Data = []interface{}{}
+			return
+		}
+		m["like_cnt"] = lc
+		m["comment_cnt"] = cc
 
 		// 判断用户是否点过赞
 		if _, ok := likeMap[emotions[i].Id]; ok {
@@ -327,7 +338,7 @@ func (c *EmotionController) PostEmotion() {
 		rsp.Message = fmt.Sprint("parse request parameter failed, request body: ", string(c.Ctx.Input.RequestBody))
 		return
 	}
-	
+
 	// 构造心情
 	v := models.Emotion{
 		Content: req.Content,
