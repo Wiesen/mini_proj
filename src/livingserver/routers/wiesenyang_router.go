@@ -15,4 +15,6 @@ func init() {
 	beego.Router("/api/comment", &controllers.CommentController{}, "POST:PostComment")
 	beego.Router("/api/comment", &controllers.CommentController{}, "GET:GetAllComment")
 	beego.Router("/api/message", &controllers.MessageController{}, "GET:GetAllMessage")
+	beego.Router("/api/emotion", &controllers.EmotionController{}, "GET:GetEmotionById")
+
 }

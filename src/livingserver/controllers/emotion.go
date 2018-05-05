@@ -205,15 +205,55 @@ func (c *EmotionController) GetEmotionByUser() {
 		m := make(map[string]interface{})
 		m["emotion_id"] = emotions[i].Id
 		m["content"] = emotions[i].Content
-		m["label_id"] = emotions[i].LabelId.Id
-		m["label_name"] = emotions[i].LabelId.LabelName
+		m["label_id"] = emotions[i].Label.Id
+		m["label_name"] = emotions[i].Label.LabelName
 		m["strong"] = emotions[i].Strong
 		m["visiable"] = emotions[i].Visiable
 		m["create_time"] = emotions[i].CreateTime
 		rsp.Data = append(rsp.Data, m)
 	}
+}
 
+func (c *EmotionController) GetEmotionById() {
+	rsp := CommonRsp{RetCode: 0}
 
+	defer func() {
+		c.Data["json"] = rsp
+		c.ServeJSON()
+	}()
+
+	// 获取url参数
+	token := c.GetString("token")
+	hasRows, user := models.GetUserByToken(token)
+	if !hasRows {
+		rsp.RetCode = -2
+		rsp.Message = fmt.Sprintf("Invalid token")
+		return
+	}
+	emotion_id, _ := c.GetInt("emotion_id")
+	emotion, err  := models.GetEmotionById(emotion_id)
+	if err != nil {
+		rsp.RetCode = -2
+		rsp.Message = fmt.Sprintf("Invalid emotion_id")
+		return
+	}
+
+	if emotion.Poster.Id != user.Id && emotion.Visiable == 1 {
+		rsp.RetCode = -2
+		rsp.Message = fmt.Sprintf("Invalid: you have no Authority to access this emotion")
+		return
+	}
+
+	// 构造响应
+	m := make(map[string]interface{})
+	m["emotion_id"] = emotion.Id
+	m["content"] = emotion.Content
+	m["label_id"] = emotion.Label.Id
+	m["label_name"] = emotion.Label.LabelName
+	m["strong"] = emotion.Strong
+	m["visiable"] = emotion.Visiable
+	m["create_time"] = emotion.CreateTime
+	rsp.Data = append(rsp.Data, m)
 }
 
 func (c *EmotionController) GetAllEmotion() {
@@ -278,8 +318,8 @@ func (c *EmotionController) GetAllEmotion() {
 		m := make(map[string]interface{})
 		m["emotion_id"] = emotions[i].Id
 		m["content"] = emotions[i].Content
-		m["label_id"] = emotions[i].LabelId.Id
-		if label, err := models.GetLabelById(emotions[i].LabelId.Id); err == nil {
+		m["label_id"] = emotions[i].Label.Id
+		if label, err := models.GetLabelById(emotions[i].Label.Id); err == nil {
 			m["label_name"] = label.LabelName
 		} else {
 			m["label_name"] = ""
@@ -340,7 +380,7 @@ func (c *EmotionController) PostEmotion() {
 	// 构造心情
 	v := models.Emotion{
 		Content: req.Content,
-		LabelId: &models.Label{
+		Label: &models.Label{
 			Id: req.LabelID,
 		},
 		Strong:     req.Strong,

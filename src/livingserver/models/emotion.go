@@ -10,7 +10,7 @@ import (
 type Emotion struct {
 	Id         int       `orm:"column(id);auto"`
 	Content    string    `orm:"column(content);size(256)" description:"心情内容"`
-	LabelId    *Label    `orm:"column(label_id);rel(fk)" description:"心情标签ID，需存在标签表中"`
+	Label    *Label    `orm:"column(label_id);rel(fk)" description:"心情标签ID，需存在标签表中"`
 	Strong     int8      `orm:"column(strong)" description:"强度"`
 	CreateTime time.Time `orm:"column(create_time);type(datetime)" description:"创建时间"`
 	Visiable   int8      `orm:"column(visiable)" description:"1. 个人可见；2. 社区可见"`
