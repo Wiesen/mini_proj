@@ -113,14 +113,6 @@ func init() {
 
 	beego.GlobalControllerRouter["livingserver/controllers:LikeController"] = append(beego.GlobalControllerRouter["livingserver/controllers:LikeController"],
 		beego.ControllerComments{
-			Method: "Put",
-			Router: `/:id`,
-			AllowHTTPMethods: []string{"put"},
-			MethodParams: param.Make(),
-			Params: nil})
-
-	beego.GlobalControllerRouter["livingserver/controllers:LikeController"] = append(beego.GlobalControllerRouter["livingserver/controllers:LikeController"],
-		beego.ControllerComments{
 			Method: "Delete",
 			Router: `/:id`,
 			AllowHTTPMethods: []string{"delete"},
