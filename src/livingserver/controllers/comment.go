@@ -55,18 +55,19 @@ func (c *CommentController) PostComment() {
 	}
 
 	// added by wiesenyang
-	m := models.Message{
+	m := models.Message {
 		CreateTime: v.CreateTime,
 		Emotion: v.Emotion,
 		Content: v.Content,
 		Poster: v.Poster,
 	}
 	emt, _ := models.GetEmotionById(v.Emotion.Id)
-	m.Owner = emt.Poster
 	if v.Rspto == 0 {
 		m.TypeId = 2
+		m.Owner = emt.Poster
 	} else {
 		m.TypeId = 3
+		m.Owner = &models.User{Id: v.Rspto}
 	}
 	fmt.Println("comment message:", m.CreateTime, m.Emotion, m.Content, m.Poster, m.Owner, m.TypeId)
 	if _, err := models.AddMessage(&m); err != nil {

@@ -282,8 +282,9 @@ func (c *EmotionController) GetAllEmotion() {
 		m["strong"] = emotions[i].Strong
 		m["create_time"] = emotions[i].CreateTime
 		m["poster"] = emotions[i].Poster.Id
-		m["nickname"] = emotions[i].Poster.Nickname
-		m["avatar"] = emotions[i].Poster.Avatar
+		u, _ := models.GetUserById(emotions[i].Poster.Id) // fix bug: get user info
+		m["nickname"] = u.Nickname
+		m["avatar"] = u.Avatar
 		m["like_cnt"] = emotions[i].LikeCnt
 		m["comment_cnt"] = emotions[i].CommentCnt
 
