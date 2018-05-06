@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-	"livingserver/redis_client"
 	"time"
 
 	"github.com/astaxie/beego/logs"
@@ -50,20 +49,20 @@ func AddComment(m *Comment) (id int64, err error) {
 		return
 	}
 
-	if !redis_client.IncrCommentCnt(m.Emotion.Id) {
-		err = redis_client.ErrRedisOp
+	//if !redis_client.IncrCommentCnt(m.Emotion.Id) {
+	//	err = redis_client.ErrRedisOp
+	//	return
+	//}
+	//
+	//logs.Debug("<Redis> Incr comment cnt successful")
+	v := &Emotion{ Id : m.Emotion.Id}
+	err = o.Read(v)
+	if err != nil {
 		return
 	}
 
-	logs.Debug("<Redis> Incr comment cnt successful")
-	// v := &Emotion{ Id : m.Emotion.Id}
-	// err = o.Read(v)
-	// if err != nil {
-	// 	return
-	// }
-
-	// v.CommentCnt++
-	// _, err = o.Update(v)
+	v.CommentCnt++
+	_, err = o.Update(v)
 
 	return
 }

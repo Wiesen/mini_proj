@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-	"livingserver/redis_client"
 	"time"
 
 	"github.com/astaxie/beego/logs"
@@ -208,12 +207,13 @@ func AddEmotion(m *Emotion) (id int64, err error) {
 	}
 
 	// 创建心情点赞和评论和Redis计数器
-	if !redis_client.CreateLikeCnt(int(id)) ||
-		!redis_client.CreateCommentCnt(int(id)) {
-		logs.Warn("Create redis counter failed, emotion id: [%v]", id)
-		err = redis_client.ErrRedisOp
-		return
-	}
-	logs.Debug("add emotion[%v] successful", m)
+	//if !redis_client.CreateLikeCnt(int(id)) ||
+	//	!redis_client.CreateCommentCnt(int(id)) {
+	//	logs.Warn("Create redis counter failed, emotion id: [%v]", id)
+	//	err = redis_client.ErrRedisOp
+	//	return
+	//}
+	//logs.Debug("add emotion[%v] successful", m)
+
 	return
 }

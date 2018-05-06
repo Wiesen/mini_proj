@@ -1,10 +1,8 @@
 package redis_client
 
 import (
-	"config"
 	"errors"
 	"fmt"
-	"log"
 	"redis"
 	"strconv"
 
@@ -31,22 +29,22 @@ var conf struct {
 	}
 }
 
-func init() {
-	config.Parse(&conf)
-	spec := redis.DefaultSpec().Db(conf.Redis.Dbindex).
-		Host(conf.Redis.Host).Port(conf.Redis.Port).Password(conf.Redis.Password)
-	c, err := redis.NewSynchClientWithSpec(spec)
-	if err != nil {
-		log.Fatal("Init redis client failed")
-	}
-	err = c.Ping()
-	if err != nil {
-		log.Fatal("Init redis client failed")
-	}
-	client = c
-	log.Println("Init redis client successful")
-
-}
+//func init() {
+//	config.Parse(&conf)
+//	spec := redis.DefaultSpec().Db(conf.Redis.Dbindex).
+//		Host(conf.Redis.Host).Port(conf.Redis.Port).Password(conf.Redis.Password)
+//	c, err := redis.NewSynchClientWithSpec(spec)
+//	if err != nil {
+//		log.Fatal("Init redis client failed")
+//	}
+//	err = c.Ping()
+//	if err != nil {
+//		log.Fatal("Init redis client failed")
+//	}
+//	client = c
+//	log.Println("Init redis client successful")
+//
+//}
 
 func CreateLikeCnt(id int) bool {
 	key := fmt.Sprintf("%s_%d", LIKE_CNT_PREFIX, id)

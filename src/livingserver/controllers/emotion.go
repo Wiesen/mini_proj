@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"livingserver/models"
-	"livingserver/redis_client"
 	"strconv"
 	"time"
 
@@ -163,20 +162,20 @@ func (c *EmotionController) GetEmotionByUser() {
 			m["nickname"] = ""
 			m["avatar"] = ""
 		}
-// 		m["like_cnt"] = emotions[i].LikeCnt
-// 		m["comment_cnt"] = emotions[i].CommentCnt
+		m["like_cnt"] = emotions[i].LikeCnt
+		m["comment_cnt"] = emotions[i].CommentCnt
 		
 		// 获取点赞数和评论数
-		lc, cc := redis_client.GetLikeCnt(emotions[i].Id), redis_client.GetCommentCnt(emotions[i].Id)
-		if lc < 0 || cc < 0 {
-			rsp.RetCode = -1
-			rsp.Message = fmt.Sprintf("get counter from redis failed, emotion id: ", emotions[i].Id)
-			rsp.Data = []interface{}{}
-			return
-		}
-		m["like_cnt"] = lc
-		m["comment_cnt"] = cc
-		
+		//lc, cc := redis_client.GetLikeCnt(emotions[i].Id), redis_client.GetCommentCnt(emotions[i].Id)
+		//if lc < 0 || cc < 0 {
+		//	rsp.RetCode = -1
+		//	rsp.Message = fmt.Sprintf("get counter from redis failed, emotion id: ", emotions[i].Id)
+		//	rsp.Data = []interface{}{}
+		//	return
+		//}
+		//m["like_cnt"] = lc
+		//m["comment_cnt"] = cc
+
 		// 判断用户是否点过赞
 		if _, ok := likeMap[emotions[i].Id]; ok {
 			m["is_like"] = 1
@@ -235,17 +234,18 @@ func (c *EmotionController) GetEmotionById() {
 		m["nickname"] = ""
 		m["avatar"] = ""
 	}
-
+	m["like_cnt"] = emotion.LikeCnt
+	m["comment_cnt"] = emotion.CommentCnt
 	// 获取点赞数和评论数
-	lc, cc := redis_client.GetLikeCnt(emotion.Id), redis_client.GetCommentCnt(emotion.Id)
-	if lc < 0 || cc < 0 {
-		rsp.RetCode = -1
-		rsp.Message = fmt.Sprintf("get counter from redis failed, emotion id: ", emotion.Id)
-		rsp.Data = []interface{}{}
-		return
-	}
-	m["like_cnt"] = lc
-	m["comment_cnt"] = cc
+	//lc, cc := redis_client.GetLikeCnt(emotion.Id), redis_client.GetCommentCnt(emotion.Id)
+	//if lc < 0 || cc < 0 {
+	//	rsp.RetCode = -1
+	//	rsp.Message = fmt.Sprintf("get counter from redis failed, emotion id: ", emotion.Id)
+	//	rsp.Data = []interface{}{}
+	//	return
+	//}
+	//m["like_cnt"] = lc
+	//m["comment_cnt"] = cc
 
 	// 判断用户是否点过赞
 	m["is_like"] = 0
@@ -343,19 +343,19 @@ func (c *EmotionController) GetAllEmotion() {
 			m["nickname"] = ""
 			m["avatar"] = ""
 		}
-		// m["like_cnt"] = emotions[i].LikeCnt
-		// m["comment_cnt"] = emotions[i].CommentCnt
+		m["like_cnt"] = emotions[i].LikeCnt
+		m["comment_cnt"] = emotions[i].CommentCnt
 
 		// 获取点赞数和评论数
-		lc, cc := redis_client.GetLikeCnt(emotions[i].Id), redis_client.GetCommentCnt(emotions[i].Id)
-		if lc < 0 || cc < 0 {
-			rsp.RetCode = -1
-			rsp.Message = fmt.Sprintf("get counter from redis failed, emotion id: ", emotions[i].Id)
-			rsp.Data = []interface{}{}
-			return
-		}
-		m["like_cnt"] = lc
-		m["comment_cnt"] = cc
+		//lc, cc := redis_client.GetLikeCnt(emotions[i].Id), redis_client.GetCommentCnt(emotions[i].Id)
+		//if lc < 0 || cc < 0 {
+		//	rsp.RetCode = -1
+		//	rsp.Message = fmt.Sprintf("get counter from redis failed, emotion id: ", emotions[i].Id)
+		//	rsp.Data = []interface{}{}
+		//	return
+		//}
+		//m["like_cnt"] = lc
+		//m["comment_cnt"] = cc
 
 		// 判断用户是否点过赞
 		if _, ok := likeMap[emotions[i].Id]; ok {

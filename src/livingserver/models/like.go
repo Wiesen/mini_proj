@@ -3,7 +3,6 @@ package models
 import (
 	"errors"
 	"fmt"
-	"livingserver/redis_client"
 	"reflect"
 	"strings"
 	"time"
@@ -169,20 +168,20 @@ func AddLike(m *Like) (id int64, err error) {
 		return
 	}
 
-	if !redis_client.IncrLikeCnt(m.Emotion.Id) {
-		err = redis_client.ErrRedisOp
+	//if !redis_client.IncrLikeCnt(m.Emotion.Id) {
+	//	err = redis_client.ErrRedisOp
+	//	return
+	//}
+	//logs.Debug("<Redis> Incr like cnt successful")
+
+	v := &Emotion{ Id : m.Emotion.Id}
+	err = o.Read(v)
+	if err != nil {
 		return
 	}
-	logs.Debug("<Redis> Incr like cnt successful")
 
-	// v := &Emotion{ Id : m.Emotion.Id}
-	// err = o.Read(v)
-	// if err != nil {
-	// 	return
-	// }
-
-	// v.LikeCnt++
-	// _, err = o.Update(v)
+	v.LikeCnt++
+	_, err = o.Update(v)
 	return
 
 }
