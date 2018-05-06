@@ -237,7 +237,7 @@ func (c *EmotionController) GetEmotionById() {
 	}
 	m["like_cnt"] = lc
 	m["comment_cnt"] = cc
-	
+
 	// 判断用户是否点过赞
 	m["is_like"] = 0
 	isErr, likes := models.GetLikeByUser(user.Id)
@@ -324,7 +324,8 @@ func (c *EmotionController) GetAllEmotion() {
 			m["label_name"] = ""
 		}
 		m["strong"] = emotions[i].Strong
-		m["create_time"] = emotions[i].CreateTime.Format("2006-01-02 15:04:05")
+		// m["create_time"] = emotions[i].CreateTime.Format("2006-01-02 15:04:05")
+		m["create_time"] = time.Unix(emotions[i].CreateTime.Unix(), 8).Format("2006-01-02 15:04:05")
 		m["poster"] = emotions[i].Poster.Id
 		if u, err := models.GetUserById(emotions[i].Poster.Id); err == nil { // fix bug: get user info
 			m["nickname"] = u.Nickname
