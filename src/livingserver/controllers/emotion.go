@@ -328,9 +328,9 @@ func (c *EmotionController) GetAllEmotion() {
 			m["label_name"] = ""
 		}
 		m["strong"] = emotions[i].Strong
-		// m["create_time"] = emotions[i].CreateTime.Format("2006-01-02 15:04:05")
-		addedHours := time.Duration(8) * time.Hour
-		m["create_time"] = emotions[i].CreateTime.UTC().Add(addedHours).Format("2006-01-02 15:04:05")
+		m["create_time"] = emotions[i].CreateTime.Format("2006-01-02 15:04:05")
+		// addedHours := time.Duration(8) * time.Hour
+		// m["create_time"] = emotions[i].CreateTime.UTC().Add(addedHours).Format("2006-01-02 15:04:05")
 
 		m["poster"] = emotions[i].Poster.Id
 		if u, err := models.GetUserById(emotions[i].Poster.Id); err == nil { // fix bug: get user info
@@ -395,13 +395,14 @@ func (c *EmotionController) PostEmotion() {
 	}
 
 	// 构造心情
+	addedHours := time.Duration(8) * time.Hour
 	v := models.Emotion{
 		Content: req.Content,
 		Label: &models.Label{
 			Id: req.LabelID,
 		},
 		Strong:     req.Strong,
-		CreateTime: time.Now(),
+		CreateTime: time.Now().UTC().Add(addedHours),
 		Visiable:   req.Visiable,
 		Poster: &models.User{
 			Id: user.Id,
