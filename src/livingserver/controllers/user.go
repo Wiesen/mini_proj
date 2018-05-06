@@ -34,7 +34,8 @@ func (c *UserController) Register() {
 			avatar = input_table["avatar"].(string)
 		}
 
-		user := models.User{PhoneNumber: phone_number.(string), Password: password.(string), Nickname: nickname.(string), QqNumber: qq_number.(string), Avatar: avatar}
+		user := models.User{PhoneNumber: phone_number.(string), Password: password.(string),
+		Nickname: models.GenerateUsername(nickname.(string)), QqNumber: qq_number.(string), Avatar: avatar}
 		fmt.Println("Create user:", user.PhoneNumber, user.Password, user.Nickname, user.QqNumber, user.Avatar)
 
 		if id, err := models.AddUser(&user); err == nil {

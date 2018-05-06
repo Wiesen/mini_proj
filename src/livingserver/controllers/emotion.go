@@ -190,6 +190,33 @@ func (c *EmotionController) GetEmotionById() {
 	m["strong"] = emotion.Strong
 	m["visiable"] = emotion.Visiable
 	m["create_time"] = emotion.CreateTime
+	m["poster"] = emotion.Poster.Id
+	if u, err := models.GetUserById(emotion.Poster.Id); err == nil { // fix bug: get user info
+		m["nickname"] = u.Nickname
+		m["avatar"] = u.Avatar
+	} else {
+		m["nickname"] = ""
+		m["avatar"] = ""
+	}
+	m["like_cnt"] = emotion.LikeCnt
+	m["comment_cnt"] = emotion.CommentCnt
+	// 判断用户是否点过赞
+	m["is_like"] = 0
+	isErr, likes := models.GetLikeByUser(user.Id)
+	if isErr {
+		rsp.RetCode = -1
+		rsp.Message = fmt.Sprintf("query 'like' failed")
+		return
+	}
+	for i := 0; i < len(likes); i++ {
+		if likes[i].Emotion.Id == emotion.Id {
+			m["is_like"] = 1
+			break
+		}
+	}
+
+	fmt.Println("response pack:", m["emotion_id"], m["content"], m["label_id"], m["label_name"], m["strong"],
+		m["create_time"], m["poster"], m["nickname"], m["avatar"])
 	rsp.Data = append(rsp.Data, m)
 }
 
