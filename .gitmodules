@@ -1,3 +1,0 @@
-[submodule "src/src/redis"]
-	path = src/src/redis
-	url = https://github.com/go-redis/redis
