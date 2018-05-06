@@ -127,7 +127,7 @@ func (c *CommentController) GetAllComment() {
 		u, _ := models.GetUserById(comments[i].Poster.Id)
 		m["poster_nickname"] = u.Nickname
 		m["post_avatar"] = u.Avatar
-		m["create_time"] = comments[i].CreateTime
+		m["create_time"] = comments[i].CreateTime.Format("2006-01-02 15:04:05")
 		m["rspto"] = comments[i].Rspto
 		if comments[i].Rspto != 0 {
 			if user, err := models.GetUserById(comments[i].Rspto); err == nil {

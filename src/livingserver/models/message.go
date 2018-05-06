@@ -1,18 +1,19 @@
 package models
 
 import (
-	"github.com/astaxie/beego/orm"
 	"time"
-	"fmt"
+
+	"github.com/astaxie/beego/logs"
+	"github.com/astaxie/beego/orm"
 )
 
 type Message struct {
-	Id        int    	`orm:"column(id);auto"`
+	Id         int       `orm:"column(id);auto"`
 	Poster     *User     `orm:"column(poster);rel(fk)" description:"发布人id"`
-	Owner 		*User     `orm:"column(owner);rel(fk)" description:"owner id"`
-	Emotion  	*Emotion  `orm:"column(emotion_id);rel(fk)" description:"心情ID"`
-	Content    	string    `orm:"column(content);size(256)" description:"评论内容"`
-	TypeId		int			`orm:"column(type_id)"`
+	Owner      *User     `orm:"column(owner);rel(fk)" description:"owner id"`
+	Emotion    *Emotion  `orm:"column(emotion_id);rel(fk)" description:"心情ID"`
+	Content    string    `orm:"column(content);size(256)" description:"评论内容"`
+	TypeId     int       `orm:"column(type_id)"`
 	CreateTime time.Time `orm:"column(create_time);type(datetime)" description:"时间"`
 	//Like  *Like  		`orm:"column(like_id);rel(fk)" description:"ID"`
 	//Comment  *Comment  	`orm:"column(comment_id);rel(fk)" description:"评论ID"`
@@ -47,6 +48,7 @@ func AddMessage(m *Message) (id int64, err error) {
 	// 事务
 	err = o.Begin()
 	id, err = o.Insert(m)
+	logs.Debug("add message[%+v] successful", *m)
 
 	return
 }
@@ -57,6 +59,7 @@ func GetMessageByUser(uid, pageNo int) (bool, []*Message) {
 	var messages []*Message
 	num, err := qs.Filter("owner", uid).OrderBy("-create_time").
 		Limit(PAGE_SIZE, pageNo*PAGE_SIZE).All(&messages)
-	fmt.Println("Number of records retrieved in database:", num)
+	// fmt.Println("Number of records retrieved in database:", num)
+	logs.Debug("Number of records retrieved in database:", num)
 	return (err != nil && err != orm.ErrNoRows), messages
 }

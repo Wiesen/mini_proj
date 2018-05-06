@@ -101,7 +101,8 @@ func GetCommentByUser(uid, pageNo int) (bool, []*Comment) {
 	var comments []*Comment
 	num, err := qs.Filter("poster", uid).OrderBy("-create_time").
 		Limit(PAGE_SIZE, pageNo*PAGE_SIZE).All(&comments)
-	fmt.Println("Number of records retrieved in database:", num)
+	// fmt.Println("Number of records retrieved in database:", num)
+	logs.Debug("Number of records retrieved in database:", num)
 	return (err != nil && err != orm.ErrNoRows), comments
 }
 
@@ -111,6 +112,7 @@ func GetCommentByEmotion(emotionId, pageNo int) (bool, []*Comment) {
 	var comments []*Comment
 	num, err := qs.Filter("emotion_id", emotionId).OrderBy("-create_time").
 		Limit(PAGE_SIZE, pageNo*PAGE_SIZE).All(&comments)
-	fmt.Println("Number of records retrieved in database:", num)
+	// fmt.Println("Number of records retrieved in database:", num)
+	logs.Debug("Number of records retrieved in database:", num)
 	return (err != nil && err != orm.ErrNoRows), comments
 }

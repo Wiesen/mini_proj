@@ -133,7 +133,7 @@ func (c *EmotionController) GetEmotionByUser() {
 		rsp.Message = fmt.Sprintf("query 'like' failed")
 		return
 	}
-	fmt.Println("retrive like list, length:", len(likes))
+	logs.Debug("retrive like list, length:", len(likes))
 
 	// 建立点赞查询map
 	likeMap := make(map[int]int)
@@ -154,7 +154,7 @@ func (c *EmotionController) GetEmotionByUser() {
 			m["label_name"] = ""
 		}
 		m["strong"] = emotions[i].Strong
-		m["create_time"] = emotions[i].CreateTime
+		m["create_time"] = emotions[i].CreateTime.Format("2006-01-02 15:04:05")
 		m["poster"] = emotions[i].Poster.Id
 		if u, err := models.GetUserById(emotions[i].Poster.Id); err == nil { // fix bug: get user info
 			m["nickname"] = u.Nickname
@@ -172,8 +172,8 @@ func (c *EmotionController) GetEmotionByUser() {
 		} else {
 			m["is_like"] = 0
 		}
-		fmt.Println("response pack:", i, m["emotion_id"], m["content"], m["label_id"], m["label_name"], m["strong"],
-			m["create_time"], m["poster"], m["nickname"], m["avatar"])
+		// fmt.Println("response pack:", i, m["emotion_id"], m["content"], m["label_id"], m["label_name"], m["strong"],
+		// 	m["create_time"], m["poster"], m["nickname"], m["avatar"])
 		rsp.Data = append(rsp.Data, m)
 	}
 	logs.Info("Get %v emotions by user[%v]", len(emotions), user.Id)
@@ -217,7 +217,7 @@ func (c *EmotionController) GetEmotionById() {
 	m["label_name"] = emotion.Label.LabelName
 	m["strong"] = emotion.Strong
 	m["visiable"] = emotion.Visiable
-	m["create_time"] = emotion.CreateTime
+	m["create_time"] = emotion.CreateTime.Format("2006-01-02 15:04:05")
 	m["poster"] = emotion.Poster.Id
 	if u, err := models.GetUserById(emotion.Poster.Id); err == nil { // fix bug: get user info
 		m["nickname"] = u.Nickname
@@ -243,8 +243,8 @@ func (c *EmotionController) GetEmotionById() {
 		}
 	}
 
-	fmt.Println("response pack:", m["emotion_id"], m["content"], m["label_id"], m["label_name"], m["strong"],
-		m["create_time"], m["poster"], m["nickname"], m["avatar"])
+	// fmt.Println("response pack:", m["emotion_id"], m["content"], m["label_id"], m["label_name"], m["strong"],
+	// 	m["create_time"], m["poster"], m["nickname"], m["avatar"])
 	rsp.Data = append(rsp.Data, m)
 	logs.Info("Get emotion[%v] by user[%v]", m, user.Id)
 }
@@ -314,7 +314,7 @@ func (c *EmotionController) GetAllEmotion() {
 			m["label_name"] = ""
 		}
 		m["strong"] = emotions[i].Strong
-		m["create_time"] = emotions[i].CreateTime
+		m["create_time"] = emotions[i].CreateTime.Format("2006-01-02 15:04:05")
 		m["poster"] = emotions[i].Poster.Id
 		if u, err := models.GetUserById(emotions[i].Poster.Id); err == nil { // fix bug: get user info
 			m["nickname"] = u.Nickname

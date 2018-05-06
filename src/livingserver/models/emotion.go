@@ -214,6 +214,6 @@ func AddEmotion(m *Emotion) (id int64, err error) {
 		err = redis_client.ErrRedisOp
 		return
 	}
-
+	logs.Debug("add emotion[%v] successful", m)
 	return
 }

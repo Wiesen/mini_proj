@@ -171,7 +171,7 @@ func (c *LikeController) PostLike() {
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &req)
 	if err != nil {
 		rsp.RetCode = -1
-		rsp.Message = fmt.Sprintf("parse request parameter failed, request body: ", string(c.Ctx.Input.RequestBody))
+		rsp.Message = fmt.Sprint("parse request parameter failed, request body: ", string(c.Ctx.Input.RequestBody))
 		return
 	}
 
@@ -201,7 +201,7 @@ func (c *LikeController) PostLike() {
 		Poster:     v.Poster,
 	}
 	emt, _ := models.GetEmotionById(v.Emotion.Id)
-	fmt.Println("GetEmotionById:", emt.Id, emt.CommentCnt, emt.Poster, emt.CreateTime)
+	logs.Debug("GetEmotionById:", emt.Id, emt.CommentCnt, emt.Poster, emt.CreateTime)
 	m.Owner = emt.Poster
 	if _, err := models.AddMessage(&m); err != nil {
 		rsp.RetCode = -1

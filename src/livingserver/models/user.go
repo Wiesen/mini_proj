@@ -2,8 +2,10 @@ package models
 
 import (
 	"fmt"
-	"github.com/astaxie/beego/orm"
 	"strconv"
+
+	"github.com/astaxie/beego/logs"
+	"github.com/astaxie/beego/orm"
 )
 
 type User struct {
@@ -43,7 +45,6 @@ func GetUserById(id int) (v *User, err error) {
 	return nil, err
 }
 
-
 // UpdateUser updates User by Id and returns error if
 // the record to be updated doesn't exist
 func UpdateUserById(m *User) (err error) {
@@ -82,7 +83,6 @@ func GetUserByToken(token string) (bool, User) {
 	return err != orm.ErrNoRows, user
 }
 
-
 func FindUserByUsername(username string) (bool, User) {
 	o := orm.NewOrm()
 	var user User
@@ -101,9 +101,10 @@ func Login(phoneNumber string, password string) (bool, User) {
 func GenerateUsername(username string) string {
 	o := orm.NewOrm()
 	var count int
-	search := username+"[0-9]*$"
+	search := username + "[0-9]*$"
 	o.Raw("select count(*) as Count from user where nickname REGEXP ?", search).QueryRow(&count)
-	fmt.Println("GenerateUsername:", count)
+	// fmt.Println("GenerateUsername:", count)
+	logs.Debug("GenerateUsername:", count)
 	if int(count) == 0 {
 		return username
 	} else {

@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"livingserver/models"
 
@@ -38,17 +37,19 @@ func (c *UserController) Register() {
 
 		user := models.User{PhoneNumber: phone_number.(string), Password: password.(string),
 			Nickname: models.GenerateUsername(nickname.(string)), QqNumber: qq_number.(string), Avatar: avatar}
-		fmt.Println("Create user:", user.PhoneNumber, user.Password, user.Nickname, user.QqNumber, user.Avatar)
+		// fmt.Println("Create user:", user.PhoneNumber, user.Password, user.Nickname, user.QqNumber, user.Avatar)
 
 		if id, err := models.AddUser(&user); err == nil {
 			user.Token = uuid.Rand().Hex()
 			models.UpdateUserById(&user)
 			output_table["ret_code"] = 0
 			output_table["data"] = map[string]string{"token": user.Token}
+			logs.Info("insert user[%+v] successful, user id: %v", user, id)
 		} else {
-			fmt.Println("Add user failed:", id, err)
+			// fmt.Println("Add user failed:", id, err)
 			output_table["ret_code"] = -1
 			output_table["message"] = "database create user failed"
+			logs.Warn("insert user[%v] failed", user)
 		}
 	} else {
 		output_table["ret_code"] = -1

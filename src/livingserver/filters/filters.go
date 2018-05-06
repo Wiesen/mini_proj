@@ -1,17 +1,17 @@
 package filters
 
 import (
-	"fmt"
-
 	"livingserver/models"
 
 	_ "github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
+	"github.com/astaxie/beego/logs"
 )
 
 func IsLogin(ctx *context.Context) (bool, models.User) {
 	token := ctx.Input.Param(":token")
-	fmt.Println("get token: ", token)
+	// fmt.Println("get token: ", token)
+	logs.Debug("get token: ", token)
 	err, user := models.GetUserByToken(token)
 	return err, user
 }
