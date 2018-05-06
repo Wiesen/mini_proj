@@ -2,28 +2,25 @@
 
 此服务为Living APP的后台服务LS, 基于golang web框架beego搭建
 
-# Init
+## Init
 
 ```bash
-go get -u -v github.com/astaxie/beego
-go get -u -v github.com/beego/bee
-
-go get -u -v github.com/Wiesen/mini_proj
-go get -u -v github.com/Wiesen/mini_proj/livingserver
+git clone https://github.com/Wiesen/mini_proj
 ```
 
-# Run
-
-## Linux / Uinx
+## Run
 
 ```bash
-  cd $GOPATH/src/github.com/Wiesen/mini_proj/livingserver
-
-  bee run
+cd mini_proj
+make
+bin/livingserver &
 ```
 
-## Windows
-```sh
-  cd %GOPATH%\src\github.com\Wiesen\mini_proj\livingserver
-  bee run
+
+## Configure
+```
+livingserver config file: `./conf/config.toml`
+
+
+beego config file: `./conf/app.conf`
 ```
