@@ -5,6 +5,10 @@ Wants=network-online.target
 [Service]
 Type=simple
 Restart=always
+LimitAS=infinity
+LimitRSS=infinity
+LimitCORE=infinity
+LimitNOFILE=65536
 ExecStartPre=/usr/bin/bash -c 'ln -f /root/mini_proj/bin/livingserver /var/miniproj/livingserver'
 ExecStart=/usr/bin/python /usr/bin/supervisord -c /var/miniproj/supervisord.conf
 

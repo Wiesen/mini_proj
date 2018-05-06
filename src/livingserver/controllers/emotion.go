@@ -17,16 +17,6 @@ type EmotionController struct {
 	beego.Controller
 }
 
-// URLMapping ...
-// func (c *EmotionController) URLMapping() {
-// 	c.Mapping("Post", c.Post)
-// 	c.Mapping("GetOne", c.GetOne)
-// 	c.Mapping("GetAll", c.GetAll)
-// 	c.Mapping("GetAll", c.GetAllEmotion)
-// 	c.Mapping("Put", c.Put)
-// 	c.Mapping("Delete", c.Delete)
-// }
-
 // @router / [post]
 func (c *EmotionController) Post() {
 	var v models.Emotion
@@ -136,16 +126,54 @@ func (c *EmotionController) GetEmotionByUser() {
 		return
 	}
 
+	// 获取用户点赞列表
+	isErr, likes := models.GetLikeByUser(user.Id)
+	if isErr {
+		rsp.RetCode = -1
+		rsp.Message = fmt.Sprintf("query 'like' failed")
+		return
+	}
+	fmt.Println("retrive like list, length:", len(likes))
+
+	// 建立点赞查询map
+	likeMap := make(map[int]int)
+	for i := 0; i < len(likes); i++ {
+		eid := likes[i].Emotion.Id
+		likeMap[eid] = 1
+	}
+
 	// 构造响应
 	for i := 0; i < len(emotions); i++ {
 		m := make(map[string]interface{})
 		m["emotion_id"] = emotions[i].Id
 		m["content"] = emotions[i].Content
 		m["label_id"] = emotions[i].Label.Id
-		m["label_name"] = emotions[i].Label.LabelName
+		if label, err := models.GetLabelById(emotions[i].Label.Id); err == nil {
+			m["label_name"] = label.LabelName
+		} else {
+			m["label_name"] = ""
+		}
 		m["strong"] = emotions[i].Strong
-		m["visiable"] = emotions[i].Visiable
 		m["create_time"] = emotions[i].CreateTime
+		m["poster"] = emotions[i].Poster.Id
+		if u, err := models.GetUserById(emotions[i].Poster.Id); err == nil { // fix bug: get user info
+			m["nickname"] = u.Nickname
+			m["avatar"] = u.Avatar
+		} else {
+			m["nickname"] = ""
+			m["avatar"] = ""
+		}
+		m["like_cnt"] = emotions[i].LikeCnt
+		m["comment_cnt"] = emotions[i].CommentCnt
+
+		// 判断用户是否点过赞
+		if _, ok := likeMap[emotions[i].Id]; ok {
+			m["is_like"] = 1
+		} else {
+			m["is_like"] = 0
+		}
+		fmt.Println("response pack:", i, m["emotion_id"], m["content"], m["label_id"], m["label_name"], m["strong"],
+			m["create_time"], m["poster"], m["nickname"], m["avatar"])
 		rsp.Data = append(rsp.Data, m)
 	}
 	logs.Info("Get %v emotions by user[%v]", len(emotions), user.Id)
@@ -190,6 +218,33 @@ func (c *EmotionController) GetEmotionById() {
 	m["strong"] = emotion.Strong
 	m["visiable"] = emotion.Visiable
 	m["create_time"] = emotion.CreateTime
+	m["poster"] = emotion.Poster.Id
+	if u, err := models.GetUserById(emotion.Poster.Id); err == nil { // fix bug: get user info
+		m["nickname"] = u.Nickname
+		m["avatar"] = u.Avatar
+	} else {
+		m["nickname"] = ""
+		m["avatar"] = ""
+	}
+	m["like_cnt"] = emotion.LikeCnt
+	m["comment_cnt"] = emotion.CommentCnt
+	// 判断用户是否点过赞
+	m["is_like"] = 0
+	isErr, likes := models.GetLikeByUser(user.Id)
+	if isErr {
+		rsp.RetCode = -1
+		rsp.Message = fmt.Sprintf("query 'like' failed")
+		return
+	}
+	for i := 0; i < len(likes); i++ {
+		if likes[i].Emotion.Id == emotion.Id {
+			m["is_like"] = 1
+			break
+		}
+	}
+
+	fmt.Println("response pack:", m["emotion_id"], m["content"], m["label_id"], m["label_name"], m["strong"],
+		m["create_time"], m["poster"], m["nickname"], m["avatar"])
 	rsp.Data = append(rsp.Data, m)
 	logs.Info("Get emotion[%v] by user[%v]", m, user.Id)
 }
@@ -239,7 +294,6 @@ func (c *EmotionController) GetAllEmotion() {
 		rsp.Message = fmt.Sprintf("query 'like' failed")
 		return
 	}
-	// fmt.Println("retrive like list, length:", len(likes))
 
 	// 建立点赞查询map
 	likeMap := make(map[int]int)
@@ -248,7 +302,6 @@ func (c *EmotionController) GetAllEmotion() {
 		likeMap[eid] = 1
 	}
 
-	// fmt.Println("start to encapsulate response package")
 	// 构造响应
 	for i := 0; i < len(emotions); i++ {
 		m := make(map[string]interface{})
@@ -290,9 +343,6 @@ func (c *EmotionController) GetAllEmotion() {
 		} else {
 			m["is_like"] = 0
 		}
-		// fmt.Println("response pack:", i, m["emotion_id"], m["content"], m["label_id"], m["label_name"], m["strong"],
-		// 	m["create_time"], m["poster"], m["nickname"], m["avatar"])
-		// logs.Info("Response emotion[%v]: %v", i, m)
 		rsp.Data = append(rsp.Data, m)
 	}
 	logs.Info("Get %v emotions by user[%v]", len(emotions), user.Id)
