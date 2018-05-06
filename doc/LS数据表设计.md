@@ -52,3 +52,15 @@
 | ------ | ----------- | -------------------- |
 | id     | TINYINT(4)  |                      |
 | name   | VARCHAR(64) | 心情标签名，不可重复 |
+
+## 消息表(message)
+
+| 字段名      | 类型 | 备注     |
+| ----------- | ---- | -------- |
+| id          | INT  |          |
+| emotion_id  | INT  | 心情id   |
+| poster      | INT  | 发布人id |
+| owner      | INT  | 被通知人id |
+| create_time | DATE | 时间     |
+| content     | VARCHAR(256) | 评论内容   |
+| type_id     | INT   | 消息类型，1. 点赞； 2. 心情评论；3. 回复 |
