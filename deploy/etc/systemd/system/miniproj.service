@@ -1,0 +1,12 @@
+[Unit]
+Description=Mini Proj iLiving.name
+Wants=network-online.target
+
+[Service]
+Type=simple
+Restart=always
+ExecStartPre=/usr/bin/bash -c 'ln -f /root/mini_proj/bin/livingserver /var/miniproj/livingserver'
+ExecStart=/usr/bin/python /usr/bin/supervisord -c /var/miniproj/supervisord.conf
+
+[Install]
+WantedBy=multi-user.target

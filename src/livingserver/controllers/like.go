@@ -131,29 +131,6 @@ func (c *LikeController) GetAll() {
 	c.ServeJSON()
 }
 
-// Put ...
-// @Title Put
-// @Description update the Like
-// @Param	id		path 	string	true		"The id you want to update"
-// @Param	body		body 	models.Like	true		"body for Like content"
-// @Success 200 {object} models.Like
-// @Failure 403 :id is not int
-// @router /:id [put]
-func (c *LikeController) Put() {
-	idStr := c.Ctx.Input.Param(":id")
-	id, _ := strconv.Atoi(idStr)
-	v := models.Like{Id: id}
-	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-		if err := models.UpdateLikeById(&v); err == nil {
-			c.Data["json"] = "OK"
-		} else {
-			c.Data["json"] = err.Error()
-		}
-	} else {
-		c.Data["json"] = err.Error()
-	}
-	c.ServeJSON()
-}
 
 // Delete ...
 // @Title Delete
@@ -178,7 +155,6 @@ func (c *LikeController) PostLike() {
 	rsp := CommonRsp{RetCode: 0}
 
 	defer func() {
-
 		c.Data["json"] = rsp
 		c.ServeJSON()
 	}()
@@ -196,7 +172,7 @@ func (c *LikeController) PostLike() {
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &req)
 	if err != nil {
 		rsp.RetCode = -1
-		rsp.Message = fmt.Sprint("parse request parameter failed, request body: ", string(c.Ctx.Input.RequestBody))
+		rsp.Message = fmt.Sprintf("parse request parameter failed, request body: ", string(c.Ctx.Input.RequestBody))
 		return
 	}
 
@@ -226,6 +202,7 @@ func (c *LikeController) PostLike() {
 		Poster:     v.Poster,
 	}
 	emt, _ := models.GetEmotionById(v.Emotion.Id)
+	fmt.Println("GetEmotionById:", emt.Id, emt.CommentCnt, emt.Poster, emt.CreateTime)
 	m.Owner = emt.Poster
 	if _, err := models.AddMessage(&m); err != nil {
 		rsp.RetCode = -1
