@@ -3,6 +3,7 @@ package controllers
 import (
 	"fmt"
 	"livingserver/models"
+	"time"
 
 	"github.com/astaxie/beego"
 )
@@ -49,7 +50,9 @@ func (c *MessageController) GetAllMessage() {
 	// 构造响应
 	for i := 0; i < len(messages); i++ {
 		m := make(map[string]interface{})
-		m["create_time"] = messages[i].CreateTime.Format("2006-01-02 15:04:05")
+		// m["create_time"] = messages[i].CreateTime.Format("2006-01-02 15:04:05")
+		addedHours := time.Duration(8) * time.Hour
+		m["create_time"] = messages[i].CreateTime.UTC().Add(addedHours).Format("2006-01-02 15:04:05")
 		m["type"] = messages[i].TypeId
 		m["emotion_id"] = messages[i].Emotion.Id
 		m["comment"] = messages[i].Content
