@@ -1,8 +1,8 @@
 package config_test
 
 import (
+	"config"
 	"fmt"
-	"gobase/config"
 )
 
 func init() {

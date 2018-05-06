@@ -23,7 +23,7 @@ var (
 )
 
 var conf struct {
-	Database struct {
+	Redis struct {
 		Dbindex  int    `default:"0"`
 		Host     string `default:"127.0.0.1"`
 		Port     int    `default:"6379"`
@@ -34,8 +34,8 @@ var conf struct {
 func init() {
 	config.Parse(&conf)
 	// spec := redis.DefaultSpec().Db(0).Host("127.0.0.1").Password("123456")
-	spec := redis.DefaultSpec().Db(conf.Database.Dbindex).
-		Host(conf.Database.Host).Port(conf.Database.Port).Password(conf.Database.Password)
+	spec := redis.DefaultSpec().Db(conf.Redis.Dbindex).
+		Host(conf.Redis.Host).Port(conf.Redis.Port).Password(conf.Redis.Password)
 	c, err := redis.NewSynchClientWithSpec(spec)
 	if err != nil {
 		log.Fatal("Init redis client failed")
