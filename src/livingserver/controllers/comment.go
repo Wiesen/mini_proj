@@ -6,7 +6,9 @@ import (
 	"time"
 
 	"livingserver/models"
+
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 )
 
 // CommentController operations for Comment
@@ -21,7 +23,6 @@ func (c *CommentController) PostComment() {
 		c.Data["json"] = rsp
 		c.ServeJSON()
 	}()
-
 
 	// 获取url参数
 	token := c.GetString("token")
@@ -42,7 +43,7 @@ func (c *CommentController) PostComment() {
 	}
 	v := models.Comment{
 		Content:    req.Comment,
-		Emotion:  	&models.Emotion{Id: req.EmotionID},
+		Emotion:    &models.Emotion{Id: req.EmotionID},
 		Poster:     &models.User{Id: user.Id},
 		CreateTime: time.Now(),
 		Rspto:      req.RspTo,
@@ -55,11 +56,11 @@ func (c *CommentController) PostComment() {
 	}
 
 	// added by wiesenyang
-	m := models.Message {
+	m := models.Message{
 		CreateTime: v.CreateTime,
-		Emotion: v.Emotion,
-		Content: v.Content,
-		Poster: v.Poster,
+		Emotion:    v.Emotion,
+		Content:    v.Content,
+		Poster:     v.Poster,
 	}
 	emt, _ := models.GetEmotionById(v.Emotion.Id)
 	if v.Rspto == 0 {
@@ -69,12 +70,12 @@ func (c *CommentController) PostComment() {
 		m.TypeId = 3
 		m.Owner = &models.User{Id: v.Rspto}
 	}
-	fmt.Println("comment message:", m.CreateTime, m.Emotion, m.Content, m.Poster, m.Owner, m.TypeId)
 	if _, err := models.AddMessage(&m); err != nil {
 		rsp.RetCode = -1
 		rsp.Message = err.Error()
 		return
 	}
+	logs.Info("add Comment successful, info:", m.CreateTime, m.Emotion, m.Content, m.Poster, m.Owner, m.TypeId)
 }
 
 // @router / [get]

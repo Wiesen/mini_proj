@@ -5,7 +5,9 @@ import (
 	"fmt"
 
 	"livingserver/models"
+
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	"github.com/sluu99/uuid"
 )
 
@@ -35,7 +37,7 @@ func (c *UserController) Register() {
 		}
 
 		user := models.User{PhoneNumber: phone_number.(string), Password: password.(string), Nickname: nickname.(string), QqNumber: qq_number.(string), Avatar: avatar}
-		fmt.Println("Create user:", user.PhoneNumber, user.Password, user.Nickname, user.QqNumber, user.Avatar)
+		logs.Info("Create user:", user.PhoneNumber, user.Password, user.Nickname, user.QqNumber, user.Avatar)
 
 		if id, err := models.AddUser(&user); err == nil {
 			user.Token = uuid.Rand().Hex()
@@ -80,7 +82,7 @@ func (c *UserController) Login() {
 	//flash := beego.NewFlash()
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &input_table); err == nil {
 		phone_number, password := input_table["phone_number"], input_table["password"]
-		fmt.Println("login:", phone_number, password)
+		logs.Info("login:", phone_number, password)
 		if phone_number == nil || password == nil {
 			return
 		}
@@ -108,7 +110,7 @@ func (c *UserController) Logout() {
 	table := make(map[string]interface{})
 	beego.ReadFromRequest(&c.Controller)
 	token := c.GetString("token")
-	fmt.Println("logout:", token)
+	logs.Info("logout:", token)
 	if hasRows, user := models.GetUserByToken(token); hasRows {
 		//if err, user := filters.IsLogin(c.Ctx); err == true {
 		user.Token = ""
@@ -152,6 +154,7 @@ func (c *UserController) GetUserInfo() {
 			Message:  "",
 			Data:     ret_data,
 		}
+		logs.Info("Get user info: ", ret_data)
 		c.Data["json"] = &ret
 		c.ServeJSON()
 	}

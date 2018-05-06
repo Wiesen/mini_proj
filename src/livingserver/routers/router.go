@@ -7,20 +7,14 @@
 // @LicenseUrl http://www.apache.org/licenses/LICENSE-2.0.html
 package routers
 
-import (
-	"livingserver/controllers"
-
-	"github.com/astaxie/beego"
-)
-
 func init() {
-	ns := beego.NewNamespace("/api",
+	// ns := beego.NewNamespace("/api",
 
-		beego.NSNamespace("/label",
-			beego.NSInclude(
-				&controllers.LabelController{},
-			),
-		),
-	)
-	beego.AddNamespace(ns)
+	// 	beego.NSNamespace("/label",
+	// 		beego.NSInclude(
+	// 			&controllers.LabelController{},
+	// 		),
+	// 	),
+	// )
+	// beego.AddNamespace(ns)
 }

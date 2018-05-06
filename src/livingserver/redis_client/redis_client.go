@@ -1,6 +1,7 @@
 package redis_client
 
 import (
+	"config"
 	"errors"
 	"fmt"
 	"log"
@@ -8,8 +9,6 @@ import (
 	"strconv"
 
 	"github.com/astaxie/beego/logs"
-	// "strconv"
-	// "github.com/astaxie/beego/logs"
 )
 
 var client redis.Client
@@ -23,19 +22,27 @@ var (
 	ErrRedisOp = errors.New("<Redis> error operation")
 )
 
+var conf struct {
+	Database struct {
+		Dbindex  int    `default:"0"`
+		Host     string `default:"127.0.0.1"`
+		Port     int    `default:"6379"`
+		Password string `default:"123456"`
+	}
+}
+
 func init() {
-	spec := redis.DefaultSpec().Db(0).Host("127.0.0.1").Password("123456")
+	config.Parse(&conf)
+	// spec := redis.DefaultSpec().Db(0).Host("127.0.0.1").Password("123456")
+	spec := redis.DefaultSpec().Db(conf.Database.Dbindex).
+		Host(conf.Database.Host).Port(conf.Database.Port).Password(conf.Database.Password)
 	c, err := redis.NewSynchClientWithSpec(spec)
 	if err != nil {
 		log.Fatal("Init redis client failed")
-		// logs.Critical("Init redis client failed")
-		// os.Exit(-1)
 	}
 	err = c.Ping()
 	if err != nil {
 		log.Fatal("Init redis client failed")
-		// logs.Critical("Ping redis server failed")
-		// os.Exit(-1)
 	}
 	client = c
 	log.Println("Init redis client successful")
@@ -50,7 +57,7 @@ func CreateLikeCnt(id int) bool {
 		logs.Warn("err on Incr, key: [%v], err: [%v]\n", key, err)
 		return false
 	}
-	logs.Debug("like cnt key: ", key)
+	logs.Debug("create like counter, key: ", key)
 	return true
 }
 
@@ -87,6 +94,7 @@ func CreateCommentCnt(id int) bool {
 		logs.Warn("err on Incr, key: [%v], err: [%v]\n", key, err)
 		return false
 	}
+	logs.Debug("create comment counter, key: ", key)
 	return true
 }
 

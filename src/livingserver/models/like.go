@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 )
 
@@ -154,7 +155,7 @@ func GetLikeByUser(uid int) (bool, []*Like) {
 	if err != nil {
 		fmt.Printf("query table failed, err info: %+v", err)
 	}
-	fmt.Println("Number of records retrieved in database:", num)
+	logs.Debug("Number of records retrieved in database:", num)
 	return (err != nil && err != orm.ErrNoRows), likes
 }
 
@@ -187,6 +188,7 @@ func AddLike(m *Like) (id int64, err error) {
 		err = redis_client.ErrRedisOp
 		return
 	}
+	logs.Debug("<Redis> Incr like cnt successful")
 
 	// v := &Emotion{ Id : m.Emotion.Id}
 	// err = o.Read(v)

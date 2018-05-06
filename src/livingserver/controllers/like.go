@@ -3,13 +3,14 @@ package controllers
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
+	"livingserver/models"
 	"strconv"
 	"strings"
-	"fmt"
 	"time"
-	"livingserver/models"
 
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 )
 
 // LikeController operations for Like
@@ -172,8 +173,6 @@ func (c *LikeController) Delete() {
 	c.ServeJSON()
 }
 
-
-
 // the following is added by yyff
 func (c *LikeController) PostLike() {
 	rsp := CommonRsp{RetCode: 0}
@@ -201,30 +200,30 @@ func (c *LikeController) PostLike() {
 		return
 	}
 
-	v := models.Like {
-		Emotion : &models.Emotion{
-			Id : req.EmotionID,
+	v := models.Like{
+		Emotion: &models.Emotion{
+			Id: req.EmotionID,
 		},
 		Poster: &models.User{
 			Id: user.Id,
 		},
-		CreateTime : time.Now(),
+		CreateTime: time.Now(),
 	}
-
 
 	_, err = models.AddLike(&v)
 	if err != nil {
 		rsp.RetCode = -1
-		rsp.Message = err.Error() 
+		rsp.Message = err.Error()
 		return
 	}
+	logs.Info("add like successful, like: {emotion id: %v, poster: }", req.EmotionID, user.Id)
 
 	// added by wiesenyang
 	m := models.Message{
 		CreateTime: v.CreateTime,
-		TypeId: 1,
-		Emotion: v.Emotion,
-		Poster: v.Poster,
+		TypeId:     1,
+		Emotion:    v.Emotion,
+		Poster:     v.Poster,
 	}
 	emt, _ := models.GetEmotionById(v.Emotion.Id)
 	m.Owner = emt.Poster
@@ -233,4 +232,6 @@ func (c *LikeController) PostLike() {
 		rsp.Message = err.Error()
 		return
 	}
+	logs.Info("add message successful, message: {emotion id: %v, poster: }", req.EmotionID, user.Id)
+
 }

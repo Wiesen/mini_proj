@@ -5,6 +5,7 @@ import (
 	"livingserver/redis_client"
 	"time"
 
+	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 )
 
@@ -49,10 +50,12 @@ func AddComment(m *Comment) (id int64, err error) {
 		return
 	}
 
-	if !redis_client.IncrLikeCnt(m.Emotion.Id) {
+	if !redis_client.IncrCommentCnt(m.Emotion.Id) {
 		err = redis_client.ErrRedisOp
 		return
 	}
+
+	logs.Debug("<Redis> Incr comment cnt successful")
 	// v := &Emotion{ Id : m.Emotion.Id}
 	// err = o.Read(v)
 	// if err != nil {

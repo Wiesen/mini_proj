@@ -1,0 +1,8 @@
+[section]
+k1=2
+k2="vvv"
+k3="1s"
+k4=[1,2,3]
+
+[mysection]
+k5=100

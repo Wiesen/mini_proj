@@ -3,8 +3,9 @@ package models
 import (
 	"fmt"
 	"livingserver/redis_client"
-	"log"
 	"time"
+
+	"github.com/astaxie/beego/logs"
 
 	"github.com/astaxie/beego/orm"
 )
@@ -12,7 +13,7 @@ import (
 type Emotion struct {
 	Id         int       `orm:"column(id);auto"`
 	Content    string    `orm:"column(content);size(256)" description:"心情内容"`
-	Label    *Label    `orm:"column(label_id);rel(fk)" description:"心情标签ID，需存在标签表中"`
+	Label      *Label    `orm:"column(label_id);rel(fk)" description:"心情标签ID，需存在标签表中"`
 	Strong     int8      `orm:"column(strong)" description:"强度"`
 	CreateTime time.Time `orm:"column(create_time);type(datetime)" description:"创建时间"`
 	Visiable   int8      `orm:"column(visiable)" description:"1. 个人可见；2. 社区可见"`
@@ -163,7 +164,7 @@ func GetEmotionByUser(uid, pageNo int) (bool, []*Emotion) {
 	var emotions []*Emotion
 	num, err := qs.Filter("poster", uid).OrderBy("-create_time").
 		Limit(PAGE_SIZE, pageNo*PAGE_SIZE).All(&emotions)
-	fmt.Println("Number of records retrieved in database:", num)
+	logs.Debug("Number of records retrieved in database:", num)
 	return (err != nil && err != orm.ErrNoRows), emotions
 }
 
@@ -174,7 +175,7 @@ func GetAllEmotion(pageNo int) (bool, []*Emotion) {
 	// fix bug: filter 2
 	num, err := qs.Filter("visiable", 2).OrderBy("-create_time").
 		Limit(PAGE_SIZE, pageNo*PAGE_SIZE).All(&emotions)
-	fmt.Println("Number of records retrieved in database:", num)
+	logs.Debug("Number of records retrieved in database:", num)
 	return (err != nil && err != orm.ErrNoRows), emotions
 }
 
@@ -185,7 +186,7 @@ func GetEmotionByLabel(labelId, pageNo int) (bool, []*Emotion) {
 	// fix bug: filter 2
 	num, err := qs.Filter("visiable", 2).Filter("label_id", labelId).OrderBy("-create_time").
 		Limit(PAGE_SIZE, pageNo*PAGE_SIZE).All(&emotions)
-	fmt.Println("Number of records retrieved in database:", num)
+	logs.Debug("Number of records retrieved in database:", num)
 	return (err != nil && err != orm.ErrNoRows), emotions
 }
 
@@ -210,7 +211,7 @@ func AddEmotion(m *Emotion) (id int64, err error) {
 	// 创建心情点赞和评论和Redis计数器
 	if !redis_client.CreateLikeCnt(int(id)) ||
 		!redis_client.CreateCommentCnt(int(id)) {
-		log.Println("Create redis counter failed, emotion id: [%v]", id)
+		logs.Warn("Create redis counter failed, emotion id: [%v]", id)
 		err = redis_client.ErrRedisOp
 		return
 	}
