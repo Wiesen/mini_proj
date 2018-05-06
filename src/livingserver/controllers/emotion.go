@@ -2,13 +2,10 @@ package controllers
 
 import (
 	"encoding/json"
-	"livingserver/redis_client"
-	// "errors"
-	"livingserver/models"
-	// "livingserver/filters"
-	"strconv"
-	// "strings"
 	"fmt"
+	"livingserver/models"
+	"livingserver/redis_client"
+	"strconv"
 	"time"
 
 	"github.com/astaxie/beego"
@@ -150,8 +147,8 @@ func (c *EmotionController) GetEmotionByUser() {
 		m["visiable"] = emotions[i].Visiable
 		m["create_time"] = emotions[i].CreateTime
 		rsp.Data = append(rsp.Data, m)
-		logs.Info("Response emotion[%v]: %v", i, m)
 	}
+	logs.Info("Get %v emotions by user[%v]", len(emotions), user.Id)
 }
 
 func (c *EmotionController) GetEmotionById() {
@@ -193,8 +190,8 @@ func (c *EmotionController) GetEmotionById() {
 	m["strong"] = emotion.Strong
 	m["visiable"] = emotion.Visiable
 	m["create_time"] = emotion.CreateTime
-	logs.Info("Response emotion: %v", m)
 	rsp.Data = append(rsp.Data, m)
+	logs.Info("Get emotion[%v] by user[%v]", m, user.Id)
 }
 
 func (c *EmotionController) GetAllEmotion() {
@@ -220,7 +217,6 @@ func (c *EmotionController) GetAllEmotion() {
 		rsp.Message = fmt.Sprintf("Invalid pageno")
 		return
 	}
-	// fmt.Println("get url param")
 
 	// 获取心情列表
 	var isErr bool
@@ -235,7 +231,6 @@ func (c *EmotionController) GetAllEmotion() {
 		rsp.Message = fmt.Sprintf("query 'emotion' failed")
 		return
 	}
-	// fmt.Println("retrive emotion list, length:", len(emotions))
 
 	// 获取用户点赞列表
 	isErr, likes := models.GetLikeByUser(user.Id)
@@ -297,9 +292,11 @@ func (c *EmotionController) GetAllEmotion() {
 		}
 		// fmt.Println("response pack:", i, m["emotion_id"], m["content"], m["label_id"], m["label_name"], m["strong"],
 		// 	m["create_time"], m["poster"], m["nickname"], m["avatar"])
-		logs.Info("Response emotion[%v]: %v", i, m)
+		// logs.Info("Response emotion[%v]: %v", i, m)
 		rsp.Data = append(rsp.Data, m)
 	}
+	logs.Info("Get %v emotions by user[%v]", len(emotions), user.Id)
+
 }
 
 func (c *EmotionController) PostEmotion() {
@@ -352,5 +349,5 @@ func (c *EmotionController) PostEmotion() {
 		rsp.Message = err.Error()
 		return
 	}
-	logs.Info("add emotion successful, info: ", v)
+	logs.Info("Add emotion successful, info: %+v ", req)
 }

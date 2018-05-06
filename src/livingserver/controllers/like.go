@@ -131,7 +131,6 @@ func (c *LikeController) GetAll() {
 	c.ServeJSON()
 }
 
-
 // Delete ...
 // @Title Delete
 // @Description delete the Like
@@ -209,6 +208,6 @@ func (c *LikeController) PostLike() {
 		rsp.Message = err.Error()
 		return
 	}
-	logs.Info("add message successful, message: {emotion id: %v, poster: }", req.EmotionID, user.Id)
+	logs.Info("add message successful, message: {emotion id: %v, poster: %v}", req.EmotionID, user.Id)
 
 }

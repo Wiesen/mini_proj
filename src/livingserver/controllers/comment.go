@@ -134,7 +134,7 @@ func (c *CommentController) GetAllComment() {
 				m["rspto_nickname"] = user.Nickname
 			}
 		}
+
 		rsp.Data = append(rsp.Data, m)
 	}
-
 }

@@ -33,7 +33,6 @@ var conf struct {
 
 func init() {
 	config.Parse(&conf)
-	// spec := redis.DefaultSpec().Db(0).Host("127.0.0.1").Password("123456")
 	spec := redis.DefaultSpec().Db(conf.Redis.Dbindex).
 		Host(conf.Redis.Host).Port(conf.Redis.Port).Password(conf.Redis.Password)
 	c, err := redis.NewSynchClientWithSpec(spec)
@@ -46,7 +45,6 @@ func init() {
 	}
 	client = c
 	log.Println("Init redis client successful")
-	// logs.Info("Init redis client successful")
 
 }
 
