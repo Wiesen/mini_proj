@@ -154,9 +154,7 @@ func (c *EmotionController) GetEmotionByUser() {
 			m["label_name"] = ""
 		}
 		m["strong"] = emotions[i].Strong
-		// m["create_time"] = emotions[i].CreateTime.Format("2006-01-02 15:04:05")
-		addedHours := time.Duration(8) * time.Hour
-		m["create_time"] = emotions[i].CreateTime.UTC().Add(addedHours).Format("2006-01-02 15:04:05")
+		m["create_time"] = emotions[i].CreateTime.Format("2006-01-02 15:04:05")
 		m["poster"] = emotions[i].Poster.Id
 		if u, err := models.GetUserById(emotions[i].Poster.Id); err == nil { // fix bug: get user info
 			m["nickname"] = u.Nickname
@@ -174,8 +172,6 @@ func (c *EmotionController) GetEmotionByUser() {
 		} else {
 			m["is_like"] = 0
 		}
-		// fmt.Println("response pack:", i, m["emotion_id"], m["content"], m["label_id"], m["label_name"], m["strong"],
-		// 	m["create_time"], m["poster"], m["nickname"], m["avatar"])
 		rsp.Data = append(rsp.Data, m)
 	}
 	logs.Info("Get %v emotions by user[%v]", len(emotions), user.Id)
@@ -219,9 +215,7 @@ func (c *EmotionController) GetEmotionById() {
 	m["label_name"] = emotion.Label.LabelName
 	m["strong"] = emotion.Strong
 	m["visiable"] = emotion.Visiable
-	// m["create_time"] = emotion.CreateTime.Format("2006-01-02 15:04:05")
-	addedHours := time.Duration(8) * time.Hour
-	m["create_time"] = emotion.CreateTime.UTC().Add(addedHours).Format("2006-01-02 15:04:05")
+	m["create_time"] = emotion.CreateTime.Format("2006-01-02 15:04:05")
 	m["poster"] = emotion.Poster.Id
 	if u, err := models.GetUserById(emotion.Poster.Id); err == nil { // fix bug: get user info
 		m["nickname"] = u.Nickname
@@ -329,8 +323,6 @@ func (c *EmotionController) GetAllEmotion() {
 		}
 		m["strong"] = emotions[i].Strong
 		m["create_time"] = emotions[i].CreateTime.Format("2006-01-02 15:04:05")
-		// addedHours := time.Duration(8) * time.Hour
-		// m["create_time"] = emotions[i].CreateTime.UTC().Add(addedHours).Format("2006-01-02 15:04:05")
 
 		m["poster"] = emotions[i].Poster.Id
 		if u, err := models.GetUserById(emotions[i].Poster.Id); err == nil { // fix bug: get user info
